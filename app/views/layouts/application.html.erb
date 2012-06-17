@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @page_title or 'TimeRecorder' %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "smoothness/jquery-ui-1.8.20.custom.css" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <%= link_to root_path, :class => "brand" do %><i class="icon-time"></i> TimeRecorder<% end %>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <%= render :partial => "shared/nav" %>
+          </ul>
+        </div>
+        <div class="navbar-text nav-collapse pull-right">
+        <% if user_signed_in? %>
+	        Signed in as <%= link_to current_user, "profile" %>. <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class => 'btn btn-mini btn-danger' %>
+        <% else %>
+           <%= link_to "Sign in", new_user_session_path, :class => 'btn btn-mini btn-primary' %> or <%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-mini btn-success' %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <% unless notice.blank? %>
+	    <div class="alert alert-info">
+	      <a class="close" data-dismiss="alert" href="#">×</a>
+        <%= notice %>
+      </div>
+      <% end %>
+
+      <% unless alert.blank? %>
+	    <div class="alert alert-error">
+	      <a class="close" data-dismiss="alert" href="#">×</a>
+        <%= alert %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <%= yield %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span3 offset9">
+      
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

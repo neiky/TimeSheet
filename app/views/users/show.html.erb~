@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>Showing user</h1>
+</div>
+
+<p>
+  <b>E-Mail:</b>
+  <%= @user.email %>
+</p>
+
+<p><b><a href="#" class="buttonToggle" data-toggle-this="toggleTimeRecords">Time records <i class="icon-list"></i></a></b></p>
+<div class="toggleVisibility" id="toggleTimeRecords">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Date</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Duration</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="timerecordsList">
+      <%= render(@user.timerecords.order("start ASC"), { :show_date => true, :show_user => false, :show_project => true }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="btn-group">
+  <button class="btn">Action</button>
+  <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <!-- dropdown menu links -->
+    <li><a href="#">Eins</a></li>
+    <li><a href="#">Zwei</a></li>
+  </ul>
+</div>
+
+<%= link_to 'Back', users_path, :class => 'btn btn-mini' %>

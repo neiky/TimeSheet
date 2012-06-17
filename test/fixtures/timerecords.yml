@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  User: 
+  Project: 
+  start: 2012-05-25 20:19:08
+  end: 2012-05-25 20:19:08
+  duration: 2012-05-25 20:19:08
+  description: MyText
+
+two:
+  User: 
+  Project: 
+  start: 2012-05-25 20:19:08
+  end: 2012-05-25 20:19:08
+  duration: 2012-05-25 20:19:08
+  description: MyText

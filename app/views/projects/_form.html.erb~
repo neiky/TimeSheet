@@ -1,0 +1,52 @@
+<%= form_for(@project, :html => { :class => 'form-horizontal' }) do |f| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% @project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_field :name, :class => "span3" %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <%= f.label :description, :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_area :description, :size => "20x3", :class => "span3" %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <%= f.label :planned_efforts, :class => "control-label" %>
+    <div class="controls">
+      <% f.text_field :planned_efforts %>
+      <div class="input-append">
+        <%= text_field_tag :planned_efforts_days, (@project.planned_efforts/86400).to_s, :class => "span1" %><span class="add-on">days</span>
+      </div>
+      <div class="input-append">
+        <%= text_field_tag :planned_efforts_hours, ((@project.planned_efforts%86400)/3600).to_s, :class => "span1" %><span class="add-on">hours</span>
+      </div>
+      <span class="help-inline">Here's more help text</span>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <%= f.label :Client, :class => "control-label" %>
+    <div class="controls">
+      <%= f.collection_select :Client, Client.all, :id, :name, {:include_blank => 'None'}, :class => "span3" %>
+    </div>
+  </div>
+  
+  <div class="controls">
+    <%= f.submit :class => "btn btn-primary" %>
+  </div>
+<% end %>

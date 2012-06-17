@@ -1,0 +1,1 @@
+jQuery('#timerecord_#{@timerecord.id}').remove();

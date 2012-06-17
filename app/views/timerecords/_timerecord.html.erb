@@ -1,0 +1,16 @@
+<tr id="timerecord_<%= timerecord.id %>">
+  <% if show_project %>
+    <td><%= link_to timerecord.Project, project_path(timerecord.Project) %></td>
+  <% end %>
+  <% if show_user %>
+    <td><%= link_to timerecord.User, user_path(timerecord.User) %></td>
+  <% end %>
+  <% if show_date %>
+    <td><%= timerecord.start.to_date %></td>
+  <% end %>
+  <td><%= timerecord.start.strftime("%H:%M") %></td>
+  <td><%= timerecord.end.strftime("%H:%M") %></td>
+  <td><%= format_seconds_to_time(timerecord.duration) %></td>
+  <td><%= timerecord.description %></td>
+  <td><%= link_to timerecord, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-remove-sign"></i><% end %></td>
+</tr>

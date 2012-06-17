@@ -1,0 +1,22 @@
+<ul class="nav">
+  <%= content_tag(:li, link_to("Projects", projects_path), :class => ("active" if (params[:controller] == 'projects'))) %>
+  
+  <%= content_tag(:li, link_to("Clients", clients_path), :class => ("active" if (params[:controller] == 'clients'))) %>
+  
+  <% #content_tag(:li, link_to("Time records", timerecords_path), :class => "dropdown-toggle " + ("active" if (params[:controller] == 'timerecords'))) %>
+
+  <li class="dropdown">
+    <a href="#"
+      class="dropdown-toggle"
+      data-toggle="dropdown">
+      Time records
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <%= content_tag(:li, link_to("Add time records", timerecords_path)) %>
+      <%= content_tag(:li, link_to("Analyze time records", analyze_timerecords_path)) %>
+    </ul>
+  </li>
+  
+  <%= content_tag(:li, link_to("Users", users_path), :class => ("active" if (params[:controller] == 'users'))) %>
+</ul>

@@ -1,0 +1,2 @@
+jQuery('#timerecord_<%= @timerecord.id %>').remove();
+$('#totalDuration').html("<%= escape_javascript(render :text => format_seconds_to_time(Timerecord.get_sum_duration(@timerecords))) %>");
