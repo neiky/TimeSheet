@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
+  attr_accessible :firstname, :name, :company
 
   has_many :memberships
   has_many :projects, :through => :memberships
@@ -14,5 +15,9 @@ class User < ActiveRecord::Base
 
   def to_s
     return self.email
+  end
+
+  def get_full_name
+    return self.firstname + " " + self.name
   end
 end

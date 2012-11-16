@@ -42,7 +42,27 @@
   <div class="control-group">
     <%= f.label :Client, :class => "control-label" %>
     <div class="controls">
-      <%= f.collection_select :Client, Client.all, :id, :name, {:include_blank => 'None'}, :class => "span3" %>
+      <%= f.collection_select :Client_id, Client.where(:user_id => current_user.id), :id, :name, {:include_blank => 'None'}, :class => "span3" %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag "member_email", "Project members", :class => "control-label" %>
+    <div class="controls">
+      <div class="input-append">
+        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail" %><% link_to "Add member", {:controller => "projects", :action => "add_member"}, :method => :put, :remote => :true, :class => "btn", :type => "button" %><%= f.submit "Add member", :remote => :true, :class => "btn" %>
+      </div>
+		</div>
+		<div class="controls" id="member_list">
+      <% @project.users.each do |user| %>
+        <p id="member_<%= user.id %>">
+				<%= render(user) %>
+				<% if current_user.id != user.id %>
+					<%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => user.id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
+				<% end %>
+				</p>
+			<% end %>
+      
     </div>
   </div>
   

@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   def index
     @clients = []
     if current_user
-      @clients = Client.order("name ASC").all
+      @clients = Client.order("name ASC").where(:user_id => current_user.id)
     end
 
     respond_to do |format|
@@ -44,6 +44,8 @@ class ClientsController < ApplicationController
   # POST /clients.json
   def create
     @client = Client.new(params[:client])
+    puts current_user.id
+    @client.user_id = current_user.id
 
     respond_to do |format|
       if @client.save

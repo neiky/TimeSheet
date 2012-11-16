@@ -27,16 +27,5 @@
   </table>
 </div>
 
-<div class="btn-group">
-  <button class="btn">Action</button>
-  <button class="btn dropdown-toggle" data-toggle="dropdown">
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <!-- dropdown menu links -->
-    <li><a href="#">Eins</a></li>
-    <li><a href="#">Zwei</a></li>
-  </ul>
-</div>
 
 <%= link_to 'Back', users_path, :class => 'btn btn-mini' %>

@@ -8,7 +8,7 @@ class Timerecord < ActiveRecord::Base
   
   #scope :group_by_client, :joins => :client, :group => :client_id, :select => "*, clients.name as client_name, sum(amount) as amount"
   scope :group_by_project, :joins => :project, :group => :project_id, :select => "*, projects.name as project_name, sum(duration) as duration"
-  scope :group_by_user, :joins => :project, :group => :project_id, :select => "*, projects.name as project_name, sum(duration) as duration"
+  scope :group_by_user, :joins => :project, :group => :user_id, :select => "*, users.name as user_name, sum(duration) as duration"
   
   
   def self.by_user_id(id)
@@ -24,7 +24,7 @@ class Timerecord < ActiveRecord::Base
     date = Date.strptime(params[:date_search], '%Y-%m-%d') if params[:date_search]
     date = Date.strptime(params[:date], '%Y-%m-%d') if params[:date]
     
-    timerecords = Timerecord.order("start DESC").find(:all, :conditions => ['start >= ? and start < ?', date, date+1])
+    timerecords = Timerecord.order("start DESC").find(:all, :conditions => ['user_id = ? and start >= ? and start < ?', current_user.id, date, date+1])
     
     return timerecords
   end

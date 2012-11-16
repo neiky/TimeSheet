@@ -1,6 +1,4 @@
 class ClientsController < ApplicationController
-  @page_title = "TimeRecorder - Clients"
-  
   # GET /clients
   # GET /clients.json
   def index
@@ -46,6 +44,8 @@ class ClientsController < ApplicationController
   # POST /clients.json
   def create
     @client = Client.new(params[:client])
+    puts current_user.id
+    @client.user_id = current_user.id
 
     respond_to do |format|
       if @client.save

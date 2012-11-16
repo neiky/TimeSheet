@@ -4,7 +4,9 @@ jQuery(document).ready(function() {
   $( ".buttonToggle" ).click(function() {
     target_id = $(this).attr("data-toggle-this");
     
-		$("#"+target_id).toggle( 'blind', {}, 500 );
+		$("#"+target_id).toggle( 'blind', {}, 250 );
 		return false;
 	});
+
+	$( ".tooltip-not-project-owner" ).tooltip({ content: "You are not the owner of the project!" });
 });

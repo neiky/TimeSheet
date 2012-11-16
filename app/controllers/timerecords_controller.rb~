@@ -1,5 +1,7 @@
 class TimerecordsController < ApplicationController
   def index
+    params[:user_id] = current_user.id
+    puts params
     @timerecords = Timerecord.get_timerecords(params)
     @timerecord = Timerecord.new
     
@@ -13,6 +15,7 @@ class TimerecordsController < ApplicationController
   end
   
   def analyze
+		puts params
     if params[:date_start]
       @start_date = Date.strptime(params[:date_start], '%Y-%m-%d')
       @end_date = Date.strptime(params[:date_end], '%Y-%m-%d')
@@ -24,10 +27,12 @@ class TimerecordsController < ApplicationController
     
     @timerecords = Timerecord.all
     
-    @timerecords = Timerecord.order("start DESC")
+    @timerecords = Timerecord.order("start ASC")
     @timerecords = @timerecords.in_period(@start_date, @end_date)
-    @timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project_active].blank?
-    @timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user_active].blank?
+    #@timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project_active].blank?
+		@timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project] == ""
+    #@timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user_active].blank?
+		@timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user] == ""
     
     @timerecords_total_duration = Timerecord.get_sum_duration(@timerecords)
     
@@ -57,6 +62,8 @@ class TimerecordsController < ApplicationController
     @timerecord.end = endDate
     @timerecord.duration = @timerecord.end - @timerecord.start
     if @timerecord.duration > 0 and @timerecord.save!
+			puts params
+			params[:user_id] = current_user.id
       @timerecords = Timerecord.get_timerecords(params)
       #flash[:notice] = "Timerecord has been successfully created."
       respond_to do |format|
@@ -71,10 +78,10 @@ class TimerecordsController < ApplicationController
   end
 
   def destroy
-    @timerecord = Timerecord.find(params[:id])
+		@timerecord = Timerecord.find(params[:id])
     @timerecord.destroy
     
-    arg = { :date => @timerecord.start.strftime("%Y-%m-%d") }
+    arg = { :date => @timerecord.start.strftime("%Y-%m-%d"), :user_id => current_user.id }
     @timerecords = Timerecord.get_timerecords(arg)
     
     respond_to do |format|

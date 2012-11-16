@@ -38,6 +38,12 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @project = Project.find(params[:id])
+		if @project.Client.user_id != current_user.id
+			puts "Not allowed"
+			respond_to do |format|
+				format.html { redirect_to projects_url }
+			end
+		end
   end
 
   # POST /projects
@@ -74,13 +80,34 @@ class ProjectsController < ApplicationController
     #cid = params[:project].delete(:Client)
     #puts cid.to_s
     planned_eff = params[:planned_efforts_days].to_i*86400 + params[:planned_efforts_hours].to_i*3600
+
+    if params[:member_email]
+      @user = User.where(:email => params[:member_email]).first
+      #puts @user
+      if @user
+        puts @user.name
+        m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}")
+        if m.count == 0
+          m = Membership.new(:user_id => @user.id, :project_id => @project.id)
+          m.save
+					flash[:notice] = "User #{@user.email} added to project"
+        else
+					flash[:alert] = "User #{@user.email} is already member of the project"
+        end
+      end
+    end
     
     respond_to do |format|
       #@project.Client_id = cid
+      @project.planned_efforts = planned_eff
       if @project.update_attributes(params[:project])
-        @project.planned_efforts = planned_eff
-        format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
-        format.json { head :no_content }
+				if params[:commit] == "Add member"
+					format.html { redirect_to action: "edit" }
+        	format.json { head :no_content }
+				else
+        	format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
+        	format.json { head :no_content }
+				end
       else
         format.html { render action: "edit" }
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -91,6 +118,10 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
+    @memberships = Membership.where(:project_id => params[:id])
+    @memberships.each do |membership|
+      membership.destroy
+    end
     @project = Project.find(params[:id])
     @project.destroy
 
@@ -100,4 +131,34 @@ class ProjectsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def add_member
+    puts params[:member_email]
+    @user = User.where(:email => params[:email]).first
+    puts @user
+    if !@user
+      puts "User not found!"
+    else
+      m = Membership.new(:user_id => @user.id, :project_id => @project.id)
+      respond_to do |format|
+        if m.save
+          format.html { render action: "edit" }
+          format.js
+        end
+      end
+    end
+  end
+
+  def remove_member
+		@project = Project.find(params[:id])
+		@user = User.find(params[:user_id])
+		m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
+		m.destroy
+		flash[:notice] = "User #{@user.email} removed from project"
+		respond_to do |format|
+      format.html { redirect_to action: "edit" }
+      format.js
+      format.json { head :no_content }
+    end
+	end
 end

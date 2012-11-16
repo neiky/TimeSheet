@@ -24,7 +24,7 @@ class Timerecord < ActiveRecord::Base
     date = Date.strptime(params[:date_search], '%Y-%m-%d') if params[:date_search]
     date = Date.strptime(params[:date], '%Y-%m-%d') if params[:date]
     
-    timerecords = Timerecord.order("start DESC").find(:all, :conditions => ['start >= ? and start < ?', date, date+1])
+    timerecords = Timerecord.order("start DESC").find(:all, :conditions => ['user_id = ? and start >= ? and start < ?', params[:user_id], date, date+1])
     
     return timerecords
   end

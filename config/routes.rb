@@ -9,7 +9,12 @@ Projects::Application.routes.draw do
 
   devise_for :users
 
-  resources :projects
+  resources :projects do
+    member do
+      put 'add_member'
+			delete 'remove_member'
+    end
+  end
   resources :timerecords do
     collection do
       get 'analyze'
@@ -19,6 +24,7 @@ Projects::Application.routes.draw do
   resources :clients
   
   match "profile" => "users#show"
+	#match "/projects/:id/remove_member/:user_id" => "projects#remove_member"
 
 
   # The priority is based upon order of creation:

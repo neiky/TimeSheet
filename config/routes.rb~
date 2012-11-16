@@ -4,13 +4,17 @@ Projects::Application.routes.draw do
   #get "timerecords/index"
 
   #get "timerecords/show"
-  #get "timerecords/analyze"
 
   get "welcome/index"
 
   devise_for :users
 
-  resources :projects
+  resources :projects do
+    member do
+      post 'add_member'
+			delete 'remove_member'
+    end
+  end
   resources :timerecords do
     collection do
       get 'analyze'
@@ -20,7 +24,7 @@ Projects::Application.routes.draw do
   resources :clients
   
   match "profile" => "users#show"
-  #match "timerecords/analyze" => "timerecords#analyze"
+	#match "/projects/:id/remove_member/:user_id" => "projects#remove_member"
 
 
   # The priority is based upon order of creation:
