@@ -1,2 +1,14 @@
-<h1>Welcome to the TimeRecorder</h1>
-<p>Use this web based application to manage your time efforts</p>
+<div class="page-header">
+  <h1>Welcome to the TimeRecorder</h1>
+</div>
+<% if user_signed_in? %>
+  <h2>News</h2>
+	<% Message.where(:recipient_id => current_user.id).each do |message| %>
+		<% render message %>
+	<% end %>
+<% else %>
+	<p>Use this web based application to manage your time efforts</p>
+	<%= link_to "Sign in", new_user_session_path, :class => 'btn btn-primary' %> or <%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-success' %>
+<% end %>
+
+<% #puts link_to "Accept", {:controller => "projects", :action => "accept_invitation", :id => 2}, method: :get, :class => 'btn btn-primary' %>

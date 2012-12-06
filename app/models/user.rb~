@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   def to_s
     return self.email
   end
+
+  def get_full_name
+    return self.firstname + " " + self.name
+  end
 end

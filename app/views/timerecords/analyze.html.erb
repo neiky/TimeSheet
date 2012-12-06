@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>Analyzing Timerecords</h1>
+  <h2>Analyzing Timerecords</h2>
 </div>
 
 <div class="row">
@@ -15,15 +15,14 @@
       <div class="control-group">
         <%= label_tag "filter_user", "User:",  :class => "control-label" %>
         <div class="controls">
-          <% check_box_tag :filter_user_active, 'yes', params[:filter_user_active].present? %>
-          <%= select_tag(:filter_user, options_from_collection_for_select(User.all, :id, :email, params[:filter_user]), :include_blank => :true, :class => "span3") %>
+          <% select_tag(:filter_user, options_from_collection_for_select(User.where(:id => Timerecord.select("User_id").where("(Project_id IN (?) AND User_id = ?) OR Project_id IN (?)", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id, Project.where(:Client_id => Client.where(:User_id => current_user.id)))), :id, :email, params[:filter_user]), :include_blank => :true, :class => "span3") %>
+          <%= select_tag(:filter_user, options_from_collection_for_select(User.where("id IN (?)", Membership.select("User_id").where(:Project_id => Membership.select("Project_id").where(:User_id => current_user.id, :status => 3)).map(&:user_id)), :id, :email, params[:filter_user]), :include_blank => :true, :class => "span3") %>
         </div>
       </div>
       <div class="control-group">
         <%= label_tag "filter_project", "Project:",  :class => "control-label" %>
         <div class="controls">
-          <% check_box_tag :filter_project_active, 'yes', params[:filter_project_active].present? %>
-          <%= select_tag(:filter_project, options_from_collection_for_select(Project.all, :id, :name, params[:filter_project]), :include_blank => :true, :class => "span3") %>
+          <%= select_tag(:filter_project, options_from_collection_for_select(Project.where(:id => Membership.select("Project_id").where(:User_id => current_user.id)), :id, :name, params[:filter_project]), :include_blank => :true, :class => "span3") %>
         </div>
       </div>
       <div class="controls">
@@ -49,7 +48,7 @@
       <th></th>
     </tr>
   </thead>
-  
+
   <tbody id="timerecordsList">
     <%= render(@timerecords, { :show_date => true, :show_user => true, :show_project => true } ) %>
   </tbody>

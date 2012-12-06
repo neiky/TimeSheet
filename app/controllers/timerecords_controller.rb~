@@ -25,16 +25,31 @@ class TimerecordsController < ApplicationController
       @end_date = @end_date.change(:month => @end_date.month+1, :day => 1)-1
     end
     
-    @timerecords = Timerecord.all
+    #@timerecords = Timerecord.where(:Project_id => Membership.select("Project_id").where(:User_id => current_user.id))
+		#@timerecords = Timerecord.where("Project_id = ? AND User_id = ?", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id)
+		Timerecord.where(:Project_id => Project.where(:Client_id => Client.where(:User_id => current_user.id)))
+		@timerecords = Timerecord.where("(Project_id IN (?) AND User_id = ?) OR Project_id IN (?)", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id, Project.where(:Client_id => Client.where(:User_id => current_user.id)))
+		puts @timerecords
+		puts "1 ----"
     
-    @timerecords = Timerecord.order("start ASC")
+    #@timerecords = @timerecords.order("start ASC")
+
+		puts @timerecords
+		puts "2 ----"
+
     @timerecords = @timerecords.in_period(@start_date, @end_date)
+
+		puts @timerecords
+		puts "3 ----"
+
     #@timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project_active].blank?
-		@timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project] == ""
+		@timerecords = @timerecords.by_project_id(params[:filter_project]) if (params[:filter_project] && params[:filter_project] != "")
     #@timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user_active].blank?
-		@timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user] == ""
+		@timerecords = @timerecords.by_user_id(params[:filter_user]) if (params[:filter_user] && params[:filter_user] != "")
     
     @timerecords_total_duration = Timerecord.get_sum_duration(@timerecords)
+
+		puts @timerecords
     
     respond_to do |format|
       format.html

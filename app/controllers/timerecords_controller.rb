@@ -4,38 +4,45 @@ class TimerecordsController < ApplicationController
     puts params
     @timerecords = Timerecord.get_timerecords(params)
     @timerecord = Timerecord.new
-    
+
     @timerecords_total_duration = Timerecord.get_sum_duration(@timerecords)
-    
+
     respond_to do |format|
       format.html
       format.js
       format.json { render json: @timerecords }
     end
   end
-  
+
   def analyze
 		puts params
     if params[:date_start]
       @start_date = Date.strptime(params[:date_start], '%Y-%m-%d')
       @end_date = Date.strptime(params[:date_end], '%Y-%m-%d')
     else
-      @start_date = Date.today().change(:day => 1)
-      @end_date = Date.today()
-      @end_date = @end_date.change(:month => @end_date.month+1, :day => 1)-1
+      @start_date = Date.today().beginning_of_month
+      @end_date = Date.today().end_of_month
     end
-    
-    @timerecords = Timerecord.all
-    
-    @timerecords = Timerecord.order("start ASC")
+
+    #@timerecords = Timerecord.where(:Project_id => Membership.select("Project_id").where(:User_id => current_user.id))
+		#@timerecords = Timerecord.where("Project_id = ? AND User_id = ?", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id)
+	Timerecord.where(:Project_id => Project.where(:Client_id => Client.where(:User_id => current_user.id)))
+	@timerecords = Timerecord.where("(Project_id IN (?) AND User_id = ?) OR Project_id IN (?)", Membership.select("Project_id").where(:User_id => current_user.id, :status => 1..2).map(&:project_id), current_user.id, Membership.select("Project_id").where(:User_id => current_user.id, :status => 3).map(&:project_id) )
+	#Project.where(:Client_id => Client.where("User_id != ?", current_user.id))
+	#Project.where(:Client_id => Client.where(:User_id => current_user.id))
+    #@timerecords = @timerecords.order("start ASC")
+
     @timerecords = @timerecords.in_period(@start_date, @end_date)
+
     #@timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project_active].blank?
-		@timerecords = @timerecords.by_project_id(params[:filter_project]) unless params[:filter_project] == ""
+	@timerecords = @timerecords.by_project_id(params[:filter_project]) if (params[:filter_project] && params[:filter_project] != "")
     #@timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user_active].blank?
-		@timerecords = @timerecords.by_user_id(params[:filter_user]) unless params[:filter_user] == ""
-    
+	@timerecords = @timerecords.by_user_id(params[:filter_user]) if (params[:filter_user] && params[:filter_user] != "")
+
     @timerecords_total_duration = Timerecord.get_sum_duration(@timerecords)
-    
+
+	puts @timerecords
+
     respond_to do |format|
       format.html
       format.js
@@ -69,7 +76,7 @@ class TimerecordsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to timerecords_path(:date_search => params[:date]) }
         format.js
-        
+
         #format.js { render :text => "$('#timerecordsList').html('bla');" }
       end
     else
@@ -78,12 +85,12 @@ class TimerecordsController < ApplicationController
   end
 
   def destroy
-		@timerecord = Timerecord.find(params[:id])
+	@timerecord = Timerecord.find(params[:id])
     @timerecord.destroy
-    
+
     arg = { :date => @timerecord.start.strftime("%Y-%m-%d"), :user_id => current_user.id }
     @timerecords = Timerecord.get_timerecords(arg)
-    
+
     respond_to do |format|
       format.html { redirect_to timerecords_url }
       format.js

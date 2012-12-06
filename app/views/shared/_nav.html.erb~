@@ -3,7 +3,7 @@
   
   <%= content_tag(:li, link_to("Clients", clients_path), :class => ("active" if (params[:controller] == 'clients'))) %>
   
-  <% content_tag(:li, link_to("Time records", timerecords_path), :class => "dropdown-toggle " + ("active" if (params[:controller] == 'timerecords'))) %>
+  <% #content_tag(:li, link_to("Time records", timerecords_path), :class => "dropdown-toggle " + ("active" if (params[:controller] == 'timerecords'))) %>
 
   <li class="dropdown">
     <a href="#"
@@ -19,4 +19,10 @@
   </li>
   
   <%= content_tag(:li, link_to("Users", users_path), :class => ("active" if (params[:controller] == 'users'))) %>
+
+	<li>
+	<% if Message.where(:recipient_id => current_user.id).count > 0 %>
+		<a href="#"><i class="icon-inbox"></i><span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id).count %></span></a>
+	<% end %>
+	</li>
 </ul>

@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   def index
     @clients = []
     if current_user
-      @clients = Client.order("name ASC").all
+      @clients = Client.order("name ASC").where(:user_id => current_user.id)
     end
 
     respond_to do |format|

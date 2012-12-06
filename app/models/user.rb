@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :projects, :through => :memberships
   has_many :timerecords
+	has_many :messages
 
   def to_s
     return self.email

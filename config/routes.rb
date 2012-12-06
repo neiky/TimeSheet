@@ -1,4 +1,6 @@
 Projects::Application.routes.draw do
+  resources :messages
+
   get "client/index"
 
   #get "timerecords/index"
@@ -11,8 +13,10 @@ Projects::Application.routes.draw do
 
   resources :projects do
     member do
-      put 'add_member'
+      post 'add_member'
 			delete 'remove_member'
+			get 'accept_invitation'
+			delete 'reject_invitation'
     end
   end
   resources :timerecords do
@@ -25,6 +29,7 @@ Projects::Application.routes.draw do
   
   match "profile" => "users#show"
 	#match "/projects/:id/remove_member/:user_id" => "projects#remove_member"
+	#match "/projects/:id/accept" => "projects#accept_invitation"
 
 
   # The priority is based upon order of creation:

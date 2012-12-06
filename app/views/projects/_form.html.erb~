@@ -50,15 +50,22 @@
     <%= label_tag "member_email", "Project members", :class => "control-label" %>
     <div class="controls">
       <div class="input-append">
-        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail" %><% link_to "Add member", {:controller => "projects", :action => "add_member"}, :method => :put, :remote => :true, :class => "btn", :type => "button" %><%= f.submit "Add member", :remote => :true, :class => "btn" %>
+        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail" %>
+				<% #link_to "Add member", {:controller => "projects", :action => "add_member_project"}, :method => :post, :remote => :true, :class => "btn", :type => "button" %>
+				<%= f.submit "Add member", :remote => :true, :class => "btn" %>
       </div>
 		</div>
 		<div class="controls" id="member_list">
-      <% @project.users.each do |user| %>
-        <p id="member_<%= user.id %>">
-				<%= render(user) %>
-				<% if current_user.id != user.id %>
-					<%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => user.id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
+      <% @project.memberships.each do |membership| %>
+        <p id="member_<%= membership.user_id %>">
+				<%= render(User.find(membership.user_id)) %>
+				<% if membership.status == 0 %>
+					<span class="label label-warning">Invitation pending</span>
+					<%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
+				<% elsif membership.status == 1 %>
+					<%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
+				<% elsif membership.status == 3 %>
+					<span class="label label-success">You are the project owner</span>
 				<% end %>
 				</p>
 			<% end %>
