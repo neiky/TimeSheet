@@ -1,12 +1,12 @@
 <div class="page-header">
-  <h1>Listing Timerecords</h1>
+  <h2>Listing Timerecords</h2>
 </div>
 
 <div class="row">
   <div class="span6">
     <%= form_tag timerecords_path, :remote => true, :method => :get, :class => 'form-inline' do %>
       <%= label_tag "date_search", "Date:",  :class => "control-label" %>
-      <%= text_field_tag :date_search, current_date.strftime("%F"), :class => 'datePicker' %>
+      <%= text_field_tag :date_search, current_date.strftime("%F"), :class => 'datePicker', :value => current_date.strftime("%F") %>
       <%= link_to timerecords_path(:date_search => (current_date-1).strftime("%F")), :class => "btn date-decrease" do %>
         <i class="icon-chevron-left"></i>
       <% end %>
@@ -33,7 +33,7 @@
       <th></th>
     </tr>
     <tr>
-    
+
       <td class="control-group">
         <%= f.collection_select :Project, Project.where(:id => Membership.select("Project_id").where(:User_id => current_user.id)), :id, :name %>
       </td>
@@ -48,7 +48,7 @@
         <% f.time_select :end %>
         <%= text_field_tag :end_hour, '', {:maxlength => 2, :style => 'width: 20px'} %>:<%= text_field_tag :end_minute, '', {:maxlength => 2, :style => 'width: 20px'} %>
       </td>
-      
+
       <td class="control-group">
         <%= text_field_tag :time_span, '00:00', {:style => 'width: 60px', :disabled => 'disabled' } %>
       </td>
@@ -67,7 +67,7 @@
       </td>
     </tr>
   </thead>
-  
+
   <tbody id="timerecordsList">
     <%= render(@timerecords, { :show_date => false, :show_user => false, :show_project => true } ) %>
   </tbody>
