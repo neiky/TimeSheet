@@ -15,12 +15,10 @@ jQuery(document).ready ->
       $('#submit_date_search').click()
       return false
   ###
-  #$('#date_search').datepicker onClose: (dateText, inst) ->
+  #$('#date_search').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1, onClose: (dateText, inst) ->
       #if dateText isnt "" and dateText isnt prevDate
       	#$('#submit_date_search').click()
-      	#alert(date)
-    	#return false
-        #this.form.submit()
+      	#return false
   ###
 
   $('.date-increase').click ->

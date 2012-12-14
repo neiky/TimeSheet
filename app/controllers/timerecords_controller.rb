@@ -15,7 +15,7 @@ class TimerecordsController < ApplicationController
   end
 
   def analyze
-		puts params
+	puts params
     if params[:date_start]
       @start_date = Date.strptime(params[:date_start], '%Y-%m-%d')
       @end_date = Date.strptime(params[:date_end], '%Y-%m-%d')
@@ -40,8 +40,6 @@ class TimerecordsController < ApplicationController
 	@timerecords = @timerecords.by_user_id(params[:filter_user]) if (params[:filter_user] && params[:filter_user] != "")
 
     @timerecords_total_duration = Timerecord.get_sum_duration(@timerecords)
-
-	puts @timerecords
 
     respond_to do |format|
       format.html

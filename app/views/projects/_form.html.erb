@@ -17,14 +17,14 @@
       <%= f.text_field :name, :class => "span3" %>
     </div>
   </div>
-  
+
   <div class="control-group">
     <%= f.label :description, :class => "control-label" %>
     <div class="controls">
       <%= f.text_area :description, :size => "20x3", :class => "span3" %>
     </div>
   </div>
-  
+
   <div class="control-group">
     <%= f.label :planned_efforts, :class => "control-label" %>
     <div class="controls">
@@ -38,7 +38,7 @@
       <span class="help-inline">Here's more help text</span>
     </div>
   </div>
-  
+
   <div class="control-group">
     <%= f.label :Client, :class => "control-label" %>
     <div class="controls">
@@ -48,16 +48,9 @@
 
   <div class="control-group">
     <%= label_tag "member_email", "Project members", :class => "control-label" %>
-    <div class="controls">
-      <div class="input-append">
-        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail" %>
-				<% #link_to "Add member", {:controller => "projects", :action => "add_member_project"}, :method => :post, :remote => :true, :class => "btn", :type => "button" %>
-				<%= f.submit "Add member", :remote => :true, :class => "btn" %>
-      </div>
-		</div>
-		<div class="controls" id="member_list">
-      <% @project.memberships.each do |membership| %>
-        <p id="member_<%= membership.user_id %>">
+	<div class="controls" id="member_list">
+		<% @project.memberships.each do |membership| %>
+        	<p id="member_<%= membership.user_id %>">
 				<%= render(User.find(membership.user_id)) %>
 				<% if membership.status == 0 %>
 					<span class="label label-warning">Invitation pending</span>
@@ -67,12 +60,17 @@
 				<% elsif membership.status == 3 %>
 					<span class="label label-success">Project owner</span>
 				<% end %>
-				</p>
-			<% end %>
-      
+			</p>
+		<% end %>
+	
+		<div class="input-append">
+        	<%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail" %>
+				<% #link_to "Add member", {:controller => "projects", :action => "add_member_project"}, :method => :post, :remote => :true, :class => "btn", :type => "button" %>
+				<%= f.submit "Add member", :remote => :true, :class => "btn" %>
+      </div>
     </div>
   </div>
-  
+
   <div class="controls">
     <%= f.submit :class => "btn btn-primary" %>
   </div>

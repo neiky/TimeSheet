@@ -169,10 +169,10 @@ class ProjectsController < ApplicationController
 		m.destroy
 		flash[:notice] = "User #{@user.email} removed from project"
 		respond_to do |format|
-      format.html { redirect_to action: "edit" }
-      format.js
-      format.json { head :no_content }
-    end
+	      format.html { redirect_to action: "edit" }
+	      format.js
+	      format.json { head :no_content }
+	    end
 	end
 
 	def accept_invitation
@@ -188,8 +188,8 @@ class ProjectsController < ApplicationController
 				msg.destroy
 			end
 			respond_to do |format|
-     		format.html { redirect_to projects_url, notice: 'Successfully joined the project.' }
-     		format.json { head :no_content }
+	     		format.html { redirect_to projects_url, notice: 'Successfully joined the project.' }
+	     		format.json { head :no_content }
 			end
 		end
 	end
@@ -208,12 +208,22 @@ class ProjectsController < ApplicationController
 					msg = Message.find(params[:message_id])
 					msg.destroy
 				end
+				
+				@message = Message.new
+				@message.sender = @user
+				@message.recipient = @owner
+				if @message.save
+					#content = "<p>There is a pending project invitation for project \"#{@project.name}\"!</p><%= link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => #{@project.id}}, method: :get, :class => 'btn btn-primary') + link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => #{@project.id}}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right')"
+					content = render_to_string :partial => "messages/project_invitation_rejected"
+					puts content
+					@message.update_attributes(:content => content)
+				end
 			
-     		format.html { redirect_to projects_url, notice: 'Successfully rejected the project invitation.' }
-     		format.json { head :no_content }
+     			format.html { redirect_to projects_url, notice: 'Successfully rejected the project invitation.' }
+     			format.json { head :no_content }
 			else
 				format.html { redirect_to projects_url }
-     		format.json { head :no_content }
+     			format.json { head :no_content }
 			end
 		end
 	end

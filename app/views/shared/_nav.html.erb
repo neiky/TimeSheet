@@ -22,9 +22,9 @@
 
     <li>
         <%= link_to messages_path, :class => ("active" if (params[:controller] == 'messages')) do %>
-            <i class="icon-inbox"></i>
-            <% if Message.where(:recipient_id => current_user.id).count > 0 %>
-                <span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id).count %></span>
+            <i class="icon-envelope"></i>
+            <% if Message.where(:recipient_id => current_user.id, :read => false).count > 0 %>
+                <span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id, :read => false).count %></span>
             <% end %>
         <% end %>
     </a>
