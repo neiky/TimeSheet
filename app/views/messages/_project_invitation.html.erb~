@@ -1,0 +1,3 @@
+<p>There is a pending project invitation for project "<%= @project.name %>"!</p>
+<%= link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => @project.id}, method: :get, :class => 'btn btn-primary') %>
+<%= link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => @project.id}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right') %>

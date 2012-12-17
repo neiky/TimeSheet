@@ -1,0 +1,1 @@
+<p><%= user.firstname %> <%= user.name %> (<%= user.email %>)</p>

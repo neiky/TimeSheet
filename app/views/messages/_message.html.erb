@@ -1,0 +1,5 @@
+<%= div_for message do %>
+<%= link_to message, :remote => true, method: :delete, :class => 'close pull-right', :title => 'Nachricht löschen' do %>&times;<% end %>
+<p>Von <b><%= message.sender.get_full_name %></b> <small>Sent <%= time_ago_in_words(message.created_at) %> ago</small></p>
+<p><%= message.content.html_safe %></p>
+<% end %>

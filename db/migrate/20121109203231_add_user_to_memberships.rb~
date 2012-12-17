@@ -1,0 +1,5 @@
+class AddUserToMemberships < ActiveRecord::Migration
+  def change
+    add_column :memberships, :user, :references
+  end
+end

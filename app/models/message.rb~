@@ -1,0 +1,10 @@
+class Message < ActiveRecord::Base
+  attr_accessible :content, :recipient, :sender
+
+	has_one :sender, :class_name => "User"
+	has_one :recipient, :class_name => "User"
+
+  def to_s
+    return self.content
+  end
+end

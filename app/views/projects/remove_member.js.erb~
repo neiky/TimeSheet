@@ -1,0 +1,2 @@
+jQuery('#member_<%= @user.id %>').remove();
+alert('User <%= @user.email %> removed from project');

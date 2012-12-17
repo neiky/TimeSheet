@@ -1,0 +1,9 @@
+<div class="page-header">
+  <h2>Nachrichten</h2>
+</div>
+
+<% @messages.each do |message| %>
+    <%= render message %>
+<% end %>
+
+<% #link_to 'New Message', new_message_path %>

@@ -1,0 +1,6 @@
+Hallo <%= @member.firstname %>,
+
+<%= @owner.get_full_name %> (<%= @owner.company %>; <%= @owner.email %>) hat Dich eingeladen, im Projekt "<%= @project.name %>" mitzuwirken. Melde Dich auf TimeRecorder an, um die Einladung anzunehmen oder abzulehnen.
+
+<%= link_to "Accept", {:controller => "projects", :action => "accept_invitation", :id => @project.id}, method: :get, :class => 'btn btn-primary' %>
+<%= link_to "Reject", {:controller => "projects", :action => "reject_invitation", :id => @project.id}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right' %>

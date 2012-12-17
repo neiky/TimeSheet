@@ -1,0 +1,3 @@
+<p>From: <%= message.sender %></p>
+
+<p>Message: <%= message.content.eval %></p>

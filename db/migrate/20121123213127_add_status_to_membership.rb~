@@ -1,0 +1,4 @@
+class AddStatusToMembership < ActiveRecord::Migration
+  def change
+  end
+end

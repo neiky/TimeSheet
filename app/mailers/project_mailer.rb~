@@ -1,0 +1,51 @@
+class ProjectMailer < ActionMailer::Base
+  default from: "test@timerecorder.com"
+
+	def project_invitation(owner, member, project)
+		@member = member
+		@owner = owner
+		@project = project
+		if Rails.env.development?
+			recipent = "michi.neiky@googlemail.com"
+			subject = "[#{member.email}] Project invitation"
+    else
+			recipent = user.email
+			subject = "Project invitation"
+		end
+		mail(:to => recipent, :subject => subject)
+
+		message = Message.new
+		message.sender = owner
+		message.recipient = member
+		message.content = "<p>There is a pending project invitation for project \"#{project.name}\"!</p>" + link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => project.id}, method: :get, :class => 'btn btn-primary') + link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => project.id}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right')
+		message.save
+	end
+
+	def project_invitation_rejected(owner, member, project)
+		@member = member
+		@owner = owner
+		@project = project
+		if Rails.env.development?
+			recipent = "michi.neiky@googlemail.com"
+			subject = "[#{owner.email}] Project invitation rejected"
+    else
+			recipent = owner.email
+			subject = "Project invitation rejected"
+		end
+		mail(:to => recipent, :subject => subject)
+	end
+
+	def project_invitation_accepted(owner, member, project)
+		@member = member
+		@owner = owner
+		@project = project
+		if Rails.env.development?
+			recipent = "michi.neiky@googlemail.com"
+			subject = "[#{owner.email}] Project invitation accepted"
+    else
+			recipent = owner.email
+			subject = "Project invitation accepted"
+		end
+		mail(:to => recipent, :subject => subject)
+	end
+end

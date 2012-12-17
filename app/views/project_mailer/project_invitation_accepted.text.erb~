@@ -1,0 +1,3 @@
+Hallo <%= @owner.firstname %>,
+
+<%= @member.get_full_name %> (<%= @owner.company %>; <%= @owner.email %>) hat Deine Einladung, in dem Projekt "<%= @project.name %>" mitzuwirken, angenommen.
