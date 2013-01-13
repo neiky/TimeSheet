@@ -1,0 +1,3 @@
+$('#projectnotes').prepend("<%= escape_javascript(render(@projectnote)) %>");
+$('textarea#projectnote').val('');
+$('#projectnotes div:first').effect('highlight', 2000);

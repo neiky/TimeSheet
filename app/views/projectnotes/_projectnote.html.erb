@@ -1,0 +1,4 @@
+<%= div_for projectnote, :last_update => projectnote.created_at.to_i do %>
+	<p>Von <b><%= projectnote.sender.get_full_name %></b> <small>Gesendet am <%= projectnote.created_at.strftime("%d.%m.%Y %H:%M:%S") %></small></p>
+	<p><%= projectnote.content %></p>
+<% end %>

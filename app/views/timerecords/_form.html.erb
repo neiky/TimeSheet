@@ -1,0 +1,54 @@
+<%= form_for(@timerecord,:remote=>@is_remote, :html => { :class => 'form-horizontal' }) do |f| %>
+  <% if @timerecord.errors.any? %>
+    <div id = "error_explanation">
+      <h2><%= pluralize(@timerecord.errors.count, "error") %> prohibited this timerecord from being saved:</h2>
+
+      <ul>
+      <% @timerecord.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+  	<%= f.label :Project, :class => "control-label" %>
+    <div class="controls">
+      <%= f.collection_select :Project, Project.where(:id => Membership.select("Project_id").where(:User_id => current_user.id)), :id, :name, {:selected => @timerecord.Project_id} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+  	<% #hidden_field_tag(:date, @timerecord.start.to_date) %>
+    <%= f.label :dateSelect, :class => "control-label" %>
+    <div class="controls">
+      <%= text_field_tag :dateSelect, @timerecord.start.strftime("%F"), :value => @timerecord.start.strftime("%F") %>
+    </div>
+  </div>
+
+  <div class="control-group">
+  	<%= hidden_field_tag(:date, @timerecord.start.to_date) %>
+    <%= f.label :start, :class => "control-label" %>
+    <div class="controls">
+      <%= text_field_tag :start_hour, @timerecord.start.strftime("%H"), {:maxlength => 2, :style => 'width: 20px'} %>:<%= text_field_tag :start_minute, @timerecord.start.strftime("%M"), {:maxlength => 2, :style => 'width: 20px'} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+  	<%= hidden_field_tag(:date, @timerecord.start.to_date) %>
+    <%= f.label :end, :class => "control-label" %>
+    <div class="controls">
+      <%= text_field_tag :end_hour, @timerecord.end.strftime("%H"), {:maxlength => 2, :style => 'width: 20px'} %>:<%= text_field_tag :end_minute, @timerecord.end.strftime("%M"), {:maxlength => 2, :style => 'width: 20px'} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_area :description, :size => "20x3" %>
+    </div>
+  </div>
+  <div class="controls">
+    <%= f.submit :class => "btn btn-primary" %>
+  </div>
+<% end %>

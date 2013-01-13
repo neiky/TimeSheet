@@ -1,0 +1,3 @@
+<p><%= current_user.get_full_name %> möchte Dich als Mitarbeiter hinzufügen.</p>
+<%= link_to('Accept', {:controller => 'employments', :action => 'update', :id => @employment.id, :message_id => @message.id, :step => "accept"}, method: :put, :class => 'btn btn-primary') %>
+<%= link_to('Reject', {:controller => 'employments', :action => 'update', :id => @employment.id, :message_id => @message.id, :step => "reject"}, confirm: 'Are you sure?', method: :put, :class => 'btn btn-danger pull-right') %>

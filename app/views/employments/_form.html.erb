@@ -1,0 +1,32 @@
+<%= form_for(@employment, :html => { :class => 'form-horizontal' }) do |f| %>
+  <div class="control-group">
+    <%= label_tag "employee_email", "E-Mail", :class => "control-label" %>
+    <div class="controls">
+      <%= text_field_tag "employee_email", @employee, :class => "span3", :placeholder => "Enter E-Mail", :disabled => (params[:action] == "edit") %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :employment_date, "Datum der Einstellung", :class => "control-label" %>
+    <div class="controls">
+      <% f.date_select :employment_date, :class => "datepicker" %>
+      <%= f.text_field :employment_date, :class => "datepicker" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= label_tag nil, "Arbeitszeit pro Tag", :class => "control-label" %>
+    <div class="controls">
+      <%= text_field_tag :hours, ((@employment.workingtime_per_day/3600) if @employment.workingtime_per_day), {:maxlength => 2, :style => 'width: 20px'} %>:
+      <%= text_field_tag :minutes, (("%02d" % (@employment.workingtime_per_day%3600)) if @employment.workingtime_per_day), {:maxlength => 2, :style => 'width: 20px'} %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :num_vacation_days, "Urlaubstage pro Jahr", :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_field :num_vacation_days, {:maxlength => 2, :style => 'width: 20px'} %>
+    </div>
+  </div>
+  <div class="controls">
+    <% submit_tag "Add employee", :class => "btn" %>
+    <%= f.submit :class => "btn btn-primary" %>
+  </div>
+<% end %>

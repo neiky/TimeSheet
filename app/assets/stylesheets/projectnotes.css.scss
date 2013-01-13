@@ -1,0 +1,22 @@
+// Place all the styles related to the projectnotes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$message_width: 500px;
+$light-gray: #EEEEEE;
+
+div.projectnote {
+	max-width: 100%;
+	border: thin solid $light-gray;
+	background-color: #FAFAFA;
+	padding: 5px;
+	margin-top: 10px;
+}
+
+textarea.projectnote {
+	width: 90%;
+}
+
+div.newProjectnote {
+	background-color: #AAAAAA;
+}
