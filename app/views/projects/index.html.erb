@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>Listing projects</h1>
+  <h2>Listing projects</h2>
 </div>
 
 <table class="table table-striped">
@@ -13,7 +13,7 @@
       <th></th>
     </tr>
   </thead>
-  
+
   <tbody>
   <% @projects.each do |project| %>
     <tr id="project_<%= project.id %>">
@@ -30,7 +30,7 @@
 			<% else %>
 				<span class="btn btn-mini disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i> Edit</span>
 				<span class="btn btn-mini btn-danger disabled" title="You may not delete the project because you are not the owner!"><i class="icon-trash"></i> Delete</span>
-			<% end %>      
+			<% end %>
     </tr>
   <% end %>
   </tdody>

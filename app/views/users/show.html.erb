@@ -1,29 +1,36 @@
 <div class="page-header">
-  <h1>Showing user</h1>
+  <h2>Showing user</h2>
 </div>
 
+<table class="table-details">
+	<thead>
+	</thead>
+	<tbody>
+		<tr>
+			<td>First name</td>
+	  		<td><%= @user.firstname %></td>
+		</tr>
+	
+		<tr>
+			<td>Name</td>
+	  		<td><%= @user.name %></td>
+		</tr>
+	
+		<tr>
+	  		<td>E-Mail</td>
+	  		<td><%= @user.email %></td>
+		</tr>
+	
+		<tr>
+	  		<td>Company</td>
+	  		<td><%= @user.company %></td>
+		</tr>
+	</tbody>
+</table>
 
 <p>
-  <b>First name:</b>
-  <%= @user.firstname %>
-</p>
-
-<p>
-  <b>Name:</b>
-  <%= @user.name %>
-</p>
-
-<p>
-  <b>E-Mail:</b>
-  <%= @user.email %>
-</p>
-
-<p>
-  <b>Company:</b>
-  <%= @user.company %>
-</p>
-
-<p><b><a href="#" class="buttonToggle" data-toggle-this="toggleTimeRecords">Time records <i class="icon-list"></i></a></b></p>
+	<%= link_to "Analyze time records", analyze_timerecords_path(:filter_user => @user.id) %><br />
+<b><a href="#" class="buttonToggle" data-toggle-this="toggleTimeRecords">Time records <i class="icon-list"></i></a></b></p>
 <div class="toggleVisibility" id="toggleTimeRecords">
   <table class="table table-condensed">
     <thead>

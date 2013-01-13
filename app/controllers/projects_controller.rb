@@ -17,6 +17,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     @project = Project.find(params[:id])
+    @projectnote = Projectnote.new
+    @projectnotes = Projectnote.where(:project_id => @project).order("created_at DESC")
 
     respond_to do |format|
       format.html # show.html.erb
@@ -89,23 +91,25 @@ class ProjectsController < ApplicationController
         puts @user.name
         m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}")
         if m.count == 0
-            m = Membership.new(:user_id => @user.id, :project_id => @project.id, :status => 0)	# status => 0: user is invited to project
-            m.save
-            ProjectMailer.project_invitation(current_user, @user, @project).deliver
+          m = Membership.new(:user_id => @user.id, :project_id => @project.id, :status => 0)	# status => 0: user is invited to project
+          m.save
+          ProjectMailer.project_invitation(current_user, @user, @project).deliver
 
-			@message = Message.new
-			@message.sender = current_user
-			@message.recipient = @user
-			if @message.save
-				#content = "<p>There is a pending project invitation for project \"#{@project.name}\"!</p><%= link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => #{@project.id}}, method: :get, :class => 'btn btn-primary') + link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => #{@project.id}}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right')"
-				content = render_to_string :partial => "messages/project_invitation"
-				@message.update_attributes(:content => content)
-			end
+					@message = Message.new
+					@message.sender = current_user
+					@message.recipient = @user
+					if @message.save
+						#content = "<p>There is a pending project invitation for project \"#{@project.name}\"!</p><%= link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => #{@project.id}}, method: :get, :class => 'btn btn-primary') + link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => #{@project.id}}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right')"
+						content = render_to_string :partial => "messages/project_invitation"
+						@message.update_attributes(:content => content)
+					end
 
-			flash[:notice] = "User #{@user.email} added to project"
-        else
-			flash[:alert] = "User #{@user.email} is already member of the project"
+					flash[:notice] = "User #{@user.email} added to project"
+		    else
+					flash[:alert] = "User #{@user.email} is already member of the project"
         end
+      else
+      	flash[:alert] = "User #{@user.email} not found"
       end
     end
 
@@ -187,6 +191,16 @@ class ProjectsController < ApplicationController
 				msg = Message.find(params[:message_id])
 				msg.destroy
 			end
+			
+			@message = Message.new
+			@message.sender = @user
+			@message.recipient = @owner
+			if @message.save
+				content = render_to_string :partial => "messages/project_invitation_accepted"
+				#puts content
+				@message.update_attributes(:content => content)
+			end
+			
 			respond_to do |format|
 	     		format.html { redirect_to projects_url, notice: 'Successfully joined the project.' }
 	     		format.json { head :no_content }
@@ -215,7 +229,7 @@ class ProjectsController < ApplicationController
 				if @message.save
 					#content = "<p>There is a pending project invitation for project \"#{@project.name}\"!</p><%= link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => #{@project.id}}, method: :get, :class => 'btn btn-primary') + link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => #{@project.id}}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right')"
 					content = render_to_string :partial => "messages/project_invitation_rejected"
-					puts content
+					#puts content
 					@message.update_attributes(:content => content)
 				end
 			

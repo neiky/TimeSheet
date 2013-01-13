@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       format.json { render json: @users }
     end
   end
-  
+
   def show
     if params[:id]
       @user = User.find(params[:id])
@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+  	@user = User.find(current_user.id)
   end
 
 end

@@ -10,9 +10,10 @@ module TimerecordsHelper
 
     days_s = days > 0 ? days.to_s + "d " : ""
     hours_s = hours < 10 ? hours.to_s : hours.to_s
-    minutes_s = minutes < 10 ? "0"+minutes.to_s : minutes.to_s
+    #minutes_s = minutes < 10 ? "0"+minutes.to_s : minutes.to_s
+    minutes_s = "%02d" % minutes.to_s
 
-    return days_s + hours_s + ":" + minutes_s
+    return days_s + " " + hours_s + ":" + minutes_s
   end
 
   def current_date

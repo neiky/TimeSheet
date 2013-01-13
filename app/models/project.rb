@@ -4,9 +4,10 @@ class Project < ActiveRecord::Base
   has_many :memberships
   has_many :users, :through => :memberships
   has_many :timerecords, :dependent => :destroy
-  
+	has_many :projectnotes, :dependent => :destroy
+
   belongs_to :Client
-  
+
   def total_duration
     self.timerecords.all.sum{|timerecord| timerecord.duration.to_i}
   end

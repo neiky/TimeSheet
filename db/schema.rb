@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209185432) do
+ActiveRecord::Schema.define(:version => 20130110214522) do
 
   create_table "clients", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,34 @@ ActiveRecord::Schema.define(:version => 20121209185432) do
     t.datetime "updated_at",  :null => false
     t.integer  "user_id"
   end
+
+  create_table "contacts", :force => true do |t|
+    t.string   "name"
+    t.string   "firstname"
+    t.string   "email"
+    t.string   "phone"
+    t.integer  "client_id"
+    t.text     "comment"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "contacts", ["client_id"], :name => "index_contacts_on_client_id"
+
+  create_table "employments", :force => true do |t|
+    t.integer  "employer_id"
+    t.integer  "employee_id"
+    t.time     "workingtime_per_day"
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.boolean  "accepted",                    :default => false
+    t.integer  "num_vacation_days",           :default => 0
+    t.integer  "num_vacation_days_remaining", :default => 0
+    t.date     "employment_date"
+  end
+
+  add_index "employments", ["employee_id"], :name => "index_employments_on_employee_id"
+  add_index "employments", ["employer_id"], :name => "index_employments_on_employer_id"
 
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
@@ -38,6 +66,17 @@ ActiveRecord::Schema.define(:version => 20121209185432) do
     t.string   "subject"
     t.boolean  "read",         :default => false
   end
+
+  create_table "projectnotes", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "project_id"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "projectnotes", ["project_id"], :name => "index_projectnotes_on_project_id"
+  add_index "projectnotes", ["sender_id"], :name => "index_projectnotes_on_sender_id"
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -80,6 +119,7 @@ ActiveRecord::Schema.define(:version => 20121209185432) do
     t.string   "firstname"
     t.string   "name"
     t.string   "company"
+    t.integer  "employment_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -56,3 +56,46 @@ div {
     font-size: 12px;
     list-style: square; } }
 */
+
+* {
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+
+.table-details {
+	th, td {
+		padding: 8px;
+		vertical-align: top;
+		text-align: left;
+	}
+	tbody > tr > td:first-child {
+		font-weight: bold;
+		text-align: right;
+	}
+}
+
+$footer-height: 100px;
+
+.footer {
+    background-color: #F5F5F5;
+    border-top: 1px solid #E5E5E5;
+    //margin-top: 70px;
+    //padding-top: 20px;
+}
+
+.footer > .container {
+	padding-top: 20px;
+}
+
+.footer, .push {
+	height: $footer-height; /* .push must be the same height as .footer */
+}
+
+.wrapper {
+		min-height: 100%;
+		height: auto !important;
+		height: 100%;
+		margin: 0 auto (-$footer-height+20px);
+}

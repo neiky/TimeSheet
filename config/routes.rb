@@ -1,5 +1,8 @@
 Projects::Application.routes.draw do
+  post "projectnotes/create"
+
   resources :messages
+  resources :projectnotes
 
   get "client/index"
 
@@ -11,12 +14,13 @@ Projects::Application.routes.draw do
 
   devise_for :users
 
+
   resources :projects do
     member do
       post 'add_member'
-			delete 'remove_member'
-			get 'accept_invitation'
-			delete 'reject_invitation'
+		  delete 'remove_member'
+		  get 'accept_invitation'
+		  delete 'reject_invitation'
     end
   end
   resources :timerecords do
@@ -26,7 +30,9 @@ Projects::Application.routes.draw do
   end
   resources :users
   resources :clients
-  
+  resources :contacts
+  resources :employments
+
   match "profile" => "users#show"
 	#match "/projects/:id/remove_member/:user_id" => "projects#remove_member"
 	#match "/projects/:id/accept" => "projects#accept_invitation"

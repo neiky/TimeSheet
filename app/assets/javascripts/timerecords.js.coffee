@@ -12,14 +12,13 @@ jQuery(document).ready ->
   $('.datePicker').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1, onClose: (dateText, inst) ->
       #if dateText isnt "" and dateText isnt prevDate
       #alert prevDate
+      return false
+
+  $('.dateSearch').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1, onClose: (dateText, inst) ->
+      #if dateText isnt "" and dateText isnt prevDate
+      #alert prevDate
       $('#submit_date_search').click()
       return false
-  ###
-  #$('#date_search').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1, onClose: (dateText, inst) ->
-      #if dateText isnt "" and dateText isnt prevDate
-      	#$('#submit_date_search').click()
-      	#return false
-  ###
 
   $('.date-increase').click ->
     date = $('#date_search').datepicker("getDate")

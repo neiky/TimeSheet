@@ -1,5 +1,5 @@
 class ProjectMailer < ActionMailer::Base
-  default from: "test@timerecorder.com"
+	default from: "test@timerecorder.com"
 
 	def project_invitation(owner, member, project)
 		@member = member

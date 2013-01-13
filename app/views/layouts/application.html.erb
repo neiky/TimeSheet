@@ -11,6 +11,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class ="wrapper">
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -19,7 +20,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <%= link_to root_path, :class => "brand" do %>CL<i class="icon-time"></i>CK<% end %>
+        <%= link_to root_path, :class => "brand hidden-phone" do %>CL<i class="icon-time"></i>CK<% end %>
+        <%= link_to root_path, :class => "brand visible-phone" do %><i class="icon-time"></i><% end %>
 
         <% if user_signed_in? %>
         <div class="nav-collapse">
@@ -39,36 +41,56 @@
   </div>
 
 
-
-<div class="container">
-  <div class="row">
-    <div class="span12">
-      <% unless notice.blank? %>
-	    <div class="alert alert-info">
-	      <a class="close" data-dismiss="alert" href="#">×</a>
-        <%= notice %>
-      </div>
-      <% end %>
-
-      <% unless alert.blank? %>
-	    <div class="alert alert-error">
-	      <a class="close" data-dismiss="alert" href="#">×</a>
-        <%= alert %>
-      </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span12">
-      <%= yield %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span3 offset9">
-
-    </div>
-  </div>
+	<div class="container">
+	  <div class="row">
+	    <div class="span12">
+	      <% unless notice.blank? %>
+		    <div class="alert alert-info">
+		      <a class="close" data-dismiss="alert" href="#">×</a>
+	        <%= notice %>
+	      </div>
+	      <% end %>
+	
+	      <% unless alert.blank? %>
+		    <div class="alert alert-error">
+		      <a class="close" data-dismiss="alert" href="#">×</a>
+	        <%= alert %>
+	      </div>
+	      <% end %>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="span12">
+	      <%= yield %>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="span3 offset9">
+	
+	    </div>
+	  </div>
+	</div>
+	
+	<div class = "push"></div>
 </div>
+	
+	<footer class= "footer">
+		<div class = "container">
+			<div class="row">
+		    <div class="span6">
+					<p>Features</p>
+					<p>Preise</p>
+		    </div>
+		    <div class="span6">
+					<p>Feedback</p>
+					<p>Impressum</p>
+		    </div>
+		  </div>
+	  </div>
+	</footer>
+	
+	
+	<div id="modal-dialog" title="Dialog" style="display:none"></div>
 
 </body>
 </html>
