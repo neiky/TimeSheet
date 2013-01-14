@@ -21,8 +21,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
+  def edit_self
   	@user = User.find(current_user.id)
+  	render 'edit'
   end
 
 end
