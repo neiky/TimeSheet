@@ -138,13 +138,11 @@ class EmploymentsController < ApplicationController
 				msg.destroy
 			end
 			
+			content = render_to_string :partial => "messages/employee_invitation_rejected"
 			@message = Message.new
 			@message.sender = current_user
 			@message.recipient = @employment.employer
-			if @message.save
-				content = render_to_string :partial => "messages/employee_invitation_rejected"
-				@message.update_attributes(:content => content)
-			end
+			@message.content = content
 			
 			respond_to do |format|
 				format.html { redirect_to root_url, notice: 'Employment invitation was successfully rejected.' }

@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+	authorize_resource
+
   def index
     @users = User.all
     respond_to do |format|
@@ -19,11 +21,6 @@ class UsersController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @user }
     end
-  end
-
-  def edit_self
-  	@user = User.find(current_user.id)
-  	render 'edit'
   end
 
 end

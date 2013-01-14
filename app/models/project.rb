@@ -15,4 +15,8 @@ class Project < ActiveRecord::Base
   def to_s
     return name
   end
+
+  def owner
+		self.Client.user
+  end
 end

@@ -4,7 +4,7 @@ class Client < ActiveRecord::Base
   has_many :projects, :dependent => :destroy
   has_many :contacts, :dependent => :destroy
 
-  belongs_to :User
+  belongs_to :user
 
   def to_s
     return self.name

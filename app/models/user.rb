@@ -5,10 +5,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me,
+  								:firstname, :name, :company, :employment_id, :role
   # attr_accessible :title, :body
-  attr_accessible :firstname, :name, :company, :employment_id
 
+	has_many :clients
   has_many :memberships
   has_many :projects, :through => :memberships
   has_many :timerecords
@@ -24,5 +25,9 @@ class User < ActiveRecord::Base
 
   def get_full_name
     return self.firstname + " " + self.name
+  end
+
+  def has_role?(rolename)
+  	self.role.eql?(rolename)
   end
 end

@@ -79,7 +79,7 @@
 		    </table>
 		  </div>
 		</p>
-		<% if @project.Client.user_id == current_user.id %>
+		<% if can? current_user, :edit, @project %>
 		  <%= link_to edit_project_path(@project), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
 		<% else %>
 			<span class="btn btn-mini disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i> Edit</span>

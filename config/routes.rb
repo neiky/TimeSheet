@@ -28,11 +28,7 @@ Projects::Application.routes.draw do
       get 'analyze'
     end
   end
-  resources :users, :only => [:index, :show] do
-	collection do
-		get 'edit_self'
-	end
-  end
+  resources :users, :only => [:index, :show]
   resources :clients
   resources :contacts
   resources :employments

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '~> 3.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -41,6 +41,14 @@ gem 'jquery-rails'
 # user authentication
 gem 'devise'
 
-gem 'thin', :group => 'development'
-
 gem "less-rails"
+
+gem "cancan"
+
+group :development do
+  gem 'thin'
+  gem 'quiet_assets'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'oink'
+end
