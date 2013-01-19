@@ -1,17 +1,19 @@
 class EmploymentsController < ApplicationController
+	load_and_authorize_resource
+	
 	def index
 		if current_user
     	@employment = Employment.where(:employee_id => current_user.id).first
     	if !@employment
-	    	@self_employment = Employment.where("employer_id = ? AND employee_id = ?", current_user.id, 0).first
-	      if !@self_employment
-	      	@self_employment = Employment.new(:employer_id => current_user.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
-	      	if @self_employment.save
-						flash[:notice] = "Employment settings created for you!"      		
-	      	else
-	      		flash[:alert] = "Failed creating employment settings for you!"
-	      	end
-	      end
+	    	#@self_employment = Employment.where("employer_id = ? AND employee_id = ?", current_user.id, 0).first
+	      #if !@self_employment
+	      #	@self_employment = Employment.new(:employer_id => current_user.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
+	      #	if @self_employment.save
+				#		flash[:notice] = "Employment settings created for you!"      		
+	      #	else
+	      #		flash[:alert] = "Failed creating employment settings for you!"
+	      #	end
+	      #end
     	
     		@employments = Employment.includes(:employee).where(:employer_id => current_user.id)
     		
@@ -36,11 +38,7 @@ class EmploymentsController < ApplicationController
 	def show
 		if current_user
       @employment = Employment.includes(:employee, :employer).find(params[:id])
-      if @employment.employee_id > 0
-      	@employee = @employment.employee
-      else
-      	@employee = current_user
-      end
+
       respond_to do |format|
 	      format.html # show.html.erb
 	      format.json { render json: @employment }
@@ -54,6 +52,7 @@ class EmploymentsController < ApplicationController
 	
 	def edit
 		@employment = Employment.includes(:employee, :employer).find(params[:id])
+		authorize! :edit, @employment
 		if @employment.employer == current_user
 			if @employment.employee_id > 0
       	@employee = @employment.employee
@@ -80,7 +79,6 @@ class EmploymentsController < ApplicationController
 				@message.sender = current_user
 				@message.recipient = employee
 				if @message.save
-					#content = "<p>There is a pending project invitation for project \"#{@project.name}\"!</p><%= link_to('Accept', {:controller => 'projects', :action => 'accept_invitation', :id => #{@project.id}}, method: :get, :class => 'btn btn-primary') + link_to('Reject', {:controller => 'projects', :action => 'reject_invitation', :id => #{@project.id}}, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger pull-right')"
 					content = render_to_string :partial => "messages/employee_invitation"
 					@message.update_attributes(:content => content)
 				end
@@ -111,6 +109,9 @@ class EmploymentsController < ApplicationController
 		  	# delete self employment of employee
 		  	self_employment = Employment.find_by_employer_id(current_user.id)
 		  	self_employment.destroy if self_employment
+		  	
+		  	employer = Employment.find_by_employee_id(current_user.id).employer
+		  	current_user.update_attributes(:company => employer.company)
 				
 				@message = Message.new
 				@message.sender = current_user

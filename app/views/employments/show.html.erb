@@ -1,34 +1,13 @@
 <div class="page-header">
-  <h2>Showing employee <%= @employee.get_full_name %></h2>
+  <h2>Showing employee <%= @employment.employee.get_full_name %></h2>
 </div>
 
-<table class="table-details">
-	<thead>
-	</thead>
-	<tbody>
-		<tr>
-			<td>E-Mail</td>
-	  	<td><%= @employee %></td>
-		</tr>
-		<tr>
-			<td>Einstellungsdatum</td>
-	  	<td><%= @employment.employment_date.strftime("%d.%m.%Y") %></td>
-		</tr>
-		<tr>
-			<td>Arbeitszeit pro Tag</td>
-	  	<td><%= format_seconds_to_time(@employment.workingtime_per_day) %></td>
-		</tr>
-		<tr>
-			<td>Urlaubstage pro Jahr</td>
-	  	<td><%= @employment.num_vacation_days %></td>
-		</tr>
-	</tbody>
-</table>
+<%= render @employment %>
 
-<% if @employment.employee != current_user %>
+<% if can? current_user, :edit, @employment %>
 	<%= link_to 'Edit', edit_employment_path(@employment), :class => 'btn btn-mini' %>
 <% end %>
 <%= link_to 'Back', employments_path, :class => 'btn btn-mini' %>
-<% if @employee != current_user %>
+<% if can? current_user, :edit, @employment %>
 	<%= link_to 'Delete', @employment, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-mini btn-danger' %>
 <% end %>

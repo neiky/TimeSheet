@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
 
-	authorize_resource
+	load_and_authorize_resource
 
   def index
-    @users = User.all
+    #@users = User.all
+    authorize! :read, @users
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -12,9 +13,9 @@ class UsersController < ApplicationController
 
   def show
     if params[:id]
-      @user = User.find(params[:id])
+      @user = User.includes(:employment).find(params[:id])
     else
-      @user = User.find(current_user.id)
+      @user = User.includes(:employment).find(current_user.id)
     end
 
     respond_to do |format|

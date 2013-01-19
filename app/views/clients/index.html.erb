@@ -18,7 +18,7 @@
       <td><%= client.name %></td>
       <td><%= client.description %></td>
       <td style="width:300px">
-        <a href="#" class="buttonToggle" data-toggle-this="toggleProjectList<%= client.id %>">Projects <i class="icon-list"></i></a>
+        <a href="#" class="buttonToggle" data-toggle-this="toggleProjectList<%= client.id %>"><i class="icon-list"></i> Projects</a>
         <div class="toggleVisibility" id="toggleProjectList<%= client.id %>">
         <ul>
           <% client.projects.each do |project| %>
@@ -27,9 +27,14 @@
         </ul>
         </div>
       </td>
-      <td><%= link_to client, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
-      <%= link_to edit_client_path(client), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
-      <%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %></td>
+      <td>
+      	<%= link_to client, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
+      	<% #if can? current_user, :edit, client %>
+      	<% if client.user == current_user %>
+	      	<%= link_to edit_client_path(client), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
+	      	<%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %>
+      	<% end %>
+      </td>
     </tr>
   <% end %>
   </tdody>

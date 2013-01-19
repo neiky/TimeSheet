@@ -15,9 +15,10 @@ class User < ActiveRecord::Base
   has_many :timerecords
 	has_many :messages
 	has_many :projectnotes
-	belongs_to :Employment
+	belongs_to :employment
 	has_many :employments
 	has_many :employees, :through => :employments
+	has_one :employer, :through => :employments
 
   def to_s
     return self.email
@@ -29,5 +30,9 @@ class User < ActiveRecord::Base
 
   def has_role?(rolename)
   	self.role.eql?(rolename)
+  end
+
+  def get_employment
+		Employment.where("(employer_id = ? AND employee_id = 0) OR employee_id = ?", self.id, self.id).first
   end
 end

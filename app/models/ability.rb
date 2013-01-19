@@ -25,16 +25,25 @@ class Ability
     #
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
-	return unless user
+		return unless user
     if user.has_role?('admin')
       can :manage, :all
     else
       can :manage, User, :id => user.id
-      can :manage, Project, :id => user.clients.map{|client| client.projects}.flatten.map(&:id)
+      #can :manage, Project, :id => user.clients.map{|client| client.projects}.flatten.map(&:id)
+      can :manage, Project, :id => user.projects.where("memberships.status >= ?", 3).map(&:id)
       can :read, Project, :id => user.projects.where("memberships.status >= ?", 1).map(&:id)
       can :create, Project
-      can :accept_invitation, Project, :id => user.projects.where("memberships.status >= ?", 0).map(&:id)
-      can :reject_invitation, Project, :id => user.projects.where("memberships.status >= ?", 0).map(&:id)
+      can [:accept_invitation, :reject_invitation], Project, :id => user.projects.where("memberships.status >= ?", 0).map(&:id)
+
+			can :manage, Client, :id => user.clients.map(&:id)
+			can :create, Client
+			can :read, Client, :id => user.employment.employer.clients.map(&:id)
+			
+			can :manage, Contact, :id => user.clients.map{|client| client.contacts}.flatten.map(&:id)
+
+      can :manage, Employment, :employer_id => user.id
+      can :read, Employment, :employee_id => user.id
     end
   end
 end

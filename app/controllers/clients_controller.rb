@@ -1,22 +1,24 @@
 class ClientsController < ApplicationController
+	load_and_authorize_resource
+
   # GET /clients
   # GET /clients.json
   def index
-    @clients = []
-    if current_user
-      @clients = Client.order("name ASC").where(:user_id => current_user.id)
-    end
-
+    #@clients = []
+    #if current_user
+    #  @clients = Client.order("name ASC").where(:user_id => current_user.id)
+    #end
+		
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @clients }
     end
   end
-  
+
   # GET /clients/1
   # GET /clients/1.json
   def show
-    @client = Client.find(params[:id])
+    #@client = Client.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,9 +39,9 @@ class ClientsController < ApplicationController
 
   # GET /clients/1/edit
   def edit
-    @client = Client.find(params[:id])
+    #@client = Client.find(params[:id])
   end
-  
+
   # POST /clients
   # POST /clients.json
   def create

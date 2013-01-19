@@ -32,5 +32,8 @@
   </tbody>
 </table>
 
-<%= link_to 'Edit', edit_client_path(@client), :class => 'btn btn-mini' %>
+<% #if can? current_user, :edit, @client %>
+<% if @client.user == current_user %>
+	<%= link_to 'Edit', edit_client_path(@client), :class => 'btn btn-mini' %>
+<% end %>
 <%= link_to 'Back', clients_path, :class => 'btn btn-mini' %>
