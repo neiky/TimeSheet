@@ -1,6 +1,7 @@
 class Contact < ActiveRecord::Base
+	belongs_to :user
   belongs_to :client
-  attr_accessible :comment, :email, :firstname, :name, :phone, :client
+  attr_accessible :comment, :email, :firstname, :name, :phone, :client, :client_id, :user
 
   def to_s
 	  if !self.firstname

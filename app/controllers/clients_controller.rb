@@ -8,7 +8,6 @@ class ClientsController < ApplicationController
     #if current_user
     #  @clients = Client.order("name ASC").where(:user_id => current_user.id)
     #end
-		
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @clients }

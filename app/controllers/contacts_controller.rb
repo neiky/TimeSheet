@@ -1,8 +1,10 @@
 class ContactsController < ApplicationController
+	load_and_authorize_resource
+	
 	def index
-    @contacts = []
+    #@contacts = []
     if current_user
-      @contacts = Contact.order("name ASC").where(:client_id => Client.where(:user_id => current_user.id))
+    #  @contacts = Contact.order("name ASC").where(:client_id => Client.where(:user_id => current_user.id))
     end
 
     respond_to do |format|
@@ -21,7 +23,8 @@ class ContactsController < ApplicationController
 	end
 	
 	def new
-    @contact = Contact.new(:client => Client.find(params[:client_id].to_i))
+		@contact = Contact.new
+    @contact = Contact.new(:client => Client.find(params[:client_id].to_i)) if params[:client_id]
     #@contact.client_id = params[:client_id].to_i
 
     respond_to do |format|

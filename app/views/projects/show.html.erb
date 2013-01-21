@@ -59,7 +59,7 @@
 		</table>
 		<p>
 			<%= link_to "Analyze time records", analyze_timerecords_path(:filter_project => @project.id) %><br />
-		  <b><a href="#" class="buttonToggle" data-toggle-this="toggleTimeRecords">Time records <i class="icon-list"></i></a></b>
+		  <b><a href="#" class="buttonToggle" data-toggle-this="toggleTimeRecords"><i class="icon-list"></i> Time records</a></b>
 		  <div class="toggleVisibility" id="toggleTimeRecords">
 		    <table class="table table-condensed">
 		      <thead>
@@ -79,12 +79,11 @@
 		    </table>
 		  </div>
 		</p>
-		<% if can? current_user, :edit, @project %>
+		<% if can? :edit, @project %>
 		  <%= link_to edit_project_path(@project), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
 		<% else %>
-			<span class="btn btn-mini disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i> Edit</span>
+		<%#	<span class="btn btn-mini disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i> Edit</span> %>
 		<% end %>
-		<%= link_to projects_path, :class => 'btn btn-mini' do %><i class="icon-remove"></i> Back<% end %>
 	
 	</div>
 </div>

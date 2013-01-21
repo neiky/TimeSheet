@@ -9,7 +9,9 @@ class WelcomeController < ApplicationController
 	      if !@self_employment
 	      	@self_employment = Employment.new(:employer_id => current_user.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
 	      	if !@self_employment.save
-						flash[:alert] = "Failed creating employment settings for you!"
+	      		flash[:alert] = "Failed creating employment settings for you!"
+	      	else
+	      		current_user.update_attributes(:employment_id => @self_employment.id)
 	      	end
 	      end
 	    #end

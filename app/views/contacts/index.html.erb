@@ -21,8 +21,10 @@
 
       <td>
       	<%= link_to contact, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
-      	<%= link_to edit_contact_path(contact), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
-      	<%= link_to contact, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %>
+      	<% if can? :update, contact %>
+      		<%= link_to edit_contact_path(contact), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
+      		<%= link_to contact, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %>
+      	<% end %>
       </td>
     </tr>
   <% end %>

@@ -29,11 +29,13 @@
         <% end %>
       </td>
     </tr>
+    <tr>
+      <td>Ersteller</td><td><%= @client.user %></td>
+    </tr>
   </tbody>
 </table>
 
-<% #if can? current_user, :edit, @client %>
-<% if @client.user == current_user %>
+<% if can? :update, @client %>
 	<%= link_to 'Edit', edit_client_path(@client), :class => 'btn btn-mini' %>
 <% end %>
 <%= link_to 'Back', clients_path, :class => 'btn btn-mini' %>

@@ -36,11 +36,15 @@ class Ability
       can :create, Project
       can [:accept_invitation, :reject_invitation], Project, :id => user.projects.where("memberships.status >= ?", 0).map(&:id)
 
-			can :manage, Client, :id => user.clients.map(&:id)
+			can :manage, Client, :user_id => user.id
 			can :create, Client
-			can :read, Client, :id => user.employment.employer.clients.map(&:id)
+			can :read, Client, :user_id => user.employment.employer.id
 			
 			can :manage, Contact, :id => user.clients.map{|client| client.contacts}.flatten.map(&:id)
+			can :manage, Contact, :id => user.contacts.map(&:id)
+			can :create, Contact
+			can :read, Contact, :id => user.clients.map{|client| client.contacts}.flatten.map(&:id)
+			can :read, Contact, :id => user.employer.clients.map{|client| client.contacts}.flatten.map(&:id)
 
       can :manage, Employment, :employer_id => user.id
       can :read, Employment, :employee_id => user.id

@@ -29,8 +29,7 @@
       </td>
       <td>
       	<%= link_to client, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
-      	<% #if can? current_user, :edit, client %>
-      	<% if client.user == current_user %>
+      	<% if can? :update, client %>
 	      	<%= link_to edit_client_path(client), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
 	      	<%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %>
       	<% end %>
