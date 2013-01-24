@@ -15,6 +15,7 @@ class TimerecordsController < ApplicationController
   end
 
   def analyze
+  	params[:filter_user] = current_user.id unless params[:filter_user]
 		puts params
     if params[:date_start]
       @start_date = Date.strptime(params[:date_start], '%Y-%m-%d')

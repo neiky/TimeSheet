@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
       <th>Client</th>
       <th>Planned efforts</th>
       <th>Actual efforts</th>
@@ -17,19 +16,17 @@
   <tbody>
   <% @projects.each do |project| %>
     <tr id="project_<%= project.id %>">
-      <td><%= project.name %></td>
-      <td><%= project.description %></td>
+      <td><%= link_to project.name, project %></td>
       <td><%= project.Client %></td>
       <td><%= format_seconds_to_time(project.planned_efforts) %></td>
       <td><%= format_seconds_to_time(project.total_duration) %></td>
-      <td><%= link_to project, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
-			<% puts project.Client.user_id %>
+      <td>
 			<% if project.Client.user_id == current_user.id %>
-	      <%= link_to edit_project_path(project), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
-				<%= link_to project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %></td>
+	      <%= link_to edit_project_path(project), :class => 'btn', :title => "Bearbeiten" do %><i class="icon-pencil"></i><% end %>
+				<%= link_to project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger', :title => "Löschen" do %><i class="icon-trash"></i><% end %></td>
 			<% else %>
-				<span class="btn btn-mini disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i> Edit</span>
-				<span class="btn btn-mini btn-danger disabled" title="You may not delete the project because you are not the owner!"><i class="icon-trash"></i> Delete</span>
+				<span class="btn disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i></span>
+				<span class="btn btn-danger disabled" title="You may not delete the project because you are not the owner!"><i class="icon-trash"></i></span>
 			<% end %>
     </tr>
   <% end %>

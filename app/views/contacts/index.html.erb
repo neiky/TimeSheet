@@ -15,15 +15,14 @@
   <tbody>
   <% @contacts.each do |contact| %>
     <tr id="contact_<%= contact.id %>">
-      <td><%= contact %></td>
+      <td><%= link_to contact, contact %></td>
       <td><%= link_to contact.client, client_path(contact.client) %></td>
       <td><%= contact.email %></td>
 
       <td>
-      	<%= link_to contact, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
       	<% if can? :update, contact %>
-      		<%= link_to edit_contact_path(contact), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
-      		<%= link_to contact, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %>
+      		<%= link_to edit_contact_path(contact),  :class => 'btn', :title => "Edit" do %><i class="icon-pencil"></i><% end %>
+      		<%= link_to contact, confirm: 'Are you sure?', :method => :delete, :class => 'btn btn-danger', :title => "Delete" do %><i class="icon-trash"></i><% end %>
       	<% end %>
       </td>
     </tr>

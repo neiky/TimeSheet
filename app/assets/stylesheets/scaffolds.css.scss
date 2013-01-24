@@ -64,6 +64,28 @@ html, body {
 	height: 100%;
 }
 
+$footer_height: 100px;
+
+#footer {
+	padding-top: 20px;
+	background-color: #F5F5F5;
+	border-top: 1px solid #E5E5E5;
+	position: relative;
+	margin-top: -$footer_height;
+	height: $footer_height;
+	clear: both;
+	width: 100%;
+}
+
+div#wrapper {
+	min-height: 100%;
+}
+
+div#content {
+	overflow: auto;
+	padding-bottom: $footer_height;
+}
+
 .table-details {
 	th, td {
 		padding: 8px;
@@ -74,28 +96,4 @@ html, body {
 		font-weight: bold;
 		text-align: right;
 	}
-}
-
-$footer-height: 100px;
-
-.footer {
-    background-color: #F5F5F5;
-    border-top: 1px solid #E5E5E5;
-    //margin-top: 70px;
-    //padding-top: 20px;
-}
-
-.footer > .container {
-	padding-top: 20px;
-}
-
-.footer, .push {
-	height: $footer-height; /* .push must be the same height as .footer */
-}
-
-.wrapper {
-		min-height: 100%;
-		height: auto !important;
-		height: 100%;
-		margin: 0 auto (-$footer-height+20px);
 }

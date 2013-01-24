@@ -15,7 +15,7 @@
   <tbody>
   <% @clients.each do |client| %>
     <tr>
-      <td><%= client.name %></td>
+      <td><%= link_to client.name, client %></td>
       <td><%= client.description %></td>
       <td style="width:300px">
         <a href="#" class="buttonToggle" data-toggle-this="toggleProjectList<%= client.id %>"><i class="icon-list"></i> Projects</a>
@@ -28,10 +28,9 @@
         </div>
       </td>
       <td>
-      	<%= link_to client, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
       	<% if can? :update, client %>
-	      	<%= link_to edit_client_path(client), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
-	      	<%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %>
+	      	<%= link_to edit_client_path(client), :class => 'btn' do %><i class="icon-pencil"></i><% end %>
+	      	<%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' do %><i class="icon-trash"></i><% end %>
       	<% end %>
       </td>
     </tr>

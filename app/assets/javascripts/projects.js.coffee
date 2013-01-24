@@ -4,5 +4,6 @@
 
 jQuery(document).ready ->
 	$('document').tooltip
+	#$("a[rel=tooltip]").tooltip
 
 	return
