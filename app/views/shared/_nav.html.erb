@@ -7,7 +7,7 @@
 
   <% #content_tag(:li, link_to("Time records", timerecords_path), :class => "dropdown-toggle " + ("active" if (params[:controller] == 'timerecords'))) %>
 
-  <li class="dropdown">
+  <li class="dropdown <%= "active" if (params[:controller] == 'timerecords') %>">
     <a href="#"
       class="dropdown-toggle"
       data-toggle="dropdown">

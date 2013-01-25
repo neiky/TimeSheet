@@ -44,4 +44,20 @@ class User < ActiveRecord::Base
   def is_vacation?(date)
 		return false
   end
+
+  def get_timerecords_current_month
+		return self.timerecords.where("start >= ? and start < ?", Date.today.beginning_of_month, Date.today.next_day)
+  end
+
+  def get_workingtime_current_month
+		self.employment.workingtime_per_day * count_businessdays(Date.today.beginning_of_month, Date.today)
+  end
+
+  def get_timerecords_current_year
+		return self.timerecords.where("start >= ? and start < ?", Date.today.beginning_of_year, Date.today.next_day)
+  end
+
+  def get_workingtime_current_year
+		self.employment.workingtime_per_day * count_businessdays(Date.today.beginning_of_year, Date.today)
+  end
 end
