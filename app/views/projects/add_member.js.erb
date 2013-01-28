@@ -1,1 +1,6 @@
-alert('New member added');
+<% if @user %>
+	$('#member_list').append('<p id="member_<%= @user.id %>"><%= escape_javascript(render(@user)) %> <span class="label label-warning">Invitation pending</span> <%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => @user.id}, confirm: "Are you sure?", remote: :true, method: :delete, :class => "btn btn-mini btn-danger" %></p>');
+	$('#member_email').val('');
+<% else %>
+	$('#member_list').append('<p id="member_error" class ="label label-warning">User not found!</p>')
+<% end %>

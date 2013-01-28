@@ -141,6 +141,7 @@ class ProjectsController < ApplicationController
   end
 
   def add_member
+  	puts params[:email]
     @user = User.where(:email => params[:email]).first
     if !@user
       puts "User not found!"
@@ -161,9 +162,8 @@ class ProjectsController < ApplicationController
 		@user = User.find(params[:user_id])
 		m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
 		m.destroy
-		flash[:notice] = "User #{@user.email} removed from project"
 		respond_to do |format|
-	      format.html { redirect_to action: "edit" }
+	      format.html { redirect_to action: "edit", notice:  "User #{@user.email} removed from project" }
 	      format.js
 	      format.json { head :no_content }
 	    end

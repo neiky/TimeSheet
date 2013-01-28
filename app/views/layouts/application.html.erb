@@ -93,5 +93,17 @@
 	
 	<div id="modal-dialog" style="display:none" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
+<% if (params[:controller] != 'projects' or params[:action] != 'show') %>
+	<div id="ajax_loading_dialog" class="modal hide" data-backdrop="static" data-keyboard="false">
+  	<div class="modal-header">
+  		<h3>Loading...</h3>
+  	</div>
+		<div class="modal-body">
+    	<p style="text-align: center"><%= image_tag("ajax-loader.gif", :id => "img_ajax_loader") %></p>
+    </div>
+		<div class="modal-footer"></div>
+  </div>
+<% end %>
+
 </body>
 </html>

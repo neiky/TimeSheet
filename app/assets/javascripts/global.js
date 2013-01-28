@@ -8,4 +8,11 @@ jQuery(document).ready(function() {
 		return false;
 	});
 	
+	$(document).ajaxStart(function() {
+		$("#ajax_loading_dialog").modal('show');
+	});
+  $(document).ajaxStop(function() {
+  	$("#ajax_loading_dialog").modal('hide');
+  });
+	
 });

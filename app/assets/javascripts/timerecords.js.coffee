@@ -92,13 +92,21 @@ jQuery(document).ready ->
 
   # for timerecords analyze
   $('#submit_filter').css('visibility', 'hidden')
+  $('#img_ajax_loader').css('visibility', 'visible')
+  #$("#img_ajax_loader").hide()
+
+  #$(document).ajaxStart( -> $("#ajax_loading_dialog").modal('show') )
+  #$(document).ajaxStop( -> $("#img_ajax_loader").hide() )
+  #$(document).ajaxStop( -> $("#ajax_loading_dialog").modal('hide') )
 
   $('#filter_user').change ->
     $('#submit_filter').click()
+    #toggleLoading()
     return false
 
   $('#filter_project').change ->
     $('#submit_filter').click()
+    #toggleLoading()
     return false
 
   $('#date_start').change ->
@@ -108,6 +116,7 @@ jQuery(document).ready ->
     	dateEnd.setDate(dateStart.getDate()+1)
     	$('#date_end').datepicker("setDate", dateEnd)
     $('#submit_filter').click()
+    #toggleLoading()
     return false
 
   $('#date_end').change ->
@@ -117,6 +126,7 @@ jQuery(document).ready ->
     	dateStart.setDate(dateEnd.getDate()-1)
     	$('#date_start').datepicker("setDate", dateStart)
     $('#submit_filter').click()
+    #toggleLoading()
     return false
 
 
