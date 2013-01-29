@@ -52,3 +52,12 @@ group :development do
   gem 'binding_of_caller'
   gem 'oink'
 end
+
+group :test, :development do
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'shoulda'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+  gem 'launchy'
+end

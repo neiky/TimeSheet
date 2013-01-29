@@ -41,8 +41,22 @@ gem 'jquery-rails'
 # user authentication
 gem 'devise'
 
-gem 'thin', :group => 'development'
-
 gem "less-rails"
 
 gem "cancan"
+
+group :development do
+  gem 'thin'
+  gem 'quiet_assets'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'oink'
+end
+
+group :test, :development do
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'shoulda'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+end

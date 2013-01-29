@@ -7,6 +7,7 @@
   <![endif]-->
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag params[:controller] if Projects::Application.assets.find_asset("#{params[:controller]}") %>
   <%= stylesheet_link_tag "smoothness/jquery-ui-1.8.20.custom.css" %>
   <%= csrf_meta_tags %>
 </head>

@@ -113,8 +113,8 @@ jQuery(document).ready ->
     dateStart = $('#date_start').datepicker("getDate")
     dateEnd = $('#date_end').datepicker("getDate")
     if dateStart > dateEnd
-    	dateEnd.setDate(dateStart.getDate()+1)
-    	$('#date_end').datepicker("setDate", dateEnd)
+      dateEnd.setDate(dateStart.getDate()+1)
+      $('#date_end').datepicker("setDate", dateEnd)
     $('#submit_filter').click()
     #toggleLoading()
     return false
@@ -123,8 +123,8 @@ jQuery(document).ready ->
     dateStart = $('#date_start').datepicker("getDate")
     dateEnd = $('#date_end').datepicker("getDate")
     if dateStart > dateEnd
-    	dateStart.setDate(dateEnd.getDate()-1)
-    	$('#date_start').datepicker("setDate", dateStart)
+      dateStart.setDate(dateEnd.getDate()-1)
+      $('#date_start').datepicker("setDate", dateStart)
     $('#submit_filter').click()
     #toggleLoading()
     return false

@@ -14,6 +14,7 @@ Projects::Application.routes.draw do
 
   devise_for :users
 
+  resources :users, :only => [:index, :show]
 
   resources :projects do
     member do
@@ -28,7 +29,7 @@ Projects::Application.routes.draw do
       get 'analyze'
     end
   end
-  resources :users, :only => [:index, :show]
+
   resources :clients
   resources :contacts
   resources :employments
