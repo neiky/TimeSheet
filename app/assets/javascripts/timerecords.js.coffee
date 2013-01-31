@@ -14,23 +14,35 @@ jQuery(document).ready ->
       #alert prevDate
       return false
 
-  $('.dateSearch').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1, onClose: (dateText, inst) ->
+  #$('.dateSearch').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1, onClose: (dateText, inst) ->
       #if dateText isnt "" and dateText isnt prevDate
       #alert prevDate
-      $('#submit_date_search').click()
-      return false
+  #    $('#submit_date_search').click()
+  #   return false
+  $("[data-behaviour~='datepicker']").datepicker({
+    "format": "yyyy-mm-dd",
+    "weekStart": 1,
+    "autoclose": true
+  });
 
-  $('.date-increase').click ->
-    date = $('#date_search').datepicker("getDate")
+  $('.dateSearch').datepicker()
+    .on('changeDate', (ev) ->
+      $('#submit_date_search').click()
+  );
+
+  $('.date-increase').click (event) ->
+    event.preventDefault()
+    date = new Date($('#date_search').val())
     date.setDate(date.getDate()+1)
-    $('#date_search').datepicker("setDate", date)
+    $('#date_search').datepicker("update", date)
     $('#submit_date_search').click()
     return false
 
-  $('.date-decrease').click ->
-    date = $('#date_search').datepicker("getDate")
+  $('.date-decrease').click (event) ->
+    event.preventDefault()
+    date = new Date($('#date_search').val())
     date.setDate(date.getDate()-1)
-    $('#date_search').datepicker("setDate", date)
+    $('#date_search').datepicker("update", date)
     $('#submit_date_search').click()
     return false
 

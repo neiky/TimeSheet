@@ -34,29 +34,29 @@
     <% end %>
   </div>
   <div class="span6">
-  	<table class = "table-details">
-    	<tr>
-    		<td>Summe Aufwände für Auswahl</td>
-    		<td><span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></td>
-    	</tr>
-    	<tr>
-    		<td>Deine Aufwände im aktuellen Monat</td>
-    		<td>
-    			<%= format_seconds_to_time(Timerecord.get_sum_duration(current_user.get_timerecords_current_month)) %>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Deine Überstunden im aktuellen Monat</td>
-    		<td>
-    			<%= format_seconds_to_time(overtime_month) %>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Deine Überstunden im aktuellen Jahr</td>
-    		<td>
-    			<%= format_seconds_to_time(overtime_year) %>
-    		</td>
-    	</tr>
+    <table class = "table-details">
+      <tr>
+        <td>Summe Aufwände für Auswahl</td>
+        <td><span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></td>
+      </tr>
+      <tr>
+        <td>Deine Aufwände im aktuellen Monat</td>
+        <td>
+          <%= format_seconds_to_time(Timerecord.get_sum_duration(current_user.get_timerecords_current_month)) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Deine Überstunden im aktuellen Monat</td>
+        <td>
+          <%= format_seconds_to_time(overtime_month) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Deine Überstunden im aktuellen Jahr</td>
+        <td>
+          <%= format_seconds_to_time(overtime_year) %>
+        </td>
+      </tr>
     </table>
   </div>
 </div>

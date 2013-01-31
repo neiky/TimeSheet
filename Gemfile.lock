@@ -35,6 +35,8 @@ GEM
       coderay (>= 1.0.0)
       erubis (>= 2.7.0)
     binding_of_caller (0.6.8)
+    bootstrap-datepicker-rails (0.6.37)
+      railties (>= 3.0)
     bourne (1.1.2)
       mocha (= 0.10.5)
     builder (3.0.4)
@@ -199,6 +201,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  bootstrap-datepicker-rails
   cancan
   capybara
   coffee-rails (~> 3.2.1)

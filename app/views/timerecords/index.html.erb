@@ -6,7 +6,7 @@
   <div class="span6">
     <%= form_tag timerecords_path, :remote => true, :method => :get, :class => 'form-inline' do %>
       <%= label_tag "date_search", "Date: ",  :class => "control-label" %>
-      <%= text_field_tag :date_search, current_date.strftime("%F"), :class => 'dateSearch', :value => current_date.strftime("%F") %>
+      <%= text_field_tag :date_search, current_date.strftime("%F"), :class => 'dateSearch', :value => current_date.strftime("%F"), :data => { :behaviour => 'datepicker', :date => current_date.strftime("%F") } %>
       <%= link_to timerecords_path(:date_search => (current_date-1).strftime("%F")), :class => "btn date-decrease" do %>
         <i class="icon-chevron-left"></i>
       <% end %>

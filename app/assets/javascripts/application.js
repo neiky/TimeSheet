@@ -17,3 +17,6 @@
 // require_tree .
 //= require global
 //= require bootstrap
+//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.de
