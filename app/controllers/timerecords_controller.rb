@@ -15,8 +15,8 @@ class TimerecordsController < ApplicationController
   end
 
   def analyze
-  	params[:filter_user] = current_user.id unless params[:filter_user]
-		#puts params
+    params[:filter_user] = current_user.id unless params[:filter_user]
+    #puts params
     if params[:date_start]
       @start_date = Date.strptime(params[:date_start], '%Y-%m-%d')
       @end_date = Date.strptime(params[:date_end], '%Y-%m-%d')
@@ -26,11 +26,11 @@ class TimerecordsController < ApplicationController
     end
 
     #@timerecords = Timerecord.where(:Project_id => Membership.select("Project_id").where(:User_id => current_user.id))
-		#@timerecords = Timerecord.where("Project_id = ? AND User_id = ?", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id)
-		Timerecord.where(:Project_id => Project.where(:Client_id => Client.where(:User_id => current_user.id)))
-		@timerecords = Timerecord.where("(Project_id IN (?) AND User_id = ?) OR Project_id IN (?)", Membership.select("Project_id").where(:User_id => current_user.id, :status => 1..2).map(&:project_id), current_user.id, Membership.select("Project_id").where(:User_id => current_user.id, :status => 3).map(&:project_id) )
-		#Project.where(:Client_id => Client.where("User_id != ?", current_user.id))
-		#Project.where(:Client_id => Client.where(:User_id => current_user.id))
+    #@timerecords = Timerecord.where("Project_id = ? AND User_id = ?", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id)
+    Timerecord.where(:Project_id => Project.where(:Client_id => Client.where(:User_id => current_user.id)))
+    @timerecords = Timerecord.where("(Project_id IN (?) AND User_id = ?) OR Project_id IN (?)", Membership.select("Project_id").where(:User_id => current_user.id, :status => 1..2).map(&:project_id), current_user.id, Membership.select("Project_id").where(:User_id => current_user.id, :status => 3).map(&:project_id) )
+    #Project.where(:Client_id => Client.where("User_id != ?", current_user.id))
+    #Project.where(:Client_id => Client.where(:User_id => current_user.id))
     #@timerecords = @timerecords.order("start ASC")
 
     @timerecords = @timerecords.in_period(@start_date, @end_date)
@@ -63,28 +63,28 @@ class TimerecordsController < ApplicationController
   # PUT /timerecords/1
   # PUT /timerecords/1.json
   def update
-  	pid = params[:timerecord].delete(:Project)
-  	startDate = Date.strptime(params[:dateSelect], '%Y-%m-%d').to_datetime.change(:hour => params[:start_hour].to_i, :min => params[:start_minute].to_i)
+    pid = params[:timerecord].delete(:Project)
+    startDate = Date.strptime(params[:dateSelect], '%Y-%m-%d').to_datetime.change(:hour => params[:start_hour].to_i, :min => params[:start_minute].to_i)
     endDate = Date.strptime(params[:dateSelect], '%Y-%m-%d').to_datetime.change(:hour => params[:end_hour].to_i, :min => params[:end_minute].to_i)
     if endDate > startDate
-	    @timerecord = Timerecord.find(params[:id])
-	    @timerecord.description = params[:timerecord][:description]
-	    @timerecord.Project_id = pid
-	    @timerecord.start = startDate
-	    @timerecord.end = endDate
-	    @timerecord.duration = @timerecord.end - @timerecord.start
+      @timerecord = Timerecord.find(params[:id])
+      @timerecord.description = params[:timerecord][:description]
+      @timerecord.Project_id = pid
+      @timerecord.start = startDate
+      @timerecord.end = endDate
+      @timerecord.duration = @timerecord.end - @timerecord.start
 
-	    respond_to do |format|
-	   		if @timerecord.save
-	      		format.html { redirect_to timerecords_path(:date_search => params[:dateSelect]), notice: 'Timerecord was successfully updated.' }
-	      	else
-	      		format.html { redirect_to timerecords_path(:date_search => params[:dateSelect]), error: 'Failed updating timerecord!' }
-	    	end
-	   	end
+      respond_to do |format|
+        if @timerecord.save
+          format.html { redirect_to timerecords_path(:date_search => params[:dateSelect]), notice: 'Timerecord was successfully updated.' }
+        else
+          format.html { redirect_to timerecords_path(:date_search => params[:dateSelect]), error: 'Failed updating timerecord!' }
+        end
+      end
     else
-		respond_to do |format|
-	      format.html { redirect_to timerecords_path(:date_search => params[:date]), alert: 'Failed updating timerecord!' }
-	    end
+      respond_to do |format|
+        format.html { redirect_to timerecords_path(:date_search => params[:date]), alert: 'Failed updating timerecord!' }
+      end
     end
   end
 
@@ -103,8 +103,8 @@ class TimerecordsController < ApplicationController
     @timerecord.end = endDate
     @timerecord.duration = @timerecord.end - @timerecord.start
     if @timerecord.duration > 0 and @timerecord.save!
-			puts params
-			params[:user_id] = current_user.id
+      puts params
+      params[:user_id] = current_user.id
       @timerecords = Timerecord.get_timerecords(params)
       #flash[:notice] = "Timerecord has been successfully created."
       respond_to do |format|
@@ -119,7 +119,7 @@ class TimerecordsController < ApplicationController
   end
 
   def destroy
-	@timerecord = Timerecord.find(params[:id])
+    @timerecord = Timerecord.find(params[:id])
     @timerecord.destroy
 
     arg = { :date => @timerecord.start.strftime("%Y-%m-%d"), :user_id => current_user.id }

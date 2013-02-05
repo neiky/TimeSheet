@@ -20,3 +20,6 @@
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.de
+//= require date
+//= require date/de-DE
+//= require date/extras

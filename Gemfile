@@ -46,6 +46,7 @@ gem "less-rails"
 gem "cancan"
 
 gem 'bootstrap-datepicker-rails'
+gem 'datejs-rails'
 
 group :development do
   gem 'thin'

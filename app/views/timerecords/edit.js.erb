@@ -1,3 +1,82 @@
 $("#modal-dialog").html("<%= escape_javascript(render('form')) %>");
-$("#modal-dialog").find('#dateSelect').datepicker({dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1});
+//$("#modal-dialog").find('#dateSelect').datepicker({dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1});
+$("[data-behaviour~='datepicker']").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true });
+
+anchor = $("#modal-dialog");
+
+var UpdateDuration2 = function() {
+  var duration, endDate, startDate, strMinutes;
+  startDate = new Date(anchor.find('#dateSelect').val());
+  startDate.setHours(anchor.find('#start_hour').val());
+  startDate.setMinutes(anchor.find('#start_minute').val());
+  endDate = new Date(anchor.find('#dateSelect').val());
+  endDate.setHours(anchor.find('#end_hour').val());
+  endDate.setMinutes(anchor.find('#end_minute').val());
+  if (endDate < startDate) {
+    endDate.setDate(endDate.getDate() + 1);
+  }
+  duration = new Date(0, 0, 0, 0, 0, 0, endDate - startDate);
+  strMinutes = duration.getMinutes() > 10 ? duration.getMinutes() : "0" + duration.getMinutes();
+  anchor.find('#time_span_hour').val(duration.getHours());
+  anchor.find('#time_span_minute').val(duration.format("%M"));
+};
+
+var StartTimeChange2 = function() {
+  var hour, minute;
+  hour = anchor.find('#start_hour').val();
+  minute = anchor.find('#start_minute').val();
+  if ((0 <= hour && hour <= 23) && (0 <= minute && minute <= 59)) {
+    anchor.find('#start_hour').parent().removeClass("error");
+    UpdateDuration2();
+    return true;
+  } else {
+    anchor.find('#start_hour').parent().addClass("error");
+    return false;
+  }
+};
+
+var EndTimeChange2 = function() {
+  var hour, minute;
+  hour = anchor.find('#end_hour').val();
+  minute = anchor.find('#end_minute').val();
+  if ((0 <= hour && hour <= 23) && (0 <= minute && minute <= 59)) {
+    anchor.find('#end_hour').parent().removeClass("error");
+    UpdateDuration2();
+    return true;
+  } else {
+    anchor.find('#end_hour').parent().addClass("error");
+    return false;
+  }
+};
+
+var UpdateEndTime2 = function() {
+  var endDate, startDate;
+  startDate = Date.parse(anchor.find('#dateSelect').val());
+  startDate.setHours(anchor.find('#start_hour').val());
+  startDate.setMinutes(anchor.find('#start_minute').val());
+
+  if (anchor.find('#time_span_hour').val() > 24) {
+    anchor.find('#time_span_hour').val('24');
+  }
+  if (anchor.find('#time_span_minute').val() > 60) {
+    anchor.find('#time_span_minute').val(60);
+  }
+  endDate = Date.parse(anchor.find('#dateSelect').val());
+  endDate.setHours(startDate.getHours() + parseInt(anchor.find('#time_span_hour').val()));
+  endDate.setMinutes(startDate.getMinutes() + parseInt(anchor.find('#time_span_minute').val()));
+
+  anchor.find('#end_hour').val(endDate.getHours());
+  anchor.find('#end_minute').val(endDate.format("%M"));
+  anchor.find('#start_hour').val(startDate.getHours());
+  anchor.find('#start_minute').val(startDate.format("%M"));
+};
+
+
+$("#modal-dialog").find('#start_hour').on('change', StartTimeChange2);
+$("#modal-dialog").find('#start_minute').on('change', StartTimeChange2);
+$("#modal-dialog").find('#end_hour').on('change', EndTimeChange2);
+$("#modal-dialog").find('#end_minute').on('change', EndTimeChange2);
+$("#modal-dialog").find('#time_span_hour').on('change', UpdateEndTime2);
+$("#modal-dialog").find('#time_span_minute').on('change', UpdateEndTime2);
+
 $('#modal-dialog').modal('show');

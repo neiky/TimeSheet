@@ -5,16 +5,23 @@
 <div class="row">
   <div class="span6">
     <%= form_tag timerecords_path, :remote => true, :method => :get, :class => 'form-inline' do %>
-      <%= label_tag "date_search", "Date: ",  :class => "control-label" %>
-      <%= text_field_tag :date_search, current_date.strftime("%F"), :class => 'dateSearch', :value => current_date.strftime("%F"), :data => { :behaviour => 'datepicker', :date => current_date.strftime("%F") } %>
+      <% label_tag "date_search", "Date: ", :class => "control-label" %>
+      <%= hidden_field_tag :date_search, current_date.strftime("%F") %>
+      <% #text_field_tag :date_search, current_date.strftime("%F"), :class => 'dateSearch', :value => current_date.strftime("%F"), :data => { :behaviour => 'datepicker', :date => current_date.strftime("%F") } %>
+      <div class = "btn-group">
       <%= link_to timerecords_path(:date_search => (current_date-1).strftime("%F")), :class => "btn date-decrease" do %>
         <i class="icon-chevron-left"></i>
+      <% end %>
+      <%= link_to '', :id => "date_selector", :class => "btn", :data => { :date => current_date.strftime("%F"), 'date-format' => "yyyy-mm-dd" } do %>
+        <i class="icon-calendar"></i> <%= current_date.strftime("%F") %>
       <% end %>
       <%= link_to timerecords_path(:date_search => (current_date+1).strftime("%F")), :class => "btn date-increase" do %>
         <i class="icon-chevron-right"></i>
       <% end %>
+      </div>
       <%= submit_tag "Search", :name => nil, :id => "submit_date_search" %>
     <% end %>
+    <span id = "date_text"><%= current_date.strftime("%F") %></span>
   </div>
   <div class="span6">
     <p><b>Total efforts:</b> <span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></p>
@@ -50,7 +57,7 @@
       </td>
 
       <td class="control-group">
-        <%= text_field_tag :time_span, '00:00', {:style => 'width: 60px', :disabled => 'disabled' } %>
+        <%= text_field_tag :time_span_hour, '00', {:maxlength => 2, :style => 'width: 20px' } %>:<%= text_field_tag :time_span_minute, '00', {:maxlength => 2, :style => 'width: 20px' } %>
       </td>
 
       <td class="control-group warning">

@@ -13,11 +13,11 @@
   <td><%= format_seconds_to_time(timerecord.duration) %></td>
   <td><%= timerecord.description %></td>
   <td>
-  	<% if params[:action] == "index" && timerecord.User == current_user %>
-  		<%= link_to edit_timerecord_path(timerecord), :class => 'btn', :title => "Bearbeiten", 'data-placement' => 'bottom', 'rel' => 'xtooltip', :remote => true, 'data-toggle' => 'modal', 'data-target' => "#modal-dialog" do %><i class="icon-edit"></i><% end %>
-  	<% end %>
-	<% if params[:action] == "index" %>
-		<%= link_to timerecord, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-danger', :title => "Löschen" do %><i class="icon-remove-sign"></i><% end %>
-	<% end %>
-	</td>
+    <% if params[:action] != "analyze" && timerecord.User == current_user %>
+      <%= link_to edit_timerecord_path(timerecord), :class => 'btn', :title => "Bearbeiten", 'data-placement' => 'bottom', 'rel' => 'xtooltip', :remote => true, 'data-toggle' => 'modal', 'data-target' => "#modal-dialog" do %><i class="icon-edit"></i><% end %>
+    <% end %>
+    <% if params[:action] != "analyze" %>
+      <%= link_to timerecord, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-danger', :title => "Löschen" do %><i class="icon-remove-sign"></i><% end %>
+    <% end %>
+  </td>
 </tr>

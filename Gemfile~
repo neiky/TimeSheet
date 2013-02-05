@@ -45,6 +45,8 @@ gem "less-rails"
 
 gem "cancan"
 
+gem 'bootstrap-datepicker-rails'
+
 group :development do
   gem 'thin'
   gem 'quiet_assets'
