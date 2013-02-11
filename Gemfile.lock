@@ -94,6 +94,8 @@ GEM
     less-rails (2.2.6)
       actionpack (>= 3.1)
       less (~> 2.2.0)
+    letter_opener (1.0.0)
+      launchy (>= 2.0.4)
     libv8 (3.3.10.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -214,6 +216,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   less-rails
+  letter_opener
   oink
   quiet_assets
   rails (~> 3.2.0)

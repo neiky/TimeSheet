@@ -46,6 +46,7 @@ gem "less-rails"
 gem "cancan"
 
 gem 'bootstrap-datepicker-rails'
+gem 'datejs-rails'
 
 group :development do
   gem 'thin'
@@ -53,6 +54,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'oink'
+  gem "letter_opener"
 end
 
 group :test, :development do

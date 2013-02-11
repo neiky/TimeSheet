@@ -11,8 +11,8 @@
       <div class="control-group">
         <%= label_tag "date_start", "Zeitraum",  :class => "control-label" %>
         <div class="controls">
-          <%= text_field_tag :date_start, @start_date, :class => 'span2 datePicker' %>
-          <%= text_field_tag :date_end, @end_date, :class => 'span2 datePicker' %>
+          <%= text_field_tag :date_start, @start_date, :class => 'span2', :data => { :behaviour => 'datepicker', :date => @start_date } %>
+          <%= text_field_tag :date_end, @end_date, :class => 'span2', :data => { :behaviour => 'datepicker', :date => @end_date } %>
         </div>
       </div>
       <div class="control-group">

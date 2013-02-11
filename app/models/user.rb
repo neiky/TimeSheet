@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+  # :token_authenticatable, :encryptable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
@@ -21,11 +21,26 @@ class User < ActiveRecord::Base
   has_one :employer, :through => :employment
   has_many :contacts
 
-  after_create :create_employment
+  #after_create :create_employment
+  before_destroy :set_inactive
 
   def create_employment
     self.employment = Employment.create(:employer_id => self.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
     self.save!
+  end
+
+  def set_inactive
+    unless self.inactive
+      self.inactive = true
+      self.save!
+      return false
+    end
+    return true
+  end
+
+  def confirm!
+    super
+    create_employment
   end
 
   def to_s

@@ -5,6 +5,7 @@ module LoginHelpers
   def login_as(sym)
     logout if @user
     @user = FactoryGirl.create(sym)
+    @user.confirm!
     visit new_user_session_path
     fill_in "user_email", with: @user.email
     fill_in "user_password", with: @user.password

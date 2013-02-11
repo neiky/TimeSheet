@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130119101808) do
+ActiveRecord::Schema.define(:version => 20130211200631) do
 
   create_table "clients", :force => true do |t|
     t.string   "name"
@@ -123,9 +123,14 @@ ActiveRecord::Schema.define(:version => 20130119101808) do
     t.integer  "employment_id"
     t.string   "role",                   :limit => 30, :default => "user"
     t.boolean  "inactive",                             :default => false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["inactive"], :name => "index_users_on_inactive"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end
