@@ -21,13 +21,13 @@
       <td><%= format_seconds_to_time(project.planned_efforts) %></td>
       <td><%= format_seconds_to_time(project.total_duration) %></td>
       <td>
-			<% if project.Client.user_id == current_user.id %>
-	      <%= link_to edit_project_path(project), :class => 'btn', :title => "Bearbeiten" do %><i class="icon-pencil"></i><% end %>
-				<%= link_to project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger', :title => "Löschen" do %><i class="icon-trash"></i><% end %></td>
-			<% else %>
-				<span class="btn disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i></span>
-				<span class="btn btn-danger disabled" title="You may not delete the project because you are not the owner!"><i class="icon-trash"></i></span>
-			<% end %>
+        <% if project.Client.user_id == current_user.id %>
+          <%= link_to edit_project_path(project), :class => 'btn bttooltip', :title => "Bearbeiten" do %><i class="icon-pencil"></i><% end %>
+          <%= link_to project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger bttooltip', :title => "Löschen" do %><i class="icon-trash"></i><% end %></td>
+        <% else %>
+          <span class="btn disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i></span>
+          <span class="btn btn-danger disabled" title="You may not delete the project because you are not the owner!"><i class="icon-trash"></i></span>
+        <% end %>
     </tr>
   <% end %>
   </tdody>

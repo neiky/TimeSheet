@@ -34,11 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def check_inactive
-    puts "user to be destroyed"
-    unless self.inactive
-      return false
-    end
-    return true
+    return !self.inactive
   end
 
   def set_inactive

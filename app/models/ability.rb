@@ -30,6 +30,7 @@ class Ability
       can :manage, :all
     else
       can :manage, User, :id => user.id
+      can :destroy, User, {:id => user.id, :employer_id => user.id}
       #can :manage, Project, :id => user.clients.map{|client| client.projects}.flatten.map(&:id)
       can :manage, Project, :id => user.projects.where("memberships.status >= ?", 3).map(&:id)
       can :read, Project, :id => user.projects.where("memberships.status >= ?", 1).map(&:id)
@@ -47,6 +48,7 @@ class Ability
       can :read, Contact, :id => user.employer.clients.map{|client| client.contacts}.flatten.map(&:id)
 
       can :manage, Employment, :employer_id => user.id
+      can :update, Employment, :employee_id => user.id
       can :read, Employment, :employee_id => user.id
     end
   end

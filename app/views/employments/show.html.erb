@@ -5,9 +5,9 @@
 <%= render @employment %>
 
 <% if can? current_user, :edit, @employment %>
-	<%= link_to 'Edit', edit_employment_path(@employment), :class => 'btn btn-mini' %>
+  <%= link_to 'Edit', edit_employment_path(@employment), :class => 'btn btn-mini' %>
 <% end %>
 <%= link_to 'Back', employments_path, :class => 'btn btn-mini' %>
 <% if can? current_user, :edit, @employment %>
-	<%= link_to 'Delete', @employment, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-mini btn-danger' %>
+  <%= link_to 'Delete', @employment, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-mini btn-danger' %>
 <% end %>

@@ -30,7 +30,7 @@ describe "SignupUser" do
     end
   end
   describe "User delete" do
-    it "should not allow user to sign in after deletion", :js => true do
+    it "should not allow user to sign in after deletion" do
       login_as :user
       click_link @user.get_full_name
       click_link 'user_edit'

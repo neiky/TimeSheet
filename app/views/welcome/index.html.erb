@@ -1,10 +1,12 @@
-<div class="page-header">
-  <h1>Welcome to the CL<i class="icon-time"></i>CK</h1>
-</div>
 <% if user_signed_in? %>
+  <div class="page-header">
     <h2>Menü</h2>
-
+  </div>
 <% else %>
-    <p>Use this web based application to manage your time efforts</p>
-    <%= link_to "Sign in", new_user_session_path, :class => 'btn btn-primary' %> or <%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-success' %>
+  <div class="page-header">
+    <h1>Welcome to the CL<i class="icon-time"></i>CK</h1>
+  </div>
+
+  <p>Use this web based application to manage your time efforts</p>
+  <%= link_to "Sign in", new_user_session_path, :class => 'btn btn-primary' %> or <%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-success' %>
 <% end %>

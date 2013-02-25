@@ -28,10 +28,10 @@
         </div>
       </td>
       <td>
-      	<% if can? :update, client %>
-	      	<%= link_to edit_client_path(client), :class => 'btn bttooltip', :title => 'Edit' do %><i class="icon-pencil"></i><% end %>
-	      	<%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger bttooltip', :title => 'Delete' do %><i class="icon-trash"></i><% end %>
-      	<% end %>
+        <% if can? :update, client %>
+          <%= link_to edit_client_path(client), :class => 'btn bttooltip', :title => 'Bearbeiten' do %><i class="icon-pencil"></i><% end %>
+          <%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger bttooltip', :title => 'Löschen' do %><i class="icon-trash"></i><% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>

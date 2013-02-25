@@ -40,51 +40,36 @@
     </div>
   </div>
 
-  <div id = "wrapper">
-    <div class="container clear-top" id="content">
-      <div class="row">
-        <div class="span12">
-          <% unless notice.blank? %>
-            <div class="alert alert-info">
-              <a class="close" data-dismiss="alert" href="#">×</a>
-              <%= notice %>
-            </div>
-          <% end %>
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <% unless notice.blank? %>
+          <div class="alert alert-info">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <%= notice %>
+          </div>
+        <% end %>
 
-          <% unless alert.blank? %>
-            <div class="alert alert-error">
-              <a class="close" data-dismiss="alert" href="#">×</a>
-              <%= alert %>
-            </div>
-          <% end %>
-        </div>
+        <% unless alert.blank? %>
+          <div class="alert alert-error">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <%= alert %>
+          </div>
+        <% end %>
       </div>
-      <div class="row">
-        <div class="span12">
+    </div>
+    <div class="row">
+      <div class="span12">
 
-          <%= yield %>
+        <%= yield %>
 
-        </div>
-      </div>
-      <div class="row">
-        <div class="span3 offset9">
-        </div>
       </div>
     </div>
   </div>
 
-  <footer id= "footer">
+  <footer id= "footer" class="navbar navbar-fixed-bottom">
     <div class = "container">
-      <div class="row">
-        <div class="span6">
-          <p>Features</p>
-          <p>Preise</p>
-        </div>
-        <div class="span6">
-          <p>Feedback</p>
-          <p>Impressum</p>
-        </div>
-      </div>
+      <span>Features</span> | <span>Preise</span> | <span>Feedback</span> | <span>Impressum</span>
     </div>
   </footer>
 

@@ -12,7 +12,7 @@ class AddConfirmableToUser < ActiveRecord::Migration
     end
   end
   def down
-    remove_index :users, :confirmation_token, :unique => true
+    remove_index :users, :confirmation_token
 
     remove_column :users, :confirmation_token
     remove_column :users, :confirmed_at
