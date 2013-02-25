@@ -10,11 +10,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    #if params[:id]
-    #  @user = User.includes(:employment).find(params[:id])
-    #else
-    #  @user = User.includes(:employment).find(current_user.id)
-    #end
+    if params[:id]
+      @user = User.includes(:employment).find(params[:id])
+    else
+      @user = User.includes(:employment).find(current_user.id)
+    end
 
     respond_to do |format|
       format.html # show.html.erb

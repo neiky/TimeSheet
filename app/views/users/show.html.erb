@@ -3,29 +3,29 @@
 </div>
 
 <table class="table-details">
-	<thead>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Vorname</td>
-	  	<td><%= @user.firstname %></td>
-		</tr>
-	
-		<tr>
-			<td>Nachname</td>
-	  	<td><%= @user.name %></td>
-		</tr>
-	
-		<tr>
-	  	<td>E-Mail</td>
-	  	<td><%= @user.email %></td>
-		</tr>
-	
-		<tr>
-	  	<td>Company</td>
-	  	<td><%= @user.company %></td>
-		</tr>
-	</tbody>
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Vorname</td>
+      <td><%= @user.firstname %></td>
+    </tr>
+
+    <tr>
+      <td>Nachname</td>
+      <td><%= @user.name %></td>
+    </tr>
+
+    <tr>
+      <td>E-Mail</td>
+      <td><%= @user.email %></td>
+    </tr>
+
+    <tr>
+      <td>Company</td>
+      <td><%= @user.company %></td>
+    </tr>
+  </tbody>
 </table>
 
 <%= link_to 'Edit', edit_user_registration_path, :class => 'btn btn-mini', :id => 'user_edit' %>
@@ -38,5 +38,5 @@
 
 <% #if can? current_user, :edit, @user.get_employment %>
 <% if current_user == @user.get_employment.employer %>
-	<%= link_to 'Edit', edit_employment_path(@user.get_employment), :class => 'btn btn-mini', :id => 'employment_edit' %>
+  <%= link_to 'Edit', edit_employment_path(@user.get_employment), :class => 'btn btn-mini', :id => 'employment_edit' %>
 <% end %>

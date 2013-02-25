@@ -22,20 +22,31 @@ class User < ActiveRecord::Base
   has_many :contacts
 
   #after_create :create_employment
-  before_destroy :set_inactive
+  before_destroy :check_inactive
+  after_rollback :set_inactive, :on => :destroy
 
   def create_employment
-    self.employment = Employment.create(:employer_id => self.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
-    self.save!
+    if self.employment == nil
+      puts "creating employment"
+      self.employment = Employment.create(:employer_id => self.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
+      self.save!
+    end
   end
 
-  def set_inactive
+  def check_inactive
+    puts "user to be destroyed"
     unless self.inactive
-      self.inactive = true
-      self.save!
       return false
     end
     return true
+  end
+
+  def set_inactive
+    puts "user to be set inactive"
+    unless self.destroyed?
+      self.inactive = true
+      self.save!
+    end
   end
 
   def confirm!
@@ -48,6 +59,9 @@ class User < ActiveRecord::Base
   end
 
   def get_full_name
+    if self.inactive
+      return "Deleted User"
+    end
     return self.firstname + " " + self.name
   end
 

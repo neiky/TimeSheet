@@ -20,21 +20,20 @@
     </ul>
   </li>
 
-	<% if can? current_user, :manage, User %>
-  	<%= content_tag(:li, link_to("Users", users_path), :class => ("active" if (params[:controller] == 'users'))) %>
+  <% if can? current_user, :manage, User %>
+    <%= content_tag(:li, link_to("Users", users_path), :class => ("active" if (params[:controller] == 'users'))) %>
   <% end %>
 
   <% if can? :manage, current_user.employment %>
   	<%= content_tag(:li, link_to("Employees", employments_path), :class => ("active" if (params[:controller] == 'employments'))) %>
   <% end %>
 
-    <li>
-        <%= link_to messages_path, :class => ("active" if (params[:controller] == 'messages')) do %>
-        	Messages
-            <% if Message.where(:recipient_id => current_user.id, :read => false).count > 0 %>
-                <span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id, :read => false).count %></span>
-            <% end %>
-        <% end %>
-    </a>
-    </li>
+  <li>
+    <%= link_to messages_path, :class => ("active" if (params[:controller] == 'messages')) do %>
+      Messages
+      <% if Message.where(:recipient_id => current_user.id, :read => false).count > 0 %>
+        <span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id, :read => false).count %></span>
+      <% end %>
+    <% end %>
+  </li>
 </ul>

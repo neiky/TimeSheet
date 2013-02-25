@@ -1,6 +1,9 @@
 jQuery(document).ready(function() {
   $(".toggleVisibility").hide();
 
+  $('#img_ajax_loader').css('visibility', 'visible');
+  $("#img_ajax_loader").hide();
+
   $( ".buttonToggle" ).click(function() {
     target_id = $(this).attr("data-toggle-this");
 
@@ -9,9 +12,9 @@ jQuery(document).ready(function() {
   });
 
   $(document).ajaxStart(function() {
-    $("#ajax_loading_dialog").modal('show');
+    $("#img_ajax_loader").show();
   });
   $(document).ajaxStop(function() {
-    $("#ajax_loading_dialog").modal('hide');
+    $("#img_ajax_loader").hide();
   });
 });

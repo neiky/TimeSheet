@@ -2,7 +2,7 @@
 <% overtime_year = Timerecord.get_sum_duration(current_user.get_timerecords_current_year) - current_user.get_workingtime_current_year %>
 
 <div class="page-header">
-  <h2>Aufwände auswerten</h2>
+  <h2>Aufwände auswerten <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
 <div class="row">

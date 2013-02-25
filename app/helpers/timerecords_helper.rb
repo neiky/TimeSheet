@@ -22,6 +22,8 @@ module TimerecordsHelper
     date = Date.strptime(params[:date_search], '%Y-%m-%d') if params[:date_search]
     date = Date.strptime(params[:date], '%Y-%m-%d') if params[:date]
 
+    puts date
+
     return date
   end
 end

@@ -12,7 +12,6 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
   <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
       <div class="container">
@@ -25,86 +24,71 @@
         <%= link_to root_path, :class => "brand visible-phone" do %><i class="icon-time"></i><% end %>
 
         <% if user_signed_in? %>
-        <div class="nav-collapse">
-          <ul class="nav">
-            <%= render :partial => "shared/nav" %>
-          </ul>
-        </div>
-        <div class="navbar-text nav-collapse pull-right">
-	        Signed in as <%= link_to current_user.get_full_name, current_user %>. <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <%= render :partial => "shared/nav" %>
+            </ul>
+          </div>
+          <div class="navbar-text nav-collapse pull-right">
+            Signed in as <%= link_to current_user.get_full_name, current_user %>. <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
         <% else %>
-        <div class="navbar-text nav-collapse pull-right">
-           <%= link_to "Sign in", new_user_session_path %> or <%= link_to "Sign up", new_user_registration_path %>
-        <% end %>
+          <div class="navbar-text nav-collapse pull-right">
+             <%= link_to "Sign in", new_user_session_path %> or <%= link_to "Sign up", new_user_registration_path %>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
 
-<div id = "wrapper">
-	<div class="container clear-top" id="content">
-	  <div class="row">
-	    <div class="span12">
-	      <% unless notice.blank? %>
-		    <div class="alert alert-info">
-		      <a class="close" data-dismiss="alert" href="#">×</a>
-	        <%= notice %>
-	      </div>
-	      <% end %>
-	
-	      <% unless alert.blank? %>
-		    <div class="alert alert-error">
-		      <a class="close" data-dismiss="alert" href="#">×</a>
-	        <%= alert %>
-	      </div>
-	      <% end %>
-	    </div>
-	  </div>
-	  <div class="row">
-	    <div class="span12">
+  <div id = "wrapper">
+    <div class="container clear-top" id="content">
+      <div class="row">
+        <div class="span12">
+          <% unless notice.blank? %>
+            <div class="alert alert-info">
+              <a class="close" data-dismiss="alert" href="#">×</a>
+              <%= notice %>
+            </div>
+          <% end %>
 
-	      <%= yield %>
+          <% unless alert.blank? %>
+            <div class="alert alert-error">
+              <a class="close" data-dismiss="alert" href="#">×</a>
+              <%= alert %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span12">
 
-	    </div>
-	  </div>
-	  <div class="row">
-	    <div class="span3 offset9">
-	
-	    </div>
-	  </div>
-	</div>
-</div>
-	
-	<footer id= "footer">
-		<div class = "container">
-			<div class="row">
-		    <div class="span6">
-					<p>Features</p>
-					<p>Preise</p>
-		    </div>
-		    <div class="span6">
-					<p>Feedback</p>
-					<p>Impressum</p>
-		    </div>
-		  </div>
-	  </div>
-	</footer>
-	
+          <%= yield %>
 
-	
-	<div id="modal-dialog" style="display:none" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-
-<% if (params[:controller] != 'projects' or params[:action] != 'show') %>
-	<div id="ajax_loading_dialog" class="modal hide" data-backdrop="static" data-keyboard="false">
-  	<div class="modal-header">
-  		<h3>Loading...</h3>
-  	</div>
-		<div class="modal-body">
-    	<p style="text-align: center"><%= image_tag("ajax-loader.gif", :id => "img_ajax_loader") %></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3 offset9">
+        </div>
+      </div>
     </div>
-		<div class="modal-footer"></div>
   </div>
-<% end %>
+
+  <footer id= "footer">
+    <div class = "container">
+      <div class="row">
+        <div class="span6">
+          <p>Features</p>
+          <p>Preise</p>
+        </div>
+        <div class="span6">
+          <p>Feedback</p>
+          <p>Impressum</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="modal-dialog" style="display:none" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
 </body>
 </html>

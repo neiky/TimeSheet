@@ -2,7 +2,8 @@ class WelcomeController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def index
-    if current_user
+    puts "fine"
+    #if current_user
     #@employment = Employment.where(:employee_id => current_user.id).first
     #if !@employment
       #@self_employment = Employment.where("employer_id = ? OR employee_id = ?", current_user.id, current_user.id).first
@@ -14,6 +15,6 @@ class WelcomeController < ApplicationController
           #current_user.update_attributes(:employment_id => @self_employment.id)
         #end
        #end
-    end
+    #end
   end
 end

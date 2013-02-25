@@ -46,7 +46,7 @@ jQuery(document).ready ->
 
   $('.date-increase').click (event) ->
     event.preventDefault()
-    date = new Date($('#date_search').val())
+    date = new Date($('#date_selector').data("date"))
     date.setDate(date.getDate()+1)
     #$('#date_search').datepicker("update", date)
     $('#date_selector').datepicker("update", date)
@@ -57,7 +57,7 @@ jQuery(document).ready ->
 
   $('.date-decrease').click (event) ->
     event.preventDefault()
-    date = new Date($('#date_search').val())
+    date = new Date($('#date_selector').data("date"))
     date.setDate(date.getDate()-1)
     #$('#date_search').datepicker("update", date)
     $('#date_selector').datepicker("update", date)
@@ -157,7 +157,7 @@ jQuery(document).ready ->
 
   # for timerecords analyze
   $('#submit_filter').css('visibility', 'hidden')
-  $('#img_ajax_loader').css('visibility', 'visible')
+  #$('#img_ajax_loader').css('visibility', 'visible')
   #$("#img_ajax_loader").hide()
 
   #$(document).ajaxStart( -> $("#ajax_loading_dialog").modal('show') )
