@@ -6,6 +6,8 @@ class Client < ActiveRecord::Base
 
   belongs_to :user
 
+  default_scope order: 'Clients.name ASC'
+
   def to_s
     return self.name
   end

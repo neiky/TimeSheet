@@ -8,28 +8,26 @@
       <th>Name</th>
       <th>E-Mail</th>
       <th>Projects</th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
-  <% @users.each do |user| %>
-    <tr>
-      <td><%= user.get_full_name %></td>
-      <td><%= user.email %></td>
-      <td style="width:300px">
-        <a href="#" class="buttonToggle" data-toggle-this="toggleProjectList<%= user.id %>">Projects <i class="icon-list"></i></a>
-        <div class="toggleVisibility" id="toggleProjectList<%= user.id %>">
-        <ul>
-          <% user.projects.each do |project| %>
-          <li><%= link_to project, project_path(project) %></li>
-          <% end %>
-        </ul>
-        </div>
-      </td>
-      <td><%= link_to user, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %></td>
-    </tr>
-  <% end %>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.get_full_name, user %></td>
+        <td><%= user.email %></td>
+        <td style="width:300px">
+          <a href="#" class="buttonToggle" data-toggle-this="toggleProjectList<%= user.id %>">Projects <i class="icon-list"></i></a>
+          <div class="toggleVisibility" id="toggleProjectList<%= user.id %>">
+          <ul>
+            <% user.projects.each do |project| %>
+              <li><%= link_to project, project_path(project) %></li>
+            <% end %>
+          </ul>
+          </div>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 

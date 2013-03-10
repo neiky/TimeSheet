@@ -1,13 +1,13 @@
 <div class="page-header">
-  <h2>Listing employees</h2>
+  <h2>Mitarbeiter</h2>
 </div>
 
 <% @employments.find_all{|employment| employment.employee_id > 0}.each do |employment| %>
-	<p>
-  	<%= link_to employment.employee.get_full_name, employment %>
-  	<% if !employment.accepted %>
-			<span class="label label-warning">Invitation pending</span>
-		<% end %>
+  <p>
+    <%= link_to employment.employee.get_full_name, employment %>
+    <% if !employment.accepted %>
+      <span class="label label-warning">Invitation pending</span>
+    <% end %>
   </p>
 <% end %>
 

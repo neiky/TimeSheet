@@ -79,7 +79,7 @@ class ProjectsController < ApplicationController
     #puts cid.to_s
     planned_eff = params[:planned_efforts_days].to_i*86400 + params[:planned_efforts_hours].to_i*3600
 
-    if params[:member_email]
+    if params[:member_email] && params[:member_email] != ""
       @user = User.where(:email => params[:member_email]).first
       if @user
         m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}")
@@ -88,20 +88,20 @@ class ProjectsController < ApplicationController
           m.save
           ProjectMailer.project_invitation(current_user, @user, @project).deliver
 
-					@message = Message.new
-					@message.sender = current_user
-					@message.recipient = @user
-					if @message.save
-						content = render_to_string :partial => "messages/project_invitation"
-						@message.update_attributes(:content => content)
-					end
+          @message = Message.new
+          @message.sender = current_user
+          @message.recipient = @user
+          if @message.save
+            content = render_to_string :partial => "messages/project_invitation"
+            @message.update_attributes(:content => content)
+          end
 
-					flash[:notice] = "User #{@user.email} added to project"
-		    else
-					flash[:alert] = "User #{@user.email} is already member of the project"
+          flash[:notice] = "User #{@user.email} added to project"
+        else
+          flash[:alert] = "User #{@user.email} is already member of the project"
         end
       else
-      	flash[:alert] = "User #{@user.email} not found"
+        flash[:alert] = "User #{@user.email} not found"
       end
     end
 
@@ -112,10 +112,10 @@ class ProjectsController < ApplicationController
         if params[:commit] == "Add member"
           format.html { redirect_to action: "edit" }
           format.json { head :no_content }
-				else
-        	format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
-        	format.json { head :no_content }
-				end
+        else
+          format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
+          format.json { head :no_content }
+        end
       else
         format.html { render action: "edit" }
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -141,15 +141,15 @@ class ProjectsController < ApplicationController
   end
 
   def add_member
-  	puts params[:email]
+    puts params[:email]
     @user = User.where(:email => params[:email]).first
     if !@user
       puts "User not found!"
     else
       m = Membership.new(:user_id => @user.id, :project_id => @project.id, :status => 0)
-			if m.save
-				ProjectMailer.project_invitation(current_user, @user, @project).deliver
-      	respond_to do |format|
+      if m.save
+        ProjectMailer.project_invitation(current_user, @user, @project).deliver
+        respond_to do |format|
           format.html { render action: "edit" }
           format.js
         end
@@ -158,73 +158,73 @@ class ProjectsController < ApplicationController
   end
 
   def remove_member
-		@project = Project.find(params[:id])
-		@user = User.find(params[:user_id])
-		m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
-		m.destroy
-		respond_to do |format|
-	      format.html { redirect_to action: "edit", notice:  "User #{@user.email} removed from project" }
-	      format.js
-	      format.json { head :no_content }
-	    end
-	end
+    @project = Project.find(params[:id])
+    @user = User.find(params[:user_id])
+    m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
+    m.destroy
+    respond_to do |format|
+      format.html { redirect_to action: "edit", notice:  "User #{@user.email} removed from project" }
+      format.js
+      format.json { head :no_content }
+    end
+  end
 
-	def accept_invitation
-		@project = Project.find(params[:id])
-		@user = current_user
-		@owner = User.where(:id => Client.select("user_id").where(:id => @project.Client_id)).first
-		m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
-		if m
-			m.update_attributes(:status => 1)	# status => 1: confirmed project membership
-			ProjectMailer.project_invitation_accepted(@owner, @user, @project).deliver
-			if params[:message_id]
-				msg = Message.find(params[:message_id])
-				msg.destroy
-			end
-			
-			@message = Message.new
-			@message.sender = @user
-			@message.recipient = @owner
-			@message.content = render_to_string :partial => "messages/project_invitation_accepted"
-			
-			@message.save
-			
-			respond_to do |format|
-	     	format.html { redirect_to projects_url, notice: 'Successfully joined the project.' }
-	     	format.json { head :no_content }
-			end
-		end
-	end
+  def accept_invitation
+    @project = Project.find(params[:id])
+    @user = current_user
+    @owner = User.where(:id => Client.select("user_id").where(:id => @project.Client_id)).first
+    m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
+    if m
+      m.update_attributes(:status => 1)  # status => 1: confirmed project membership
+      ProjectMailer.project_invitation_accepted(@owner, @user, @project).deliver
+      if params[:message_id]
+        msg = Message.find(params[:message_id])
+        msg.destroy
+      end
 
-	def reject_invitation
-		@project = Project.find(params[:id])
-		#authorize! :reject_invitation, @project
-		@user = current_user
-		@owner = User.where(:id => Client.select("user_id").where(:id => @project.Client_id)).first
-		m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
-		respond_to do |format|
-			if m
-				m.destroy
-				m.send_rejection_mail
-				
-				if params[:message_id]
-					msg = Message.find(params[:message_id])
-					msg.destroy
-				end
-				
-				@message = Message.new
-				@message.sender = @user
-				@message.recipient = @owner
-				@message.content = render_to_string :partial => "messages/project_invitation_rejected"
-				
-				@message.save
-			
-     		format.html { redirect_to projects_url, notice: 'Successfully rejected the project invitation.' }
-     		format.json { head :no_content }
-			else
-				format.html { redirect_to projects_url }
-     		format.json { head :no_content }
-			end
-		end
-	end
+      @message = Message.new
+      @message.sender = @user
+      @message.recipient = @owner
+      @message.content = render_to_string :partial => "messages/project_invitation_accepted"
+
+      @message.save
+
+      respond_to do |format|
+        format.html { redirect_to projects_url, notice: 'Successfully joined the project.' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def reject_invitation
+    @project = Project.find(params[:id])
+    #authorize! :reject_invitation, @project
+    @user = current_user
+    @owner = User.where(:id => Client.select("user_id").where(:id => @project.Client_id)).first
+    m = Membership.where("user_id = #{@user.id} AND project_id = #{@project.id}").first
+    respond_to do |format|
+      if m
+        m.destroy
+        m.send_rejection_mail
+
+        if params[:message_id]
+          msg = Message.find(params[:message_id])
+          msg.destroy
+        end
+
+        @message = Message.new
+        @message.sender = @user
+        @message.recipient = @owner
+        @message.content = render_to_string :partial => "messages/project_invitation_rejected"
+
+        @message.save
+
+        format.html { redirect_to projects_url, notice: 'Successfully rejected the project invitation.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to projects_url }
+        format.json { head :no_content }
+      end
+    end
+  end
 end

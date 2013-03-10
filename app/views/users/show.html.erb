@@ -30,13 +30,15 @@
 
 <%= link_to 'Edit', edit_user_registration_path, :class => 'btn btn-mini', :id => 'user_edit' %>
 
-<div class="page-header">
-  <h3>Details zum Arbeitsverhältnis</h3>
-</div>
+<% if can? :show, @user.get_employment %>
+  <div class="page-header">
+    <h3>Details zum Arbeitsverhältnis</h3>
+  </div>
 
-<%= render @user.get_employment %>
+  <%= render @user.get_employment %>
 
-<% #if can? current_user, :edit, @user.get_employment %>
-<% if current_user == @user.get_employment.employer %>
-  <%= link_to 'Edit', edit_employment_path(@user.get_employment), :class => 'btn btn-mini', :id => 'employment_edit' %>
+  <% if can? :edit, @user.get_employment %>
+  <% #if current_user == @user.get_employment.employer %>
+    <%= link_to 'Edit', edit_employment_path(@user.get_employment), :class => 'btn btn-mini', :id => 'employment_edit' %>
+  <% end %>
 <% end %>

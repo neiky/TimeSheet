@@ -1,69 +1,60 @@
 class EmploymentsController < ApplicationController
-	load_and_authorize_resource
-	
-	def index
-		if current_user
-    	@employment = Employment.where(:employee_id => current_user.id).first
-    	if !@employment
-	    	#@self_employment = Employment.where("employer_id = ? AND employee_id = ?", current_user.id, 0).first
-	      #if !@self_employment
-	      #	@self_employment = Employment.new(:employer_id => current_user.id, :employee_id => 0, :workingtime_per_day => 28800, :employment_date => Date.today, :accepted => true)
-	      #	if @self_employment.save
-				#		flash[:notice] = "Employment settings created for you!"      		
-	      #	else
-	      #		flash[:alert] = "Failed creating employment settings for you!"
-	      #	end
-	      #end
-    	
-    		@employments = Employment.includes(:employee).where(:employer_id => current_user.id)
-    		
-    		respond_to do |format|
-		      format.html # index.html.erb
-		      format.json { render json: @employments }
-		    end
-    	else
-    		respond_to do |format|
-		      format.html { redirect_to @employment }
-		      format.json { render json: @employment }
-		    end
-    	end
+  load_and_authorize_resource
+
+  def index
+    puts params[:controller]
+    if current_user
+      @employment = Employment.where(:employee_id => current_user.id).first
+      if !@employment
+        @employments = Employment.includes(:employee).where(:employer_id => current_user.id)
+
+        respond_to do |format|
+          format.html # index.html.erb
+          format.json { render json: @employments }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to @employment }
+          format.json { render json: @employment }
+        end
+      end
     else
-    	respond_to do |format|
-	      format.html { redirect_to root_url }
-	      format.json { head :no_content }
-	    end
+      respond_to do |format|
+        format.html { redirect_to root_url }
+        format.json { head :no_content }
+      end
     end
-	end
-	
-	def show
-		if current_user
+  end
+
+  def show
+    if current_user
       @employment = Employment.includes(:employee, :employer).find(params[:id])
 
       respond_to do |format|
-	      format.html # show.html.erb
-	      format.json { render json: @employment }
-	    end
-    end
-	end
-	
-	def new
-		@employment = Employment.new
-	end
-	
-	def edit
-		@employment = Employment.includes(:employee, :employer).find(params[:id])
-		authorize! :edit, @employment
-		if @employment.employer == current_user
-			if @employment.employee_id > 0
-      	@employee = @employment.employee
-      else
-      	@employee = current_user
+        format.html # show.html.erb
+        format.json { render json: @employment }
       end
-		else
-			redirect_to root_url
-		end
-	end
-	
+    end
+  end
+
+  def new
+    @employment = Employment.new
+  end
+
+  def edit
+    @employment = Employment.includes(:employee, :employer).find(params[:id])
+    authorize! :edit, @employment
+    if @employment.employer == current_user
+      if @employment.employee_id > 0
+        @employee = @employment.employee
+      else
+        @employee = current_user
+      end
+    else
+      redirect_to root_url
+    end
+  end
+
   def create
     employee = User.where(:email => params[:employee_email]).first
     if employee
@@ -164,8 +155,11 @@ class EmploymentsController < ApplicationController
   end
 
   def destroy
+    # assume that only employer can destroy employment
     @employment = Employment.find(params[:id])
-    @employment.destroy
+    #@employment.destroy
+    employee_id = @employment.employee_id
+    @employment.update_attributes(:employer_id => employee_id, :employee_id => 0)
 
     respond_to do |format|
       format.html { redirect_to employments_path }

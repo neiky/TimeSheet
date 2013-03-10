@@ -1,29 +1,31 @@
 class ContactsController < ApplicationController
-	load_and_authorize_resource
-	
-	def index
+  load_and_authorize_resource
+
+  def index
     #@contacts = []
     if current_user
     #  @contacts = Contact.order("name ASC").where(:client_id => Client.where(:user_id => current_user.id))
     end
 
+    @subtitle = "Kontaktliste"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @clients }
     end
   end
-	
-	def show
-		@contact = Contact.find(params[:id])
+
+  def show
+    @contact = Contact.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js
       format.json { render json: @contact }
     end
-	end
-	
-	def new
-		@contact = Contact.new
+  end
+
+  def new
+    @contact = Contact.new
     @contact = Contact.new(:client => Client.find(params[:client_id].to_i)) if params[:client_id]
     #@contact.client_id = params[:client_id].to_i
 

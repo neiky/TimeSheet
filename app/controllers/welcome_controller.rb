@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def index
-    puts "fine"
+    #puts "fine"
     #if current_user
     #@employment = Employment.where(:employee_id => current_user.id).first
     #if !@employment

@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h2>Listing projects</h2>
+  <h2>Projektliste</h2>
 </div>
 
 <table class="table table-striped">
@@ -9,6 +9,7 @@
       <th>Client</th>
       <th>Planned efforts</th>
       <th>Actual efforts</th>
+      <th>Remaining efforts</th>
       <th></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
       <td><%= project.Client %></td>
       <td><%= format_seconds_to_time(project.planned_efforts) %></td>
       <td><%= format_seconds_to_time(project.total_duration) %></td>
+      <td><%= format_seconds_to_time(project.planned_efforts - project.total_duration) %></td>
       <td>
         <% if project.Client.user_id == current_user.id %>
           <%= link_to edit_project_path(project), :class => 'btn bttooltip', :title => "Bearbeiten" do %><i class="icon-pencil"></i><% end %>

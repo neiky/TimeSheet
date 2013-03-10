@@ -60,9 +60,6 @@ div {
 * {
   margin: 0;
 }
-html, body {
-//  height: 100%;
-}
 
 $footer_height: 100px;
 
@@ -84,4 +81,12 @@ footer {
     font-weight: bold;
     text-align: right;
   }
+}
+
+tr.selected {
+  border-right: 4px solid #114BB8;
+}
+
+div.content {
+  margin-top: 10px;
 }

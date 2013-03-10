@@ -4,6 +4,10 @@
 
 jQuery(document).ready ->
 
-  $('#employment_employment_date').datepicker dateFormat: "yy-mm-dd", showWeek: true, firstDay: 1
+  $("[data-behaviour~='datepicker']").datepicker({
+    "format": "yyyy-mm-dd",
+    "weekStart": 1,
+    "autoclose": true
+  });
 
   return

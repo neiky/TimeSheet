@@ -46,33 +46,37 @@
     </div>
   </div>
 
+
+  <% if params[:action] == "edit" %>
   <div class="control-group">
     <%= label_tag "member_email", "Project members", :class => "control-label" %>
-	<div class="controls">
-		<div id ="member_list">
-			<% @project.memberships.each do |membership| %>
-	      <p id="member_<%= membership.user_id %>">
-					<%= render(User.find(membership.user_id)) %>
-					<% if membership.status == 0 %>
-						<span class="label label-warning">Invitation pending</span>
-						<%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
-					<% elsif membership.status == 1 %>
-						<%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
-					<% elsif membership.status == 3 %>
-						<span class="label label-success">Project owner</span>
-					<% end %>
-				</p>
-			<% end %>
-		</div>
-		<div class="input-append">
-        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail" %>
-				<%= link_to "Add member", {:controller => "projects", :action => "add_member"}, :method => :post, :remote => :true, :class => "btn", :id => "add_member_link", :style => "visibilty: hidden", :type => "button" %>
-				<%= f.submit "Add member", :remote => :true, :class => "btn", :id => "add_member_button" %>
+    <div class="controls">
+      <div id ="member_list">
+        <% @project.memberships.each do |membership| %>
+        <p id="member_<%= membership.user_id %>">
+          <%= render(User.find(membership.user_id)) %>
+          <% if membership.status == 0 %>
+            <span class="label label-warning">Invitation pending</span>
+            <%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
+          <% elsif membership.status == 1 %>
+            <%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
+          <% elsif membership.status == 3 %>
+            <span class="label label-success">Project owner</span>
+          <% end %>
+        </p>
+        <% end %>
+      </div>
+      <div class="input-append">
+        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail", :data => { :provide => "typeahead", :items => 4, :source => User.where(:id => Employment.where(:employer_id => current_user.id).find_all{|employment| employment.employee_id > 0}.map(&:employee_id)).map(&:email)} %>
+        <%= link_to "Add member", {:controller => "projects", :action => "add_member"}, :method => :put, :remote => :true, :class => "btn", :id => "add_member_link", :style => "visibilty: hidden", :type => "button" %>
+        <%= f.submit "Add member", :remote => :true, :class => "btn", :id => "add_member_button" %>
       </div>
     </div>
   </div>
+  <% end %>
 
   <div class="controls">
     <%= f.submit :class => "btn btn-primary" %>
+    <%= link_to 'Abbrechen', projects_path, :class => 'btn' %>
   </div>
 <% end %>

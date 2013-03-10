@@ -9,7 +9,7 @@
     <%= f.label :employment_date, "Datum der Einstellung", :class => "control-label" %>
     <div class="controls">
       <% f.date_select :employment_date, :class => "datepicker" %>
-      <%= f.text_field :employment_date, :class => "datepicker" %>
+      <%= f.text_field :employment_date, :class => "datepicker", :data => { :behaviour => 'datepicker', :date => current_date.strftime("%F")}, :value => current_date.strftime("%F") %>
     </div>
   </div>
   <div class="control-group">

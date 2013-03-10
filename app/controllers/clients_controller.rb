@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-	load_and_authorize_resource
+  load_and_authorize_resource
 
   # GET /clients
   # GET /clients.json
@@ -8,6 +8,7 @@ class ClientsController < ApplicationController
     #if current_user
     #  @clients = Client.order("name ASC").where(:user_id => current_user.id)
     #end
+    @subtitle = "Kundenliste"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @clients }
@@ -21,6 +22,7 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js
       format.json { render json: @client }
     end
   end

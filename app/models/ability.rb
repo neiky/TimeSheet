@@ -47,9 +47,9 @@ class Ability
       can :read, Contact, :id => user.clients.map{|client| client.contacts}.flatten.map(&:id)
       can :read, Contact, :id => user.employer.clients.map{|client| client.contacts}.flatten.map(&:id)
 
-      can :manage, Employment, :employer_id => user.id
-      can :update, Employment, :employee_id => user.id
-      can :read, Employment, :employee_id => user.id
+      #can :manage, Employment, :employer_id => user.id
+      #can :update, Employment, :employee_id => user.id
+      #can :read, Employment, :employee_id => user.id
     end
   end
 end

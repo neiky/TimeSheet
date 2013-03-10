@@ -1,35 +1,31 @@
 <div class="page-header">
-  <h2>Listing contacts</h2>
+  <h2>Kontaktliste</h2>
 </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Client</th>
-      <th>E-Mail</th>
-      <th></th>
-    </tr>
-  </thead>
+<%= link_to 'Neuen Kontakt anlegen', new_contact_path, :class => 'btn btn-primary' %>
 
-  <tbody>
-  <% @contacts.each do |contact| %>
-    <tr id="contact_<%= contact.id %>">
-      <td><%= link_to contact, contact %></td>
-      <td><%= link_to contact.client, client_path(contact.client) %></td>
-      <td><%= contact.email %></td>
+<div class="row content">
+  <div class="span4">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Kunde</th>
+        </tr>
+      </thead>
 
-      <td>
-      	<% if can? :update, contact %>
-      		<%= link_to edit_contact_path(contact),  :class => 'btn', :title => "Edit" do %><i class="icon-pencil"></i><% end %>
-      		<%= link_to contact, confirm: 'Are you sure?', :method => :delete, :class => 'btn btn-danger', :title => "Delete" do %><i class="icon-trash"></i><% end %>
-      	<% end %>
-      </td>
-    </tr>
-  <% end %>
-  </tdody>
-</table>
+      <tbody>
+      <% @contacts.each do |contact| %>
+        <tr id="contact_<%= contact.id %>">
+          <td><%= link_to contact, contact, :remote => :true %></td>
+          <td><%= link_to contact.client, client_path(contact.client) %></td>
+        </tr>
+      <% end %>
+      </tdody>
+    </table>
+  </div>
+  <div id="contact_details" class="span8">
+    Wählen Sie einen Eintrag.
+  </div>
 
-<br />
-
-<%= link_to 'New contact', new_contact_path, :class => 'btn btn-primary' %>
+</div>

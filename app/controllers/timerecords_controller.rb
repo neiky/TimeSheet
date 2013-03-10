@@ -93,8 +93,9 @@ class TimerecordsController < ApplicationController
     startDate = Date.strptime(params[:date], '%Y-%m-%d').to_datetime.change(:hour => params[:start_hour].to_i, :min => params[:start_minute].to_i)
     endDate = Date.strptime(params[:date], '%Y-%m-%d').to_datetime.change(:hour => params[:end_hour].to_i, :min => params[:end_minute].to_i)
     if endDate < startDate
-      endDate.advance(:days => 1)
+      endDate += 1.days
     end
+
     @timerecord = Timerecord.new
     @timerecord.User = current_user
     @timerecord.Project_id = pid
