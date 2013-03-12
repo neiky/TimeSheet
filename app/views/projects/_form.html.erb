@@ -61,7 +61,7 @@
           <% elsif membership.status == 1 %>
             <%= link_to "Remove", {:controller => "projects", :action => "remove_member", :user_id => membership.user_id}, confirm: 'Are you sure?', remote: :true, method: :delete, :class => 'btn btn-mini btn-danger' %>
           <% elsif membership.status == 3 %>
-            <span class="label label-success">Project owner</span>
+            <span class="label label-info">Projekteigentümer</span>
           <% end %>
         </p>
         <% end %>
@@ -78,5 +78,10 @@
   <div class="controls">
     <%= f.submit :class => "btn btn-primary" %>
     <%= link_to 'Abbrechen', projects_path, :class => 'btn' %>
+    <% if @project.Client.user_id == current_user.id %>
+      <%= link_to @project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger pull-right' do %>Löschen<% end %></td>
+    <% else %>
+      <span class="btn btn-danger disabled pull-right" title="You may not delete the project because you are not the owner!">Löschen</span>
+    <% end %>
   </div>
 <% end %>

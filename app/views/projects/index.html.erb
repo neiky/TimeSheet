@@ -1,40 +1,40 @@
 <div class="page-header">
-  <h2>Projektliste</h2>
+  <h2>Projektliste <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Client</th>
-      <th>Planned efforts</th>
-      <th>Actual efforts</th>
-      <th>Remaining efforts</th>
-      <th></th>
-    </tr>
-  </thead>
+<%= link_to 'Neues Projekt anlegen', new_project_path, :class => 'btn btn-primary' %>
 
-  <tbody>
-  <% @projects.each do |project| %>
-    <tr id="project_<%= project.id %>">
-      <td><%= link_to project.name, project %></td>
-      <td><%= project.Client %></td>
-      <td><%= format_seconds_to_time(project.planned_efforts) %></td>
-      <td><%= format_seconds_to_time(project.total_duration) %></td>
-      <td><%= format_seconds_to_time(project.planned_efforts - project.total_duration) %></td>
-      <td>
-        <% if project.Client.user_id == current_user.id %>
-          <%= link_to edit_project_path(project), :class => 'btn bttooltip', :title => "Bearbeiten" do %><i class="icon-pencil"></i><% end %>
-          <%= link_to project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger bttooltip', :title => "Löschen" do %><i class="icon-trash"></i><% end %></td>
-        <% else %>
-          <span class="btn disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i></span>
-          <span class="btn btn-danger disabled" title="You may not delete the project because you are not the owner!"><i class="icon-trash"></i></span>
-        <% end %>
-    </tr>
-  <% end %>
-  </tdody>
-</table>
+<div class="row">
+  <div class="span4">
 
-<br />
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Fortschritt</th>
+        </tr>
+      </thead>
 
-<%= link_to 'New Project', new_project_path, :class => 'btn btn-primary' %>
+      <tbody>
+      <% @projects.each do |project| %>
+        <%
+          progress = 100*project.total_duration/project.planned_efforts
+        %>
+        <tr id="project_<%= project.id %>">
+          <td><%= link_to project.name, project, :remote => :true %></td>
+          <td>
+            <div class="progress progress-<% if progress <= 70 %>success<% elsif progress <= 90 %>warning<% else %>danger<% end %> bttooltip" title="<%= progress %>%">
+              <div class="bar" style="width: <%= [progress, 100].min %>%;"></div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      </tdody>
+    </table>
+
+  </div>
+
+  <div class="span7 offset1" id="project_details">
+
+  </div>
+</div>

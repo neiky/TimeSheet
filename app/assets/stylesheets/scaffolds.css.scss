@@ -87,6 +87,22 @@ tr.selected {
   border-right: 4px solid #114BB8;
 }
 
+tr.unselected {
+  border-right: 4px solid #FFFFFF;
+}
+
 div.content {
   margin-top: 10px;
+}
+
+/* text in progress bar */
+.progress-text {
+  position: relative;
+  left: 50%;
+  font-size: 12px;
+  color: #333333;
+}
+
+.progress {
+  margin-bottom: 5px;
 }

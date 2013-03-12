@@ -12,7 +12,7 @@
 
       <tbody>
       <% @clients.each do |client| %>
-        <tr id="client_<%= client.id %>">
+        <tr id="client_<%= client.id %>" class="unselected">
           <td><%= link_to client.name, client, :remote => :true %></td>
         </tr>
       <% end %>

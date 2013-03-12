@@ -8,17 +8,13 @@
   <div class="span4">
     <table class="table table-striped">
       <thead>
-        <tr>
-          <th>Name</th>
-          <th>Kunde</th>
-        </tr>
       </thead>
 
       <tbody>
       <% @contacts.each do |contact| %>
-        <tr id="contact_<%= contact.id %>">
+        <tr id="contact_<%= contact.id %>" class="unselected">
           <td><%= link_to contact, contact, :remote => :true %></td>
-          <td><%= link_to contact.client, client_path(contact.client) %></td>
+          <td style="text-align: right"><%= link_to contact.client, client_path(contact.client) %></td>
         </tr>
       <% end %>
       </tdody>
