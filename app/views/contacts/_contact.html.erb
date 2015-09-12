@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td>Kunde</td>
-      <td><%= link_to @contact.client, client_path(@contact.client) %></td>
+      <td><%= link_to @contact.client, client_path(@contact.client) if @contact.client %></td>
     </tr>
     <tr>
       <td>E-Mail</td>
@@ -26,5 +26,7 @@
 </table>
 
 <% if can? :update, @contact %>
-  <%= link_to 'Edit', edit_contact_path(@contact), :class => 'btn btn-mini' %>
+  <p>
+    <%= link_to edit_contact_path(@contact), :class => 'btn', :remote => :true do %><i class="icon-pencil"></i> Bearbeiten<% end %>
+  </p>
 <% end %>

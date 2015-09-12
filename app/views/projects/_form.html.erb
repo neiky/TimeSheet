@@ -1,4 +1,4 @@
-<%= form_for(@project, :html => { :class => 'form-horizontal' }) do |f| %>
+<%= form_for(@project, :html => { :class => 'form-horizontal' }, :remote => :true) do |f| %>
   <% if @project.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
@@ -19,28 +19,46 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :description, :class => "control-label" %>
+    <%= f.label :description, "Beschreibung", :class => "control-label" %>
     <div class="controls">
       <%= f.text_area :description, :size => "20x3", :class => "span3" %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :planned_efforts, :class => "control-label" %>
+    <%= f.label :planned_efforts, "Geplanter Aufwand", :class => "control-label" %>
     <div class="controls">
       <% f.text_field :planned_efforts %>
       <div class="input-append">
-        <%= text_field_tag :planned_efforts_days, (@project.planned_efforts/86400).to_s, :class => "span1" %><span class="add-on">days</span>
+        <%= text_field_tag :planned_efforts_days, (@project.planned_efforts/86400).to_s, :class => "span1" %><span class="add-on">d</span>
       </div>
       <div class="input-append">
-        <%= text_field_tag :planned_efforts_hours, ((@project.planned_efforts%86400)/3600).to_s, :class => "span1" %><span class="add-on">hours</span>
+        <%= text_field_tag :planned_efforts_hours, ((@project.planned_efforts%86400)/3600).to_s, :class => "span1" %><span class="add-on">h</span>
       </div>
-      <span class="help-inline">Here's more help text</span>
+      <span class="help-inline"></span>
+    </div>
+  </div>
+
+  <% if params[:action] == "edit" %>
+  <div class="control-group">
+    <%= label_tag "task", "Aufgaben", :class => "control-label" %>
+    <div class="controls">
+      <%= text_field_tag "task", "", :class => "span3", :placeholder => "Aufgabenbezeichnung", :data => { :provide => "typeahead", :items => 4, :source => User.where(:id => Employment.where(:employer_id => current_user.id).find_all{|employment| employment.employee_id > 0}.map(&:employee_id)).map(&:email)} %>
+      <%= link_to "Hinzufügen", {:controller => "projects", :action => "add_task"}, :method => :put, :remote => :true, :class => "btn", :id => "add_member_link", :style => "visibilty: visible", :type => "button" %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :Client, :class => "control-label" %>
+    <div class="controls">
+      <label class="checkbox" for="project_finished">
+        <%= f.check_box :finished %> Projekt abgeschlossen
+      </label>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :Client, "Kunde", :class => "control-label" %>
     <div class="controls">
       <%= f.collection_select :Client_id, Client.where(:user_id => current_user.id), :id, :name, {:include_blank => 'None'}, :class => "span3" %>
     </div>
@@ -49,7 +67,7 @@
 
   <% if params[:action] == "edit" %>
   <div class="control-group">
-    <%= label_tag "member_email", "Project members", :class => "control-label" %>
+    <%= label_tag "member_email", "Projektmitglieder", :class => "control-label" %>
     <div class="controls">
       <div id ="member_list">
         <% @project.memberships.each do |membership| %>
@@ -67,9 +85,9 @@
         <% end %>
       </div>
       <div class="input-append">
-        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "Enter E-Mail", :data => { :provide => "typeahead", :items => 4, :source => User.where(:id => Employment.where(:employer_id => current_user.id).find_all{|employment| employment.employee_id > 0}.map(&:employee_id)).map(&:email)} %>
-        <%= link_to "Add member", {:controller => "projects", :action => "add_member"}, :method => :put, :remote => :true, :class => "btn", :id => "add_member_link", :style => "visibilty: hidden", :type => "button" %>
-        <%= f.submit "Add member", :remote => :true, :class => "btn", :id => "add_member_button" %>
+        <%= text_field_tag "member_email", "", :class => "span3", :placeholder => "E-Mail-Adresse eingeben", :data => { :provide => "typeahead", :items => 4, :source => User.where(:id => Employment.where(:employer_id => current_user.id).find_all{|employment| employment.employee_id > 0}.map(&:employee_id)).map(&:email)} %>
+        <%= link_to "Hinzufügen", {:controller => "projects", :action => "add_member"}, :method => :put, :remote => :true, :class => "btn", :id => "add_member_link", :style => "visibilty: hidden", :type => "button" %>
+        <%= f.submit "Hinzufügen", :remote => :true, :class => "btn", :id => "add_member_button" %>
       </div>
     </div>
   </div>
@@ -77,11 +95,15 @@
 
   <div class="controls">
     <%= f.submit :class => "btn btn-primary" %>
-    <%= link_to 'Abbrechen', projects_path, :class => 'btn' %>
-    <% if @project.Client.user_id == current_user.id %>
-      <%= link_to @project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger pull-right' do %>Löschen<% end %></td>
+    <% if params[:action] == "edit" %>
+      <%= link_to 'Abbrechen', @project, :class => 'btn', :remote => :true %>
+      <% if can? :destroy, @project %>
+        <%= link_to @project, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger pull-right' do %>Löschen<% end %></td>
+      <% else %>
+        <span class="btn btn-danger disabled pull-right" title="You may not delete the project because you are not the owner!">Löschen</span>
+      <% end %>
     <% else %>
-      <span class="btn btn-danger disabled pull-right" title="You may not delete the project because you are not the owner!">Löschen</span>
+      <%= link_to 'Abbrechen', projects_path, :class => 'btn', :remote => :true %>
     <% end %>
   </div>
 <% end %>

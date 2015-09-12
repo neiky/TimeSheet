@@ -33,5 +33,5 @@
 </table>
 
 <% if can? :update, @client %>
-  <%= link_to 'Edit', edit_client_path(@client), :class => 'btn btn-mini' %>
+  <%= link_to edit_client_path(@client), :class => 'btn', :remote => :true, do %><i class="icon-pencil"></i> Bearbeiten<% end %>
 <% end %>

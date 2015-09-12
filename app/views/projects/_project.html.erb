@@ -10,6 +10,9 @@
       </thead>
       <tbody>
         <tr>
+          <td>Name</td><td><%= @project.name %></td>
+        </tr>
+        <tr>
           <td>Beschreibung</td><td><%= @project.description %></td>
         </tr>
         <tr>
@@ -24,10 +27,12 @@
         <tr>
           <td>Kunde</td>
           <td>
-            <% if @project.Client.user_id == current_user.id %>
-              <%= link_to @project.Client, client_path(@project.Client) %>
-            <% else %>
-              <%= @project.Client %>
+            <% if @project.Client %>
+              <% if @project.Client.user_id == current_user.id %>
+                <%= link_to @project.Client, client_path(@project.Client) %>
+              <% else %>
+                <%= @project.Client %>
+              <% end %>
             <% end %>
           </td>
         </tr>
@@ -37,7 +42,7 @@
             <% @project.users.each do |user| %>
               <p id="member_<%= user.id %>">
                 <%= render(user) %>
-                <% if @project.Client.user_id == user.id %>
+                <% if @project.owner.id == user.id %>
                   <span class="label label-info">Projekteigentümer</span>
                 <% end %>
               </p>
@@ -71,7 +76,7 @@
       </div>
     -->
     <% if can? :edit, @project %>
-      <%= link_to edit_project_path(@project), :class => 'btn pull-right' do %><i class="icon-pencil"></i> Bearbeiten<% end %>
+      <%= link_to edit_project_path(@project), :class => 'btn pull-right', :remote => :true do %><i class="icon-pencil"></i> Bearbeiten<% end %>
     <% else %>
       <%# <span class="btn btn-mini disabled" title="You may not edit the project because you are not the owner!"><i class="icon-pencil"></i> Edit</span> %>
     <% end %>

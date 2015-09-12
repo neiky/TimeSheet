@@ -1,40 +1,86 @@
 <div class="page-header">
-  <h2>Projektliste <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
+  <ul class="nav nav-pills" id="tabs" data-tabs="tabs">
+    <li class="active"><a href="#activeProjects" data-toggle="tab">Aktive Projekte</a></li>
+    <li><a href="#finishedProjects" data-toggle="tab">Abgeschlossene Projekte</a></li>
+    <li><%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></li>
+  </ul>
 </div>
 
-<%= link_to 'Neues Projekt anlegen', new_project_path, :class => 'btn btn-primary' %>
-
 <div class="row">
-  <div class="span4">
+  <div class="span4 tab-content" style ="overflow: visible">
+      <div class = "tab-pane active" id="activeProjects">
 
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Fortschritt</th>
-        </tr>
-      </thead>
+        <% if current_user.projects.count < current_user.maxNumProjects %>
+          <%= link_to 'Neues Projekt anlegen', new_project_path, :class => 'btn btn-primary', :remote => :true %>
+        <% else %>
+          <%= link_to 'Neues Projekt anlegen', '#', :class => 'btn btn-primary disabled bttooltip', :title => "Sie dürfen nicht mehr als #{current_user.maxNumProjects} Projekte anlegen" %>
+        <% end %>
 
-      <tbody>
-      <% @projects.each do |project| %>
-        <%
-          progress = 100*project.total_duration/project.planned_efforts
-        %>
-        <tr id="project_<%= project.id %>">
-          <td><%= link_to project.name, project, :remote => :true %></td>
-          <td>
-            <div class="progress progress-<% if progress <= 70 %>success<% elsif progress <= 90 %>warning<% else %>danger<% end %> bttooltip" title="<%= progress %>%">
-              <div class="bar" style="width: <%= [progress, 100].min %>%;"></div>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      </tdody>
-    </table>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Fortschritt</th>
+            </tr>
+          </thead>
 
+          <tbody>
+          <% @projects.find_all{|project| project.finished == false}.each do |project| %>
+            <%
+              if project.planned_efforts == 0
+                progress = 0
+              else
+                progress = 100*project.total_duration/project.planned_efforts
+              end
+            %>
+            <tr id="project_<%= project.id %>" class="<% if project == @project %>selected<% else %>unselected<% end %>">
+              <td><%= link_to project.name, project, :remote => :true %></td>
+              <td>
+                <div class="progress progress-<% if progress <= 70 %>success<% elsif progress <= 90 %>warning<% else %>danger<% end %> bttooltip" title="<%= progress %>%">
+                  <div class="bar" style="width: <%= [progress, 100].min %>%;"></div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tdody>
+        </table>
+      </div>
+
+      <div class = "tab-pane" id="finishedProjects">
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Fortschritt</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <% @projects.find_all{|project| project.finished == true}.each do |project| %>
+            <%
+              if project.planned_efforts == 0
+                progress = 0
+              else
+                progress = 100*project.total_duration/project.planned_efforts
+              end
+            %>
+            <tr id="project_<%= project.id %>" class="<% if project == @project %>selected<% else %>unselected<% end %>">
+              <td><%= link_to project.name, project, :remote => :true %></td>
+              <td>
+                <div class="progress progress-<% if progress <= 70 %>success<% elsif progress <= 90 %>warning<% else %>danger<% end %> bttooltip" title="<%= progress %>%">
+                  <div class="bar" style="width: <%= [progress, 100].min %>%;"></div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tdody>
+        </table>
+      </div>
   </div>
 
-  <div class="span7 offset1" id="project_details">
 
+  <div class="span7 offset1" id="project_details">
+    <%= render @project if @project %>
   </div>
 </div>

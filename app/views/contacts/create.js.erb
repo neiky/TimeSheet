@@ -1,0 +1,3 @@
+$('table.table-striped>tbody').prepend("<tr id='contact_<%= @contact.id %>' class='selected'><td><%= escape_javascript(link_to @contact, @contact, :remote => :true) %></td><td style='text-align: right'><%= escape_javascript(link_to @contact.client, client_path(@contact.client)) if @contact.client %></td></tr>");
+
+$('#contact_details').html("<%= escape_javascript(render @contact) %>");

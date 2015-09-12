@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h2>Kontaktliste</h2>
+  <h2>Kontaktliste <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
-<%= link_to 'Neuen Kontakt anlegen', new_contact_path, :class => 'btn btn-primary' %>
+<%= link_to 'Neuen Kontakt anlegen', new_contact_path, :class => 'btn btn-primary', :remote => :true %>
 
 <div class="row content">
   <div class="span4">
@@ -12,16 +12,16 @@
 
       <tbody>
       <% @contacts.each do |contact| %>
-        <tr id="contact_<%= contact.id %>" class="unselected">
+        <tr id="contact_<%= contact.id %>" class="<% if contact == @contact %>selected<% else %>unselected<% end %>">
           <td><%= link_to contact, contact, :remote => :true %></td>
-          <td style="text-align: right"><%= link_to contact.client, client_path(contact.client) %></td>
+          <td style="text-align: right"><%= link_to contact.client, client_path(contact.client) if contact.client %></td>
         </tr>
       <% end %>
       </tdody>
     </table>
   </div>
-  <div id="contact_details" class="span8">
-    Wählen Sie einen Eintrag.
+  <div id="contact_details" class="span7 offset1">
+    <%= render @contact if @contact %>
   </div>
 
 </div>

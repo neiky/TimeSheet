@@ -1,0 +1,5 @@
+$('#activeProjects>table.table-striped>tbody').prepend("<tr id='project_<%= @project.id %>' class='selected'><td><%= escape_javascript(link_to @project.name, @project, :remote => :true) %></td><td><div class='progress progress-success bttooltip' title='0%'><div class='bar' style='width: 0%;'></div></div></td></tr>");
+
+$(".bttooltip").tooltip();
+
+$('#project_details').html("<%= escape_javascript(render @project) %>");

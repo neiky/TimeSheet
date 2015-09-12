@@ -1,0 +1,3 @@
+$('tr#client_<%= @client.id %>').html("<td><%= escape_javascript(link_to @client, @client, :remote => :true) %></td>");
+
+$('#client_details').html("<%= escape_javascript(render @client) %>");

@@ -6,17 +6,17 @@ $message_width: 500px;
 $light-gray: #EEEEEE;
 
 div.projectnote {
-	max-width: 100%;
-	border: thin solid $light-gray;
-	background-color: #FAFAFA;
-	padding: 5px;
-	margin-top: 10px;
+  max-width: 100%;
+  border: thin solid $light-gray;
+  background-color: #FAFAFA;
+  padding: 5px;
+  margin-top: 10px;
 }
 
 textarea.projectnote {
-	width: 90%;
+  width: 90%;
 }
 
 div.newProjectnote {
-	background-color: #AAAAAA;
+  background-color: #AAAAAA;
 }

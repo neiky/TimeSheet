@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h2>Listing Timerecords <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
+  <h2>Buchungen hinzufügen <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
 <div class="row">
@@ -23,7 +23,7 @@
     <% end %>
   </div>
   <div class="span6">
-    <p><b>Total efforts:</b> <span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></p>
+    <p><b>Gesamtaufwand:</b> <span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></p>
   </div>
 </div>
 
@@ -31,11 +31,11 @@
 <table class="table table-condensed">
   <thead>
     <tr>
-      <th>Project</th>
+      <th>Projekt</th>
       <th>Start</th>
-      <th>End</th>
-      <th>Duration</th>
-      <th>Description</th>
+      <th>Ende</th>
+      <th>Dauer</th>
+      <th>Beschreibung</th>
       <th></th>
     </tr>
     <tr>

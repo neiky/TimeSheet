@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-	load_and_authorize_resource #, :except => [:accept_invitation, :reject_invitation]
+  load_and_authorize_resource #, :except => [:accept_invitation, :reject_invitation]
 
   # GET /projects
   # GET /projects.json
@@ -9,8 +9,16 @@ class ProjectsController < ApplicationController
       #@projects = current_user.projects.where("memberships.status >= ?", 1)
     end
 
+    if params[:id]
+      @project = Project.find(params[:id])
+      authorize! :read, @project
+    else
+      @project = @projects.first
+    end
+
     respond_to do |format|
       format.html # index.html.erb
+      format.js { render :action => 'show'}
       format.json { render json: @projects }
     end
   end
@@ -23,7 +31,7 @@ class ProjectsController < ApplicationController
     @projectnotes = @project.projectnotes.order("created_at DESC")
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { redirect_to :action => "index", :id => params[:id] } # show.html.erb
       format.js
       format.json { render json: @project }
     end
@@ -36,6 +44,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js
       format.json { render json: @project }
     end
   end
@@ -63,10 +72,12 @@ class ProjectsController < ApplicationController
         m = Membership.new(:user_id => current_user.id, :project_id => @project.id, :status => 3)	# status => 3: current_user is owner of project
         if m.save
           format.html { redirect_to projects_url, notice: 'Project was successfully created.' }
+          format.js
           format.json { render json: @project, status: :created, location: @project }
         end
       else
         format.html { render action: "new" }
+        format.js { render :action => 'new' }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -112,13 +123,16 @@ class ProjectsController < ApplicationController
       if @project.update_attributes(params[:project])
         if params[:commit] == "Add member"
           format.html { redirect_to action: "edit" }
+          format.js { render action: "edit" }
           format.json { head :no_content }
         else
           format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
+          format.js
           format.json { head :no_content }
         end
       else
         format.html { render action: "edit" }
+        format.js { render action: "edit" }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -136,12 +150,29 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to projects_url }
-      format.js { render :text => "jQuery('#project_#{@project.id}').remove();" }
+      format.js
       format.json { head :no_content }
     end
   end
 
   def add_member
+    puts params[:email]
+    @user = User.where(:email => params[:email]).first
+    if !@user
+      puts "User not found!"
+    else
+      m = Membership.new(:user_id => @user.id, :project_id => @project.id, :status => 0)
+      if m.save
+        ProjectMailer.project_invitation(current_user, @user, @project).deliver
+        respond_to do |format|
+          format.html { render action: "edit" }
+          format.js
+        end
+      end
+    end
+  end
+
+  def add_task
     puts params[:email]
     @user = User.where(:email => params[:email]).first
     if !@user

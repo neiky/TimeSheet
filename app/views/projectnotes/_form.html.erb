@@ -1,5 +1,5 @@
 <%= form_tag({:controller => "projectnotes", :action => "create"}, :id => "new_projectnote", :remote => true) do %>
   <%= text_area_tag(:projectnote, nil, :class => "projectnote", :placeholder => "Was gibt es neues?") %><br />
   <%= hidden_field_tag(:project_id, @project.id) %>
-  <%= submit_tag("Absenden") %>
+  <%= submit_tag("Absenden", :class => "btn") %>
 <% end %>

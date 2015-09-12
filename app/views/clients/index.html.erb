@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h2>Kundenliste</h2>
+  <h2>Kundenliste <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
-<%= link_to 'Neuen Kunden anlegen', new_client_path, :class => 'btn btn-primary' %>
+<%= link_to 'Neuen Kunden anlegen', new_client_path, :class => 'btn btn-primary', :remote => :true %>
 
 <div class="row content">
   <div class="span4">
@@ -12,15 +12,15 @@
 
       <tbody>
       <% @clients.each do |client| %>
-        <tr id="client_<%= client.id %>" class="unselected">
+        <tr id="client_<%= client.id %>" class="<% if client == @client %>selected<% else %>unselected<% end %>">
           <td><%= link_to client.name, client, :remote => :true %></td>
         </tr>
       <% end %>
       </tdody>
     </table>
   </div>
-  <div id="client_details" class="span8">
-    Wählen Sie einen Eintrag.
+  <div id="client_details" class="span7 offset1">
+    <%= render @client if @client %>
   </div>
 
 </div>
