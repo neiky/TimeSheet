@@ -1,4 +1,4 @@
-<%= form_for(@contact, :html => { :class => 'form-horizontal' }) do |f| %>
+<%= form_for(@contact, :html => { :class => 'form-horizontal' }, :remote => :true) do |f| %>
   <% if @contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this project from being saved:</h2>
@@ -14,7 +14,7 @@
   <div class="control-group">
     <%= f.label :name, :class => "control-label" %>
     <div class="controls">
-      <%= f.text_field :name, :class => "span3" %>
+      <%= f.text_field :name %>
     </div>
   </div>
   <div class="control-group">
@@ -23,23 +23,24 @@
       <%= f.text_field :firstname %>
     </div>
   </div>
+
+  <div class="control-group">
+    <%= f.label :client_id, :class => "control-label" %>
+    <div class="controls">
+      <%= f.collection_select :client_id, Client.where("user_id = ? OR user_id = ?", current_user.id, current_user.employer.id), :id, :name, {:include_blank => 'None'}, :class => "span3" %>
+    </div>
+  </div>
+
   <div class="control-group">
     <%= f.label :email, :class => "control-label" %>
     <div class="controls">
-      <%= f.text_field :email %>
+      <%= f.email_field :email %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone, :class => "control-label" %>
     <div class="controls">
       <%= f.text_field :phone %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :client_id, :class => "control-label" %>
-    <div class="controls">
-      <%= f.collection_select :client_id, Client.where(:user_id => current_user.id), :id, :name, {:include_blank => 'None'}, :class => "span3" %>
     </div>
   </div>
 
@@ -52,5 +53,15 @@
 
   <div class="controls">
     <%= f.submit :class => "btn btn-primary" %>
+    <% if params[:action] == "edit" %>
+      <%= link_to 'Abbrechen', @contact, :class => 'btn', :remote => :true %>
+      <% if can? :destroy, @contact %>
+        <%= link_to @contact, confirm: 'This will delete the project and all related time records! Continue?', :remote => true, method: :delete, :class => 'btn btn-danger pull-right' do %>Löschen<% end %></td>
+      <% else %>
+        <span class="btn btn-danger disabled pull-right" title="You may not delete the project because you are not the owner!">Löschen</span>
+      <% end %>
+    <% else %>
+      <%= link_to 'Abbrechen', contacts_path, :class => 'btn', :remote => :true %>
+    <% end %>
   </div>
 <% end %>

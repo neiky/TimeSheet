@@ -14,13 +14,15 @@ Projects::Application.routes.draw do
 
   devise_for :users
 
+  resources :users, :only => [:index, :show]
 
   resources :projects do
     member do
-      post 'add_member'
-		  delete 'remove_member'
-		  get 'accept_invitation'
-		  delete 'reject_invitation'
+      put 'add_member'
+      delete 'remove_member'
+      get 'accept_invitation'
+      delete 'reject_invitation'
+      put 'add_task'
     end
   end
   resources :timerecords do
@@ -28,18 +30,14 @@ Projects::Application.routes.draw do
       get 'analyze'
     end
   end
-  resources :users, :only => [:index, :show] do
-	collection do
-		get 'edit_self'
-	end
-  end
+
   resources :clients
   resources :contacts
   resources :employments
 
   match "profile" => "users#show"
-	#match "/projects/:id/remove_member/:user_id" => "projects#remove_member"
-	#match "/projects/:id/accept" => "projects#accept_invitation"
+  #match "/projects/:id/remove_member/:user_id" => "projects#remove_member"
+  #match "/projects/:id/accept" => "projects#accept_invitation"
 
 
   # The priority is based upon order of creation:
@@ -98,4 +96,6 @@ Projects::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+
+  match ':action' => 'static#:action'
 end

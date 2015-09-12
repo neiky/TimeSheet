@@ -3,52 +3,42 @@
 </div>
 
 <table class="table-details">
-	<thead>
-	</thead>
-	<tbody>
-		<tr>
-			<td>First name</td>
-	  		<td><%= @user.firstname %></td>
-		</tr>
-	
-		<tr>
-			<td>Name</td>
-	  		<td><%= @user.name %></td>
-		</tr>
-	
-		<tr>
-	  		<td>E-Mail</td>
-	  		<td><%= @user.email %></td>
-		</tr>
-	
-		<tr>
-	  		<td>Company</td>
-	  		<td><%= @user.company %></td>
-		</tr>
-	</tbody>
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Vorname</td>
+      <td><%= @user.firstname %></td>
+    </tr>
+
+    <tr>
+      <td>Nachname</td>
+      <td><%= @user.name %></td>
+    </tr>
+
+    <tr>
+      <td>E-Mail</td>
+      <td><%= @user.email %></td>
+    </tr>
+
+    <tr>
+      <td>Company</td>
+      <td><%= @user.company %></td>
+    </tr>
+  </tbody>
 </table>
 
-<p>
-	<%= link_to "Analyze time records", analyze_timerecords_path(:filter_user => @user.id) %><br />
-<b><a href="#" class="buttonToggle" data-toggle-this="toggleTimeRecords">Time records <i class="icon-list"></i></a></b></p>
-<div class="toggleVisibility" id="toggleTimeRecords">
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>Project</th>
-        <th>Date</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Duration</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="timerecordsList">
-      <%= render(@user.timerecords.order("start ASC"), { :show_date => true, :show_user => false, :show_project => true }) %>
-    </tbody>
-  </table>
-</div>
+<%= link_to 'Edit', edit_user_registration_path, :class => 'btn btn-mini', :id => 'user_edit' %>
 
+<% if can? :show, @user.get_employment %>
+  <div class="page-header">
+    <h3>Details zum Arbeitsverhältnis</h3>
+  </div>
 
-<%= link_to 'Back', users_path, :class => 'btn btn-mini' %>
+  <%= render @user.get_employment %>
+
+  <% if can? :edit, @user.get_employment %>
+  <% #if current_user == @user.get_employment.employer %>
+    <%= link_to 'Edit', edit_employment_path(@user.get_employment), :class => 'btn btn-mini', :id => 'employment_edit' %>
+  <% end %>
+<% end %>

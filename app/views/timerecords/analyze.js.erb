@@ -1,0 +1,2 @@
+$('#timerecordsList').html("<%= escape_javascript(render(@timerecords, { :show_date => true, :show_user => true, :show_project => true } ) ) %>");
+$('#totalDuration').html("<%= escape_javascript(render :text => format_seconds_to_time(Timerecord.get_sum_duration(@timerecords))) %>");

@@ -1,23 +1,29 @@
 <div class="page-header">
-  <h2>Listing Timerecords</h2>
+  <h2>Buchungen hinzufügen <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
 <div class="row">
   <div class="span6">
     <%= form_tag timerecords_path, :remote => true, :method => :get, :class => 'form-inline' do %>
-      <%= label_tag "date_search", "Date: ",  :class => "control-label" %>
-      <%= text_field_tag :date_search, current_date.strftime("%F"), :class => 'dateSearch', :value => current_date.strftime("%F") %>
+      <% label_tag "date_search", "Date: ", :class => "control-label" %>
+      <%= hidden_field_tag :date_search, current_date.strftime("%F"), :value => current_date.strftime("%F") %>
+      <% #text_field_tag :date_search, current_date.strftime("%F"), :class => 'dateSearch', :value => current_date.strftime("%F"), :data => { :behaviour => 'datepicker', :date => current_date.strftime("%F") } %>
+      <div class = "btn-group">
       <%= link_to timerecords_path(:date_search => (current_date-1).strftime("%F")), :class => "btn date-decrease" do %>
         <i class="icon-chevron-left"></i>
+      <% end %>
+      <%= link_to '', :id => "date_selector", :class => "btn", :data => { :date => current_date.strftime("%F"), 'date-format' => "yyyy-mm-dd" } do %>
+        <i class="icon-calendar"></i> <span id = "date_text"><%= current_date.strftime("%F") %></span>
       <% end %>
       <%= link_to timerecords_path(:date_search => (current_date+1).strftime("%F")), :class => "btn date-increase" do %>
         <i class="icon-chevron-right"></i>
       <% end %>
+      </div>
       <%= submit_tag "Search", :name => nil, :id => "submit_date_search" %>
     <% end %>
   </div>
   <div class="span6">
-    <p><b>Total efforts:</b> <span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></p>
+    <p><b>Gesamtaufwand:</b> <span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></p>
   </div>
 </div>
 
@@ -25,11 +31,11 @@
 <table class="table table-condensed">
   <thead>
     <tr>
-      <th>Project</th>
+      <th>Projekt</th>
       <th>Start</th>
-      <th>End</th>
-      <th>Duration</th>
-      <th>Description</th>
+      <th>Ende</th>
+      <th>Dauer</th>
+      <th>Beschreibung</th>
       <th></th>
     </tr>
     <tr>
@@ -50,7 +56,7 @@
       </td>
 
       <td class="control-group">
-        <%= text_field_tag :time_span, '00:00', {:style => 'width: 60px', :disabled => 'disabled' } %>
+        <%= text_field_tag :time_span_hour, '00', {:maxlength => 2, :style => 'width: 20px' } %>:<%= text_field_tag :time_span_minute, '00', {:maxlength => 2, :style => 'width: 20px' } %>
       </td>
 
       <td class="control-group warning">
@@ -62,7 +68,7 @@
         <%= f.submit 'Create', :class => 'btn btn-mini' %>
         <% end %>
         <% if true %>
-        <%= link_to '', :class => 'btn btn-mini btn-primary', :onclick => '$("form#new_timerecord").submit(); return false;' do %><i class="icon-ok-sign"></i><% end %>
+        <%= link_to '', :class => 'btn btn-primary', :onclick => '$("form#new_timerecord").submit(); return false;' do %><i class="icon-ok-sign"></i><% end %>
         <% end %>
       </td>
     </tr>

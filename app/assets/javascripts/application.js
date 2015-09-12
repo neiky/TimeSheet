@@ -12,6 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require twitter/bootstrap
 //= require jquery-ui
-//= require_tree .
+//= require twitter/bootstrap
+// require_tree .
+//= require global
+//= require bootstrap
+//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.de
+//= require date
+//= require date/de-DE
+//= require date/extras

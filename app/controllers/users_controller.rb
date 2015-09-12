@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
+  load_and_authorize_resource
+
   def index
-    @users = User.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -10,20 +11,15 @@ class UsersController < ApplicationController
 
   def show
     if params[:id]
-      @user = User.find(params[:id])
+      @user = User.includes(:employment).find(params[:id])
     else
-      @user = User.find(current_user.id)
+      @user = User.includes(:employment).find(current_user.id)
     end
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
     end
-  end
-
-  def edit_self
-  	@user = User.find(current_user.id)
-  	render 'edit'
   end
 
 end

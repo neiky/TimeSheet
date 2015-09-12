@@ -1,0 +1,37 @@
+<table class="table-details">
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td><td><%= @client.name %></td>
+    </tr>
+    <tr>
+      <td>Beschreibung</td><td><%= @client.description %></td>
+    </tr>
+    <tr>
+      <td>Kontakte</td>
+      <td>
+        <%= link_to 'New Contact', new_contact_path(:client_id => @client.id), :class => 'btn btn-primary btn-mini' %>
+
+        <% @client.contacts.each do |contact| %>
+          <div><%= link_to contact, contact_path(contact) %></div>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>Projekte</td>
+      <td>
+        <% @client.projects.each do |project| %>
+          <p><%= link_to project, project_path(project) %></p>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>Ersteller</td><td><%= @client.user %></td>
+    </tr>
+  </tbody>
+</table>
+
+<% if can? :update, @client %>
+  <%= link_to edit_client_path(@client), :class => 'btn', :remote => :true, do %><i class="icon-pencil"></i> Bearbeiten<% end %>
+<% end %>

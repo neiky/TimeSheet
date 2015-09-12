@@ -43,7 +43,6 @@ jQuery(document).ready ->
     ), 5000
     return
 
-	
   setTimeout (()->
     #alert 'bla'
     UpdateProjectnotes() if projectID != undefined

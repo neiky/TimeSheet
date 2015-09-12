@@ -1,0 +1,13 @@
+<%
+if @project.planned_efforts == 0
+  progress = 0
+else
+  progress = 100*@project.total_duration/@project.planned_efforts
+end
+%>
+
+$('tr#project_<%= @project.id %>').html("<td><%= escape_javascript(link_to @project.name, @project, :remote => :true) %></td><td><div class='progress progress-<% if progress <= 70 %>success<% elsif progress <= 90 %>warning<% else %>danger<% end %> bttooltip' title='<%= progress %>%'><div class='bar' style='width: <%= [progress, 100].min %>%;'></div></div></td>");
+
+$(".bttooltip").tooltip();
+
+$('#project_details').html("<%= escape_javascript(render @project) %>");

@@ -1,40 +1,26 @@
 <div class="page-header">
-  <h2>Listing clients</h2>
+  <h2>Kundenliste <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Projects</th>
-      <th></th>
-    </tr>
-  </thead>
+<%= link_to 'Neuen Kunden anlegen', new_client_path, :class => 'btn btn-primary', :remote => :true %>
 
-  <tbody>
-  <% @clients.each do |client| %>
-    <tr>
-      <td><%= client.name %></td>
-      <td><%= client.description %></td>
-      <td style="width:300px">
-        <a href="#" class="buttonToggle" data-toggle-this="toggleProjectList<%= client.id %>">Projects <i class="icon-list"></i></a>
-        <div class="toggleVisibility" id="toggleProjectList<%= client.id %>">
-        <ul>
-          <% client.projects.each do |project| %>
-          <li><%= link_to project, project_path(project) %></li>
-          <% end %>
-        </ul>
-        </div>
-      </td>
-      <td><%= link_to client, :class => 'btn btn-mini' do %><i class="icon-eye-open"></i> Show<% end %>
-      <%= link_to edit_client_path(client), :class => 'btn btn-mini' do %><i class="icon-pencil"></i> Edit<% end %>
-      <%= link_to client, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' do %><i class="icon-trash"></i> Delete<% end %></td>
-    </tr>
-  <% end %>
-  </tdody>
-</table>
+<div class="row content">
+  <div class="span4">
+    <table class="table table-striped">
+      <thead>
+      </thead>
 
-<br />
+      <tbody>
+      <% @clients.each do |client| %>
+        <tr id="client_<%= client.id %>" class="<% if client == @client %>selected<% else %>unselected<% end %>">
+          <td><%= link_to client.name, client, :remote => :true %></td>
+        </tr>
+      <% end %>
+      </tdody>
+    </table>
+  </div>
+  <div id="client_details" class="span7 offset1">
+    <%= render @client if @client %>
+  </div>
 
-<%= link_to 'New Client', new_client_path, :class => 'btn btn-primary' %>
+</div>

@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h2>Showing contact</h2>
+  <h2>Kontakt anzeigen</h2>
 </div>
 
 <table class="table-details">
@@ -15,14 +15,20 @@
       <td><%= link_to @contact.client, client_path(@contact.client) %></td>
     </tr>
     <tr>
-    	<td>E-Mail</td>
-    	<td><%= @contact.email %></td>
+      <td>E-Mail</td>
+      <td><%= @contact.email %></td>
     </tr>
     <tr>
-    	<td>Telefon</td>
-    	<td><%= @contact.phone %></td>
+      <td>Telefon</td>
+      <td><%= @contact.phone %></td>
+    </tr>
+    <tr>
+      <td>Anmerkungen</td>
+      <td><%= @contact.comment %></td>
     </tr>
   </tbody>
 </table>
 
-<%= link_to 'Edit', edit_contact_path(@contact), :class => 'btn btn-mini' %>
+<% if can? :update, @contact %>
+	<%= link_to 'Edit', edit_contact_path(@contact), :class => 'btn btn-mini' %>
+<% end %>

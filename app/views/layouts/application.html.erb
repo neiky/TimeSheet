@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= @page_title or 'TimeRecorder' %></title>
+  <title><%= @page_title or 'TimeRecorder' %><%= (' > ' + @subtitle) if @subtitle %></title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
   <![endif]-->
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag params[:controller] if Projects::Application.assets.find_asset("#{params[:controller]}") %>
   <%= stylesheet_link_tag "smoothness/jquery-ui-1.8.20.custom.css" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class ="wrapper">
   <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
       <div class="container">
@@ -24,73 +24,56 @@
         <%= link_to root_path, :class => "brand visible-phone" do %><i class="icon-time"></i><% end %>
 
         <% if user_signed_in? %>
-        <div class="nav-collapse">
-          <ul class="nav">
-            <%= render :partial => "shared/nav" %>
-          </ul>
-        </div>
-        <div class="navbar-text nav-collapse pull-right">
-	        Signed in as <%= link_to current_user.get_full_name, { :controller => "users", :action => "show", :id => @current_user } %>. <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class => 'btn btn-mini btn-danger' %>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <%= render :partial => "shared/nav" %>
+            </ul>
+          </div>
+          <div class="navbar-text nav-collapse pull-right">
+            Angemeldet als <%= link_to current_user.get_full_name, current_user %>. <%= link_to "Abmelden", destroy_user_session_path, :method => :delete %>
         <% else %>
-        <div class="navbar-text nav-collapse pull-right">
-           <%= link_to "Sign in", new_user_session_path, :class => 'btn btn-mini btn-primary' %> or <%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-mini btn-success' %>
-        <% end %>
+          <div class="navbar-text nav-collapse pull-right">
+             <%= link_to "Anmelden", new_user_session_path %> or <%= link_to "Registrieren", new_user_registration_path %>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <% unless notice.blank? %>
+          <div class="alert alert-info">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <%= notice %>
+          </div>
+        <% end %>
 
-	<div class="container">
-	  <div class="row">
-	    <div class="span12">
-	      <% unless notice.blank? %>
-		    <div class="alert alert-info">
-		      <a class="close" data-dismiss="alert" href="#">×</a>
-	        <%= notice %>
-	      </div>
-	      <% end %>
-	
-	      <% unless alert.blank? %>
-		    <div class="alert alert-error">
-		      <a class="close" data-dismiss="alert" href="#">×</a>
-	        <%= alert %>
-	      </div>
-	      <% end %>
-	    </div>
-	  </div>
-	  <div class="row">
-	    <div class="span12">
-	      <%= yield %>
-	    </div>
-	  </div>
-	  <div class="row">
-	    <div class="span3 offset9">
-	
-	    </div>
-	  </div>
-	</div>
-	
-	<div class = "push"></div>
-</div>
-	
-	<footer class= "footer">
-		<div class = "container">
-			<div class="row">
-		    <div class="span6">
-					<p>Features</p>
-					<p>Preise</p>
-		    </div>
-		    <div class="span6">
-					<p>Feedback</p>
-					<p>Impressum</p>
-		    </div>
-		  </div>
-	  </div>
-	</footer>
-	
-	
-	<div id="modal-dialog" title="Dialog" style="display:none"></div>
+        <% unless alert.blank? %>
+          <div class="alert alert-error">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <%= alert %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span12">
+
+        <%= yield %>
+
+      </div>
+    </div>
+  </div>
+
+  <footer id= "footer" class="navbar navbar-fixed-bottom">
+    <div class = "container">
+      <span>Features</span> | <span>Preise</span> | <span>Feedback</span> | <span>Impressum</span>
+    </div>
+  </footer>
+
+  <div id="modal-dialog" style="display:none" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
 </body>
 </html>

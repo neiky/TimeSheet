@@ -1,0 +1,27 @@
+<table class="table-details">
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <% if current_user != employment.employer %>
+        <td>Vorgesetzter</td>
+        <td><%= employment.employer.get_full_name %></td>
+      <% elsif employment.employee_id > 0 %>
+        <td>E-Mail</td>
+        <td><%= employment.employee %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>Einstellungsdatum</td>
+      <td><%= employment.employment_date.strftime("%d.%m.%Y") %></td>
+    </tr>
+    <tr>
+      <td>Arbeitszeit pro Tag</td>
+      <td><%= format_seconds_to_time(employment.workingtime_per_day) %></td>
+    </tr>
+    <tr>
+      <td>Urlaubstage pro Jahr</td>
+      <td><%= employment.num_vacation_days %></td>
+    </tr>
+  </tbody>
+</table>

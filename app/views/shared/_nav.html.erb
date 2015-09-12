@@ -1,35 +1,39 @@
 <ul class="nav">
-  <%= content_tag(:li, link_to("Projects", projects_path), :class => ("active" if (params[:controller] == 'projects'))) %>
+  <%= content_tag(:li, link_to("Projekte", projects_path), :class => ("active" if (params[:controller] == 'projects'))) %>
 
-  <%= content_tag(:li, link_to("Clients", clients_path), :class => ("active" if (params[:controller] == 'clients'))) %>
+  <%= content_tag(:li, link_to("Kunden", clients_path), :class => ("active" if (params[:controller] == 'clients'))) %>
 
-  <%= content_tag(:li, link_to("Contacts", contacts_path), :class => ("active" if (params[:controller] == 'contacts'))) %>
+  <%= content_tag(:li, link_to("Kontakte", contacts_path), :class => ("active" if (params[:controller] == 'contacts'))) %>
 
   <% #content_tag(:li, link_to("Time records", timerecords_path), :class => "dropdown-toggle " + ("active" if (params[:controller] == 'timerecords'))) %>
 
-  <li class="dropdown">
+  <li class="dropdown <%= "active" if (params[:controller] == 'timerecords') %>">
     <a href="#"
       class="dropdown-toggle"
       data-toggle="dropdown">
-      Time records
+      Buchungen
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
-      <%= content_tag(:li, link_to("Add time records", timerecords_path)) %>
-      <%= content_tag(:li, link_to("Analyze time records", analyze_timerecords_path)) %>
+      <%= content_tag(:li, link_to("Buchungen hinzufügen", timerecords_path)) %>
+      <%= content_tag(:li, link_to("Buchungen auswerten", analyze_timerecords_path)) %>
     </ul>
   </li>
 
-  <%= content_tag(:li, link_to("Users", users_path), :class => ("active" if (params[:controller] == 'users'))) %>
-  <%= content_tag(:li, link_to("Employees", employments_path), :class => ("active" if (params[:controller] == 'employments'))) %>
+  <% if can? current_user, :manage, User %>
+    <%= content_tag(:li, link_to("Benutzer", users_path), :class => ("active" if (params[:controller] == 'users'))) %>
+  <% end %>
 
-    <li>
-        <%= link_to messages_path, :class => ("active" if (params[:controller] == 'messages')) do %>
-        	Messages
-            <% if Message.where(:recipient_id => current_user.id, :read => false).count > 0 %>
-                <span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id, :read => false).count %></span>
-            <% end %>
-        <% end %>
-    </a>
-    </li>
+  <% if can? :manage, current_user.employment %>
+    <%= content_tag(:li, link_to("Mitarbeiter", employments_path), :class => ("active" if (params[:controller] == 'employments'))) %>
+  <% end %>
+
+  <li>
+    <%= link_to messages_path, :class => ("active" if (params[:controller] == 'messages')) do %>
+      Nachrichten
+      <% if Message.where(:recipient_id => current_user.id, :read => false).count > 0 %>
+        <span class="badge badge-important"><%= Message.where(:recipient_id => current_user.id, :read => false).count %></span>
+      <% end %>
+    <% end %>
+  </li>
 </ul>

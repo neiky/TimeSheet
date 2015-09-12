@@ -1,37 +1,63 @@
+<% overtime_month = Timerecord.get_sum_duration(current_user.get_timerecords_current_month) - current_user.get_workingtime_current_month %>
+<% overtime_year = Timerecord.get_sum_duration(current_user.get_timerecords_current_year) - current_user.get_workingtime_current_year %>
+
 <div class="page-header">
-  <h2>Analyzing Timerecords</h2>
+  <h2>Aufwände auswerten <%= image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %></h2>
 </div>
 
 <div class="row">
   <div class="span6">
-    <%= form_tag analyze_timerecords_path, :method => :get, :class => 'form-horizontal' do %>
+    <%= form_tag analyze_timerecords_path, :method => :get, :remote => :true, :class => 'form-horizontal', :style => "border-right: solid 1px #EEEEEE", :id => "form_analyze" do %>
       <div class="control-group">
-        <%= label_tag "date_start", "Date:",  :class => "control-label" %>
+        <%= label_tag "date_start", "Zeitraum",  :class => "control-label" %>
         <div class="controls">
-          <%= text_field_tag :date_start, @start_date, :class => 'span2 datePicker' %>
-          <%= text_field_tag :date_end, @end_date, :class => 'span2 datePicker' %>
+          <%= text_field_tag :date_start, @start_date, :class => 'span2', :data => { :behaviour => 'datepicker', :date => @start_date } %>
+          <%= text_field_tag :date_end, @end_date, :class => 'span2', :data => { :behaviour => 'datepicker', :date => @end_date } %>
         </div>
       </div>
       <div class="control-group">
-        <%= label_tag "filter_user", "User:",  :class => "control-label" %>
+        <%= label_tag "filter_user", "Benutzer",  :class => "control-label" %>
         <div class="controls">
           <% select_tag(:filter_user, options_from_collection_for_select(User.where(:id => Timerecord.select("User_id").where("(Project_id IN (?) AND User_id = ?) OR Project_id IN (?)", Project.where(:Client_id => Client.where("User_id != ?", current_user.id)), current_user.id, Project.where(:Client_id => Client.where(:User_id => current_user.id)))), :id, :email, params[:filter_user]), :include_blank => :true, :class => "span3") %>
           <%= select_tag(:filter_user, options_from_collection_for_select(User.where("id IN (?)", Membership.select("User_id").where(:Project_id => Membership.select("Project_id").where(:User_id => current_user.id, :status => 3)).map(&:user_id)), :id, :email, params[:filter_user]), :include_blank => :true, :class => "span3") %>
         </div>
       </div>
       <div class="control-group">
-        <%= label_tag "filter_project", "Project:",  :class => "control-label" %>
+        <%= label_tag "filter_project", "Projekt",  :class => "control-label" %>
         <div class="controls">
           <%= select_tag(:filter_project, options_from_collection_for_select(Project.where(:id => Membership.select("Project_id").where(:User_id => current_user.id)), :id, :name, params[:filter_project]), :include_blank => :true, :class => "span3") %>
         </div>
       </div>
       <div class="controls">
-        <%= submit_tag "Apply", :name => nil, :id => "submit_filter", :class => 'btn' %>
+        <%= submit_tag "Apply", :name => nil, :id => "submit_filter", :class => 'btn' %><% image_tag("ajax-loader.gif", :style => "visibility: hidden", :id => "img_ajax_loader") %>
       </div>
     <% end %>
   </div>
   <div class="span6">
-    <p><b>Total efforts:</b> <span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></p>
+    <table class = "table-details">
+      <tr>
+        <td>Summe Aufwände für Auswahl</td>
+        <td><span id="totalDuration" data-value="<%= @timerecords_total_duration %>"><%= format_seconds_to_time(@timerecords_total_duration) %></span></td>
+      </tr>
+      <tr>
+        <td>Deine Aufwände im aktuellen Monat</td>
+        <td>
+          <%= format_seconds_to_time(Timerecord.get_sum_duration(current_user.get_timerecords_current_month)) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Deine Überstunden im aktuellen Monat</td>
+        <td>
+          <%= format_seconds_to_time(overtime_month) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Deine Überstunden im aktuellen Jahr</td>
+        <td>
+          <%= format_seconds_to_time(overtime_year) %>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
 

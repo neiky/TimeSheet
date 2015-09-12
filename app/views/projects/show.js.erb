@@ -1,0 +1,5 @@
+$('table.table-striped>tbody>tr').removeClass("selected");
+$('table.table-striped>tbody>tr').addClass("unselected");
+$('#project_details').html("<%= escape_javascript(render @project) %>");
+$('tr#project_<%= @project.id %>').removeClass("unselected");
+$('tr#project_<%= @project.id %>').addClass("selected");
